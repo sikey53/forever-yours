@@ -148,6 +148,7 @@ let step = 0;
 let A = {name:'', cls:'druid', race:'tauren', level:12, role:'cat', acts:['quest','dungeon'], dual:'heal', move:'wasd', hard:null, kbv:2,mods:['Shift'], side:2, middle:true, interrupt:'auto', defensive:'auto', heal:'auto', escape:'auto', macros:'useful', legacy:0, talented:0};
 try { const v = JSON.parse(localStorage.getItem('fst-answers')||'null'); if (v && v.kbv === 2) A = {...A, ...v}; else if (v) { const {hard, ...rest} = v; A = {...A, ...rest}; } } catch(e){}
 if (!Array.isArray(A.hard)) A.hard = defaultHard(A.move);
+if (A.cls !== 'druid'){ A.cls = 'druid'; if (!RACES.druid.some(r => r[0] === A.race)) A.race = 'tauren'; }
 const save = () => { try { localStorage.setItem('fst-answers', JSON.stringify(A)); } catch(e){} };
 
 /* ---------- the druid data the generator uses (Forever learn levels) ---------- */
@@ -295,7 +296,7 @@ function renderStep(){
     const races = (RACES[A.cls] || ALL_RACES);
     h = `<div class="card"><h2>Your character</h2>
       <div class="q"><label for="q-name">Character name</label><input class="inp" id="q-name" data-n="name" value="${esc(A.name)}" maxlength="24" placeholder="Name in game" autocomplete="off"></div>
-      <div class="q"><div class="ql">Class</div><div class="opts">${CLASSES.map(([v,l,ok]) => opt('cls', v, l, ok ? 'Ready' : 'Coming soon', false)).join('')}</div>${A.cls !== 'druid' ? '<small>Only Druid is fully built in this test. Other classes get the same questions, and their spells come next.</small>' : ''}</div>
+      <div class="q"><div class="ql">Class</div><div class="opts">${CLASSES.map(([v,l,ok]) => opt('cls', v, l, ok ? 'Ready' : 'Coming soon', false, !ok)).join('')}</div><small>Druid is ready. The other classes are being built one by one, with their own spells, talents and bars.</small></div>
       <div class="q"><div class="ql">Race</div><div class="opts">${races.map(([v,l,f]) => opt('race', v, l, f, false)).join('')}</div></div>
       <div class="q"><label for="q-level">Level right now</label><input class="inp" id="q-level" data-n="level" type="number" min="1" max="60" inputmode="numeric" value="${A.level}" style="max-width:120px"><small>Most people start using the tool mid-game. Your level decides which spells you already have and how many talent points you can spend.</small></div>
     </div>`;
