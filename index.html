@@ -11,6 +11,9 @@
 <script src="classes/data/priest.js"></script><script src="classes/priest.js"></script>
 <script src="classes/data/mage.js"></script><script src="classes/mage.js"></script>
 <script src="classes/data/warlock.js"></script><script src="classes/warlock.js"></script>
+<script src="classes/data/hunter.js"></script><script src="classes/hunter.js"></script>
+<script src="classes/data/paladin.js"></script><script src="classes/paladin.js"></script>
+<script src="classes/data/shaman.js"></script><script src="classes/shaman.js"></script>
 <!-- each ready class: its game data, then its layout -->
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -233,7 +236,7 @@ function generate(){
   if (A.heal !== 'auto') { for (const k in defaults) if (defaults[k] === 'heal') delete defaults[k]; if (A.heal.startsWith('Mouse')) defaults[A.heal] = 'heal'; }
   if (A.escape !== 'auto') { for (const k in defaults) if (defaults[k] === 'escape') delete defaults[k]; if (A.escape.startsWith('Mouse')) defaults[A.escape] = 'escape'; }
   Object.assign(defaults, mouseJobs);
-  const MJ = Object.fromEntries(Object.entries(w.mouse(race, macros, (w.racials || {})[race] || [])).map(([k, v]) => [k, {...v, mac: !!v.macro}]));
+  const MJ = Object.fromEntries(Object.entries(w.mouse(race, macros, (w.racials || {})[race] || [])).filter(([k, v]) => v).map(([k, v]) => [k, {...v, mac: !!v.macro}]));
 
   mb.forEach(([k,lab]) => { const j = defaults[k]; if (j && MJ[j]) mouse.push({key:k, lab, ...MJ[j]}); });
   if (A.middle && mod && macros !== 'none' && MJ.instant && !mouse.some(m => m.base === MJ.instant.base)) mouse.push({key:`${modSym}Mouse 3`, lab:`${mod} + middle`, ...MJ.instant});
@@ -270,7 +273,7 @@ function renderStep(){
     const races = W().races;
     h = `<div class="card"><h2>Your character</h2>
       <div class="q"><label for="q-name">Character name</label><input class="inp" id="q-name" data-n="name" value="${esc(A.name)}" maxlength="24" placeholder="Name in game" autocomplete="off"></div>
-      <div class="q"><div class="ql">Class</div><div class="opts">${CLASSES.map(([v,l,ok]) => opt('cls', v, l, ok ? 'Ready' : 'Coming soon', false, !ok)).join('')}</div><small>Druid is ready. The other classes are being built one by one, with their own spells, talents and bars.</small></div>
+      <div class="q"><div class="ql">Class</div><div class="opts">${CLASSES.map(([v,l,ok]) => opt('cls', v, l, ok ? 'Ready' : 'Coming soon', false, !ok)).join('')}</div><small>Spells, learn levels and talents come from the Forever game data and update every day.</small></div>
       <div class="q"><div class="ql">Race</div><div class="opts">${races.map(([v,l,f]) => opt('race', v, l, f, false)).join('')}</div></div>
       <div class="q"><label for="q-level">Level right now</label><input class="inp" id="q-level" data-n="level" type="number" min="1" max="60" inputmode="numeric" value="${A.level}" style="max-width:120px"><small>Most people start using the tool mid-game. Your level decides which spells you already have and how many talent points you can spend.</small></div>
     </div>`;

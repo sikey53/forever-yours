@@ -18,11 +18,11 @@ Your setup lives only in your own browser (localStorage). Nothing is sent anywhe
 
 ## Status
 
-Druid is fully built. Other classes can go through the setup, and their spells come next.
+All nine classes are ready. Each class has a hand-written layout in `classes/<class>.js` (where spells go, rotations, macros) and generated game data in `classes/data/<class>.js`.
 
 ## Data
 
-Game data is kept current by a daily automated check of official Blizzard news and Forever community guides. Talent data comes from [talentsforever.com](https://talentsforever.com) under CC BY 4.0. Leveling routes come from Warcraft Tavern, Outputlag and TopBuilds guides.
+Every day the Sync game data workflow downloads the talentsforever.com exports and build pages, and `tools/build_data.py` turns them into `classes/data/`. That covers spells, learn levels, ranks, talents and the community leveling orders and builds used for talent plans. News and rotations are kept current by a daily automated check of Blizzard news and Forever guides. Talent data comes from [talentsforever.com](https://talentsforever.com) under CC BY 4.0. Leveling routes come from Warcraft Tavern, Outputlag and TopBuilds guides.
 
 Spot something wrong in game? Open an issue.
 
