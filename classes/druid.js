@@ -318,5 +318,66 @@ const FIGHT_HTML = "    <h2 id=\"h-fight\">How to fight</h2>\n    <p class=\"mut
 const NOTES_HTML = "<details>\n      <summary>Play notes</summary>\n      <div class=\"dbody notes\">\n        <p>Forever is built to keep you in one form. Going into bear wipes the energy you saved, so in cat interrupt with War Stomp on <kbd>Shift</kbd> <kbd>X</kbd> first and keep the X route into bear as the backup.</p>\n        <p>Every shapeshift starts a global cooldown, about a second. /cancelform never does, which is why the middle mouse heal starts instantly.</p>\n        <p>Fire Shifting Power when your energy drops under 50 so none of the 40 is wasted. Your mana bar is hidden in forms, so turn on Options, Combat, Personal Resource Display.</p>\n        <p>Enrage gives 10 rage instantly in Forever, which is exactly what Bash costs. Furor also gives 10 rage when you enter bear.</p>\n        <p>Barkskin works in any form from level 44, so C becomes the same defensive everywhere. Faerie Fire is free in cat and bear with a 6 second cooldown.</p>\n        <p>Potions, bandages and most objects work without leaving form. Tranquility, Rebirth, Innervate and the buffs still need caster form: tap middle mouse first.</p>\n      </div>\n    </details>";
 const PLAN_NOTE = "Recalculated every time you add or remove a point, starting from what you have actually trained. This is a hybrid: cat damage first up to Shifting Power, then Primal Bite and Lacerate so bear can tank dungeons, then defense for both forms. Restoration stays free for your PvP dual spec at 40.";
 const GOALS_HTML = "            <optgroup label=\"Leveling\"><option value=\"lvl-cat\">Leveling damage (cat)</option><option value=\"lvl-hybrid\">Leveling damage, can tank dungeons</option><option value=\"lvl-heal\">Leveling healer</option></optgroup>\n            <optgroup label=\"Dungeons\"><option value=\"dng-cat\">Dungeon damage (cat)</option><option value=\"dng-tank\">Dungeon tank (bear)</option><option value=\"dng-heal\">Dungeon healer</option></optgroup>\n            <optgroup label=\"Raids at 60\"><option value=\"raid-cat\">Raid damage (cat)</option><option value=\"raid-tank\">Raid tank (bear)</option><option value=\"raid-heal\">Raid healer</option></optgroup>\n            <optgroup label=\"PvP\"><option value=\"pvp-feral\">PvP feral</option><option value=\"pvp-heal\">PvP healer</option></optgroup>\n";
-return {CLASS_PROFILE, SPECS, MACROS, TREES, TREE_ORDER, PLAN, TT, SPELLS, FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER, targetLevel, PRESETS, SB_FORMS, sbForm, FIGHT_HTML, NOTES_HTML, PLAN_NOTE, GOALS_HTML};
+/* ---------- setup wizard data for this class ---------- */
+const WIZ = {
+  name: 'Druid', color: '#FF7C0A',
+  races: [['tauren','Tauren','Horde'],['nightelf','Night Elf','Alliance'],['skyborne','Skyborne','Horde or Alliance']],
+  roles: [['cat','Cat damage','Melee damage in Cat Form'],['tank','Bear tank','Hold enemies in Bear Form'],['heal','Healer','Restoration heals'],['balance','Caster damage','Balance spells from range']],
+  duals: [['heal','Healer'],['tank','Tank'],['cat','Cat damage'],['pvp','PvP'],['none','Not sure yet']],
+  states: {cat:['Cat','var(--cat)'], bear:['Bear','var(--bear)'], caster:['Caster','var(--caster)']},
+  lv: {'Healing Touch':1,'Wrath':1,'Mark of the Wild':1,'War Stomp':1,'Shadowmeld':1,'Rejuvenation':4,'Moonfire':4,'Thorns':6,'Entangling Roots':8,'Bear Form':10,'Maul':10,'Growl':10,'Demoralizing Roar':10,"Nature's Grasp":10,'Regrowth':12,'Enrage':12,'Bash':14,'Cure Poison':14,'Swipe':16,'Aquatic Form':16,'Faerie Fire':18,'Hibernate':18,'Cat Form':20,'Claw':20,'Shred':20,'Rip':20,'Prowl':20,'Rebirth':20,'Starfire':20,'Rake':24,'Ferocious Bite':24,'Remove Curse':24,'Dash':26,'Abolish Poison':26,'Cower':28,'Challenging Roar':28,'Tranquility':30,'Travel Form':30,'Ravage':32,'Pounce':36,'Frenzied Regeneration':36,'Innervate':40,'Hurricane':40,'Barkskin':44,'Gift of the Wild':50,
+  'Feral Charge':20,'Lacerate':25,'Primal Bite':40,'Shifting Power':40,'Swiftmend':25,"Nature's Swiftness":30,'Wild Growth':40,'Insect Swarm':25,'Moonkin Form':40,'Mount':10,'Trinket':1,'Healing Potion':1},
+  talents: ['Feral Charge','Lacerate','Primal Bite','Shifting Power','Swiftmend',"Nature's Swiftness",'Wild Growth','Insect Swarm','Moonkin Form'],
+  kits: {
+  cat:{forms:['cat','bear','caster'],
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Shifting Power','Faerie Fire','Cower'], once:['Feral Charge','Prowl'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Feral Charge','Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    caster:{spam:['Healing Touch','Rejuvenation'], rot:['Wrath','Moonfire','Regrowth'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  tank:{forms:['bear','cat','caster'],
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Lacerate','Growl'], short:['Primal Bite','Enrage','Faerie Fire'], once:['Feral Charge','Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Shifting Power','Faerie Fire','Cower'], once:['Feral Charge','Prowl'], interrupt:'Bear Form', defensive:'Barkskin'},
+    caster:{spam:['Healing Touch','Rejuvenation'], rot:['Wrath','Moonfire','Regrowth'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  heal:{forms:['caster','bear','cat'],
+    caster:{spam:['Rejuvenation','Healing Touch'], rot:['Regrowth','Swiftmend','Wild Growth'], short:['Abolish Poison','Remove Curse',"Nature's Swiftness"], once:['Innervate','Entangling Roots'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Faerie Fire','Cower'], once:['Prowl','Dash'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  balance:{forms:['caster','bear','cat'],
+    caster:{spam:['Wrath','Starfire'], rot:['Moonfire','Insect Swarm','Hurricane'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Faerie Fire','Cower'], once:['Prowl','Dash'], interrupt:'Bear Form', defensive:'Barkskin'}}
+},
+  /* one key that does two related things, when the player wants macros: [label, macro id] */
+  macroLabel(n, macros){
+    if (macros === 'useful' && n === 'Claw') return ['Claw · Pounce', 'clawpounce'];
+    if (macros === 'useful' && n === 'Shred') return ['Shred · Ravage', 'shredravage'];
+    if (macros !== 'none' && n === 'Bash') return ['Enrage + Bash', 'enragebash'];
+    if (macros !== 'none' && n === 'Abolish Poison') return ['Abolish Poison', 'poison'];
+    if (macros !== 'none' && n === 'Remove Curse') return ['Remove Curse', 'curse'];
+    return [n, null];
+  },
+  stance: role => ['Bear Form','Cat Form'].concat(role === 'balance' ? ['Moonkin Form'] : []),
+  long: (race, role) => ['Mark of the Wild','Thorns','Tranquility','Rebirth', race === 'tauren' ? 'War Stomp' : race === 'nightelf' ? 'Shadowmeld' : null, 'Trinket','Hibernate',"Nature's Grasp",'Mount'].filter(Boolean),
+  travel: macros => macros === 'none' ? {n:'Travel Form', base:'Travel Form'} : {n:'Travel · Aquatic', base:'Travel Form', macro:'travel'},
+  mouse: (race, macros) => ({
+    escape: macros === 'none' ? {n:'Dash', base:'Dash', job:'once'} : {n:'Cat, then Dash', base:'Dash', job:'once', macro:'dash'},
+    potion: {n:'Healing Potion', base:'Healing Potion', job:'long'},
+    heal: macros === 'none' ? {n:'Regrowth', base:'Regrowth', job:'spam'} : {n:'Emergency Regrowth', base:'Regrowth', job:'spam', macro:'heal'},
+    instant: macros === 'none' ? {n:'Rejuvenation', base:'Rejuvenation', job:'spam'} : {n:'Instant Rejuvenation', base:'Rejuvenation', job:'spam', macro:'instant'},
+    interrupt: race === 'tauren' ? {n:'War Stomp', base:'War Stomp', job:'interrupt'} : {n:'Bash', base:'Bash', job:'interrupt'},
+    defensive: {n:'Barkskin', base:'Barkskin', job:'defensive'}
+  }),
+  /* a key that only switches state, explained on the button */
+  routeNote: (n, key) => n === 'Bear Form' ? `Goes to bear. Press ${key} again in bear to Bash.` : null,
+  spec: role => role === 'heal' ? ['resto','Restoration'] : role === 'balance' ? ['feral','Balance'] : role === 'tank' ? ['feral','Feral (tank)'] : ['feral','Feral'],
+  preset(role, acts){
+    const has = a => acts.includes(a);
+    if (role === 'cat') return has('dungeon') ? ['Leveling damage, can tank dungeons','Cat damage first, then Primal Bite and Lacerate so you can tank a dungeon when nobody else does.'] : ['Leveling damage (cat)','Pure cat damage for fast solo leveling.'];
+    if (role === 'tank') return ['Dungeon tank (bear)','Threat, armor, dodge and Stamina.'];
+    if (role === 'heal') return has('pvp') ? ['PvP healer','Casts that keep going when hit, cheap shifting and fast heals.'] : has('raid') ? ['Raid healer','Every healing talent for long fights.'] : ['Leveling healer','Restoration with extra damage for questing.'];
+    return ['Balance','Plan Balance with the talent simulator on your page.'];
+  },
+  notSpells: ['Mount','Trinket','Healing Potion','Shadowmeld','War Stomp'],
+  unbound: [['Revive','12','Out of combat resurrection'],['Soothe Animal','22',"Shrinks a beast's aggro range"],['Teleport: Moonglade','10','Travel'],['Challenging Roar','28','Bear group taunt for a pull that runs at the healer'],['Hearthstone','','Keep it unbound so you never port by accident'],['Gift of the Wild','50','Group buff, swap it in for Mark of the Wild in groups']]
+};
+return {WIZ, CLASS_PROFILE, SPECS, MACROS, TREES, TREE_ORDER, PLAN, TT, SPELLS, FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER, targetLevel, PRESETS, SB_FORMS, sbForm, FIGHT_HTML, NOTES_HTML, PLAN_NOTE, GOALS_HTML};
 })();
