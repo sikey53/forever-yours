@@ -1,0 +1,727 @@
+{
+ "Improved Wrath": {
+  "lines": [
+   {
+    "t": "{1} sec faster, {2}% cheaper",
+    "on": [
+     "Wrath"
+    ]
+   }
+  ],
+  "sig": "Reduces the cast time of your Wrath spell by # sec and its Mana cost by #%."
+ },
+ "Genesis": {
+  "lines": [
+   {
+    "t": "+{1}% over time",
+    "on": [
+     "Moonfire",
+     "Rejuvenation",
+     "Insect Swarm"
+    ]
+   }
+  ],
+  "sig": "Increases the periodic damage and healing done by your spells and abilities by #%."
+ },
+ "Moonglow": {
+  "lines": [
+   {
+    "t": "damage spells {1}% cheaper",
+    "on": [
+     "@caster"
+    ]
+   }
+  ],
+  "sig": "Reduces the Mana cost of your damaging spells by #%."
+ },
+ "Improved Moonfire": {
+  "lines": [
+   {
+    "t": "+{1}% damage and crit",
+    "on": [
+     "Moonfire"
+    ]
+   }
+  ],
+  "sig": "Increases the damage and critical strike chance of your Moonfire spell by #%."
+ },
+ "Nature's Majesty": {
+  "lines": [
+   {
+    "t": "+{1}% crit",
+    "on": [
+     "@all"
+    ]
+   }
+  ],
+  "sig": "Increases your critical strike chance with spells and melee attacks by #%."
+ },
+ "Nature's Reach": {
+  "lines": [
+   {
+    "t": "+{2}% hit, +{1}% range",
+    "on": [
+     "@caster"
+    ]
+   }
+  ],
+  "sig": "Increases the range of your offensive Balance spells by #% and improves your chance to hit by #%."
+ },
+ "Improved Entangling Roots": {
+  "lines": [
+   {
+    "t": "+{1}% damage, breaks less easily",
+    "on": [
+     "Entangling Roots"
+    ]
+   }
+  ],
+  "sig": "Increases the damage done by your Entangling Roots spell by #%, and its victims can take up to #% more damage without interrupting the effect."
+ },
+ "Nature's Splendor": {
+  "lines": [
+   {
+    "t": "last longer",
+    "on": [
+     "Moonfire",
+     "Rejuvenation",
+     "Regrowth",
+     "Insect Swarm"
+    ]
+   }
+  ],
+  "sig": "Increases the duration of your Moonfire and Rejuvenation spells by # sec, your Regrowth spell by # sec, and your Insect Swarm spell by # sec."
+ },
+ "Insect Swarm": {
+  "lines": [
+   {
+    "t": "damage over time that lowers the target's hit by {1}%",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "The enemy target is swarmed by insects, decreasing their chance to hit with attacks by #% and causing # Nature damage over # sec."
+ },
+ "Vengeance": {
+  "lines": [
+   {
+    "t": "+{1}% spell crit damage",
+    "on": [
+     "@caster"
+    ]
+   }
+  ],
+  "sig": "Increases the critical strike damage bonus of your Arcane and Nature spells by #%."
+ },
+ "Improved Starfire": {
+  "lines": [
+   {
+    "t": "{1} sec faster, {2}% stun chance",
+    "on": [
+     "Starfire"
+    ]
+   }
+  ],
+  "sig": "Reduces the cast time of Starfire by # sec and Starfire has a #% chance to stun its target for # sec."
+ },
+ "Overgrowth": {
+  "lines": [
+   {
+    "t": "+{1} targets",
+    "on": [
+     "Entangling Roots"
+    ]
+   }
+  ],
+  "sig": "Increases the maximum number of targets you may have affected by Entangling Roots by #."
+ },
+ "Nature's Grace": {
+  "lines": [
+   {
+    "t": "spell crits speed up your next casts",
+    "on": [
+     "@caster"
+    ]
+   }
+  ],
+  "sig": "All non-periodic spell criticals grace you with a blessing of nature, increasing your spellcasting speed and reducing your global cooldown by #% for # sec."
+ },
+ "Eclipse": {
+  "lines": [
+   {
+    "t": "{2} sec faster after each Wrath",
+    "on": [
+     "Starfire"
+    ]
+   }
+  ],
+  "sig": "Your Wrath spell reduces the cast time of your next # Starfire spells by # sec. Stores up to # charges. Lasts # sec."
+ },
+ "Moonfury": {
+  "lines": [
+   {
+    "t": "+{1}% Arcane and Nature damage",
+    "on": [
+     "@caster"
+    ]
+   }
+  ],
+  "sig": "Increases the damage done by your Arcane and Nature spells by #%."
+ },
+ "Moonkin Form": {
+  "lines": [
+   {
+    "t": "armor and +{4}% crit for your group",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by #%, Armor contribution from items by #%, and all party or raid members within # yards have their Critical Strike chance increased by #%. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+ },
+ "Ferocity": {
+  "lines": [
+   {
+    "t": "{1} cheaper",
+    "on": [
+     "Claw",
+     "Rake",
+     "Maul",
+     "Swipe",
+     "Primal Bite"
+    ]
+   }
+  ],
+  "sig": "Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by # Rage or Energy."
+ },
+ "Furor": {
+  "lines": [
+   {
+    "t": "{1}% chance for {2} rage when you shift in",
+    "on": [
+     "@bear"
+    ]
+   },
+   {
+    "t": "keeps up to {3}% of your energy while you are out of cat",
+    "on": [
+     "@cat"
+    ]
+   }
+  ],
+  "sig": "Gives you a #% chance to gain # Rage when shapeshifting into Bear Form or Dire Bear Form. Shapeshifting into Cat Form restores #% of the Energy you had when last in Cat Form, plus # Energy per second spent outside Bear Form or Dire Bear Form, up to # Energy."
+ },
+ "Feral Swiftness": {
+  "lines": [
+   {
+    "t": "{1}% faster",
+    "on": [
+     "@cat"
+    ]
+   },
+   {
+    "t": "+{2}% dodge",
+    "on": [
+     "@all"
+    ]
+   }
+  ],
+  "sig": "Increases your movement speed while in Cat Form by #%, and increases your chance to Dodge by #%."
+ },
+ "Feral Instinct": {
+  "lines": [
+   {
+    "t": "+{1}% damage",
+    "on": [
+     "Swipe"
+    ]
+   },
+   {
+    "t": "harder to spot",
+    "on": [
+     "Prowl"
+    ]
+   }
+  ],
+  "sig": "Increases damage done by your Swipe ability by #% and reduces the chance enemies have to detect you while Prowling as if you were # levels higher."
+ },
+ "Brutal Impact": {
+  "lines": [
+   {
+    "t": "stun {1} sec longer",
+    "on": [
+     "Bash",
+     "Pounce"
+    ]
+   },
+   {
+    "t": "cooldown {2} sec shorter",
+    "on": [
+     "Bash"
+    ]
+   }
+  ],
+  "sig": "Increases the stun duration of your Bash and Pounce abilities by # sec and reduces the cooldown of Bash by # sec."
+ },
+ "Thick Hide": {
+  "lines": [
+   {
+    "t": "+{1} armor per level",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain # additional base Armor per level and another # base Armor for each point of defense skill beyond five times your level. This amount can be further increased by multipliers from those forms."
+ },
+ "Shredding Attacks": {
+  "lines": [
+   {
+    "t": "{1} energy cheaper",
+    "on": [
+     "Shred"
+    ]
+   },
+   {
+    "t": "{2} rage cheaper",
+    "on": [
+     "Lacerate"
+    ]
+   }
+  ],
+  "sig": "Reduces the Energy cost of your Shred ability by # and reduces the Rage cost of your Lacerate ability by #."
+ },
+ "Savage Fury": {
+  "lines": [
+   {
+    "t": "+{1}% damage",
+    "on": [
+     "Claw",
+     "Rake",
+     "Shred",
+     "Maul",
+     "Swipe"
+    ]
+   }
+  ],
+  "sig": "Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by #%."
+ },
+ "Feral Charge": {
+  "lines": [
+   {
+    "t": "bear charge that roots and interrupts, cat leap",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Charge an enemy, immobilizing them and interrupting any spell they are casting for # sec. Feral Charge (Cat): #-# yd range, Instant, # sec cooldown, Requires Cat Form. Leap behind an enemy."
+ },
+ "Sharpened Claws": {
+  "lines": [
+   {
+    "t": "+{1}% crit",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by #%."
+ },
+ "Predatory Strikes": {
+  "lines": [
+   {
+    "t": "+{1}% of your level as attack power",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by #% of your level."
+ },
+ "Lacerate": {
+  "lines": [
+   {
+    "t": "stacking bear bleed with high threat",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Lacerates the enemy target, making them bleed for # damage over # sec plus #% weapon damage per existing application of Lacerate on the target. Causes a high amount of threat. This effect stacks up to # times on the same target."
+ },
+ "Predatory Discipline": {
+  "lines": [
+   {
+    "t": "spare energy adds damage without being spent",
+    "on": [
+     "Ferocious Bite"
+    ]
+   }
+  ],
+  "sig": "Your Ferocious Bite ability no longer converts extra Energy into damage, but still deals extra damage based on your excess Energy."
+ },
+ "Blood Frenzy": {
+  "lines": [
+   {
+    "t": "{1}% chance for {2} rage on crits",
+    "on": [
+     "@bear"
+    ]
+   },
+   {
+    "t": "extra combo point on crits",
+    "on": [
+     "@cat"
+    ]
+   }
+  ],
+  "sig": "Gives you a #% chance to gain an additional # Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a #% chance to add an additional Combo Point."
+ },
+ "Leader of the Pack": {
+  "lines": [
+   {
+    "t": "+{2}% crit for you and your party",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the Critical Strike chance of all party or raid members within # yards by #%."
+ },
+ "Natural Instinct": {
+  "lines": [
+   {
+    "t": "+{1}% crit damage",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   },
+   {
+    "t": "heals gain {2}% of your Intellect",
+    "on": [
+     "@heal"
+    ]
+   }
+  ],
+  "sig": "Increases the critical strike damage bonus of your melee abilities by #% and increases your spell healing by #% of your Intellect."
+ },
+ "Rend and Tear": {
+  "lines": [
+   {
+    "t": "+{1}% damage on bleeding targets",
+    "on": [
+     "@cat",
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "Increases damage done by your melee abilities on Bleeding targets by #%."
+ },
+ "Natural Reaction": {
+  "lines": [
+   {
+    "t": "+{1}% dodge",
+    "on": [
+     "@all"
+    ]
+   },
+   {
+    "t": "{2}% chance for {3} rage when you dodge",
+    "on": [
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "Increases your dodge chance by #%, and gives you a #% chance to gain # Rage each time you dodge."
+ },
+ "Primal Bite": {
+  "lines": [
+   {
+    "t": "big bear bite with very high threat",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Bite the target, dealing #% normal damage plus # and generating a high amount of threat."
+ },
+ "Shifting Power": {
+  "lines": [
+   {
+    "t": "{1}% of base mana into {2} energy",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Instantly convert #% of base Mana into # Energy. Shifting Power's cost is reduced by effects that reduce the cost of Shapeshifting."
+ },
+ "Nature's Focus": {
+  "lines": [
+   {
+    "t": "{1}% chance hits do not slow your casts",
+    "on": [
+     "@heal"
+    ]
+   }
+  ],
+  "sig": "Gives your Arcane and Nature spells a #% chance to not lose casting time when you take damage."
+ },
+ "Heart of the Wild": {
+  "lines": [
+   {
+    "t": "+{1}% Intellect",
+    "on": [
+     "@all"
+    ]
+   },
+   {
+    "t": "+{3}% Strength",
+    "on": [
+     "@cat"
+    ]
+   },
+   {
+    "t": "+{2}% Stamina",
+    "on": [
+     "@bear"
+    ]
+   }
+  ],
+  "sig": "Increases your Intellect by #%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by #% and while in Cat Form your Strength is increased by #%."
+ },
+ "Naturalist": {
+  "lines": [
+   {
+    "t": "{1} sec faster",
+    "on": [
+     "Healing Touch"
+    ]
+   },
+   {
+    "t": "+{2}% damage",
+    "on": [
+     "@all"
+    ]
+   }
+  ],
+  "sig": "Reduces the cast time of your Healing Touch and Wild Growth spells by # sec and increases all damage you deal by #%."
+ },
+ "Reflection": {
+  "lines": [
+   {
+    "t": "{1}% mana regeneration while casting",
+    "on": [
+     "@heal"
+    ]
+   }
+  ],
+  "sig": "Allows #% of your Mana regeneration to continue while casting."
+ },
+ "Natural Shapeshifter": {
+  "lines": [
+   {
+    "t": "{1}% cheaper",
+    "on": [
+     "Bear Form",
+     "Cat Form",
+     "Shifting Power"
+    ]
+   }
+  ],
+  "sig": "Reduces the mana cost of all shapeshifting by #%."
+ },
+ "Subtlety": {
+  "lines": [
+   {
+    "t": "{1}% less threat",
+    "on": [
+     "@heal"
+    ]
+   }
+  ],
+  "sig": "Reduces the threat generated by your Nature and Arcane spells by #%."
+ },
+ "Gift of Nature": {
+  "lines": [
+   {
+    "t": "+{1}% healing",
+    "on": [
+     "@heal"
+    ]
+   }
+  ],
+  "sig": "Increases the effect of all your healing spells by #%."
+ },
+ "Bloom": {
+  "lines": [
+   {
+    "t": "heal once more when they expire",
+    "on": [
+     "Rejuvenation",
+     "Regrowth"
+    ]
+   }
+  ],
+  "sig": "When your Rejuvenation or Regrowth spell expires due to its duration, the target is instantly healed for an amount equal to #% of your Spirit. If either spell expires due to being dispelled, the target is healed for #% of your Spirit instead."
+ },
+ "Tranquil Spirit": {
+  "lines": [
+   {
+    "t": "{1}% cheaper",
+    "on": [
+     "Healing Touch",
+     "Tranquility"
+    ]
+   }
+  ],
+  "sig": "Reduces the mana cost of your Healing Touch and Tranquility spells by #%."
+ },
+ "Improved Rejuvenation": {
+  "lines": [
+   {
+    "t": "+{1}% healing",
+    "on": [
+     "Rejuvenation"
+    ]
+   }
+  ],
+  "sig": "Increases the effect of your Rejuvenation spell by #%."
+ },
+ "Swiftmend": {
+  "lines": [
+   {
+    "t": "instant heal that eats a Rejuvenation or Regrowth",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of the consumed spell."
+ },
+ "Nature's Swiftness": {
+  "lines": [
+   {
+    "t": "next Nature spell is instant",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "When activated, your next Nature spell becomes an instant cast spell."
+ },
+ "Living Spirit": {
+  "lines": [
+   {
+    "t": "+{1}% Spirit",
+    "on": [
+     "@all"
+    ]
+   }
+  ],
+  "sig": "Increases your Spirit by #%."
+ },
+ "Improved Tranquility": {
+  "lines": [
+   {
+    "t": "{2}% shorter cooldown, less threat",
+    "on": [
+     "Tranquility"
+    ]
+   }
+  ],
+  "sig": "Reduces threat caused by Tranquility by #% and its cooldown by #%."
+ },
+ "Improved Regrowth": {
+  "lines": [
+   {
+    "t": "+{1}% crit chance",
+    "on": [
+     "Regrowth"
+    ]
+   }
+  ],
+  "sig": "Increases the critical effect chance of your Regrowth spell by #%."
+ },
+ "Wild Growth": {
+  "lines": [
+   {
+    "t": "group heal over time",
+    "on": [
+     "@new"
+    ]
+   }
+  ],
+  "sig": "Heals the target and their party for # over # sec. Party members must be within # yards of target. The amount healed is applied quickly at first, and slows down as Wild Growth reaches its full duration."
+ },
+ "_spells": {
+  "Barkskin": "Reduces damage taken and stops hits from delaying your casts.",
+  "Entangling Roots": "Roots the target in place. Damage can break it. Works indoors in Forever.",
+  "Faerie Fire": "Lowers target armor and stops it from stealthing. Free in Cat and Bear Form in Forever.",
+  "Hibernate": "Puts a beast or dragonkin to sleep. Damage wakes it.",
+  "Moonfire": "Instant Arcane damage plus damage over time. Can crit.",
+  "Nature's Grasp": "The next enemy that hits you in melee is rooted. Works indoors and in forms in Forever.",
+  "Omen of Clarity": "Your attacks and spells can make your next ability free.",
+  "Soothe Animal": "Shrinks the aggro range of a beast.",
+  "Starfire": "Slow, heavy Arcane nuke. About 40% stronger in Forever.",
+  "Thorns": "Damages melee attackers. Scales with spell power in Forever.",
+  "Wrath": "Nature damage. Cheap in Forever, best as a pull.",
+  "Aquatic Form": "Swim fast and breathe underwater.",
+  "Bash": "Stuns the target and interrupts its spell. Brutal Impact shortens the cooldown.",
+  "Bear Form": "More armor and health, uses rage. Entering it gives rage with Furor. Becomes Dire Bear Form at 40.",
+  "Cat Form": "Uses energy and combo points. Learned through a quest at level 20.",
+  "Challenging Roar": "Forces all nearby enemies to attack you for a few seconds.",
+  "Claw": "Builder from any angle. Adds 1 combo point. 140% weapon damage in Forever.",
+  "Cower": "Lowers your threat on the target.",
+  "Dash": "Large burst of movement speed for a short time.",
+  "Demoralizing Roar": "Lowers the attack power of nearby enemies.",
+  "Dire Bear Form": "Stronger version of Bear Form.",
+  "Enrage": "Gives 10 rage at once and more over 10 sec, but lowers your armor while active.",
+  "Ferocious Bite": "Finisher. Hits harder with more combo points and spare energy.",
+  "Frenzied Regeneration": "Turns rage into health over a few seconds.",
+  "Growl": "Taunts the target to attack you.",
+  "Maul": "Your next melee swing hits harder and causes extra threat.",
+  "Poised": "Your next energy ability costs 10 less.",
+  "Pounce": "Stuns the target and makes it bleed. Adds 1 combo point.",
+  "Prowl": "Stealth. You move slower while prowling.",
+  "Rake": "Bleed that adds 1 combo point. Works from Prowl.",
+  "Ravage": "Big opener from behind. 435% weapon damage in Forever. Adds 1 combo point.",
+  "Rip": "Finisher. Bleed that lasts longer with more combo points.",
+  "Shred": "Builder from behind the target. Adds 1 combo point. 200% weapon damage in Forever.",
+  "Swipe": "Hits up to 3 enemies in front of you.",
+  "Track Humanoids": "Shows nearby humanoids on the minimap.",
+  "Travel Form": "Fast travel form, outdoors only.",
+  "Abolish Poison": "Removes one poison now and keeps removing poisons for 8 sec.",
+  "Cure Poison": "Removes one poison.",
+  "Gift of the Wild": "Mark of the Wild on your whole party.",
+  "Healing Touch": "Big, slow heal.",
+  "Innervate": "Large mana regeneration on the target.",
+  "Mark of the Wild": "Buff: armor, stats and resistances for 30 min.",
+  "Rebirth": "Brings a dead ally back during combat. Needs a reagent.",
+  "Regrowth": "Fast heal plus a heal over time. Cheaper in Forever.",
+  "Rejuvenation": "Heal over time. Cheap and instant.",
+  "Remove Curse": "Removes one curse.",
+  "Revive": "Brings a dead ally back out of combat.",
+  "Tranquility": "Channeled heal on your whole party. Stand still while it runs.",
+  "Hurricane": "Channeled storm on an area that slows attacks",
+  "Teleport: Moonglade": "Teleport to Moonglade",
+  "Feline Grace": "Passive: less falling damage in Cat Form",
+  "Insect Swarm": "Nature damage over time that lowers the target's hit",
+  "Moonkin Form": "Caster form with armor and group crit",
+  "Feral Charge": "Bear charge that roots and interrupts, cat leap behind the target",
+  "Lacerate": "Stacking bear bleed with high threat",
+  "Primal Bite": "Big bear bite with very high threat, 6 sec cooldown",
+  "Shifting Power": "Mana into 40 energy in Cat Form, 8 sec cooldown",
+  "Nature's Swiftness": "Next Nature spell is instant",
+  "Swiftmend": "Instant heal that eats a Rejuvenation or Regrowth",
+  "Wild Growth": "Heal over time on the target's whole party"
+ },
+ "_skip": []
+}

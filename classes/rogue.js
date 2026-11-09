@@ -10,6 +10,7 @@
       stealth: {label: 'Stealth', c: 'var(--caster)', match: /^Stealth/}
     }
   },
+  GROUPS: {'@stealth': ['In Stealth', 'Stealth']},
   SPEC_PLAN: {combat: 'lvl-combat', assassination: 'lvl-assassination', subtlety: 'lvl-subtlety'},
   SPECS: {combat: {label: 'Combat', ready: true}, assassination: {label: 'Assassination', ready: false}, subtlety: {label: 'Subtlety', ready: false}},
   MACROS: {

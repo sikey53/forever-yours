@@ -11,6 +11,7 @@
       berserker: {label: 'Berserker', c: 'var(--cat)', match: /^Berserker Stance/}
     }
   },
+  GROUPS: {'@battle': ['In Battle Stance', 'Battle Stance'], '@defensive': ['In Defensive Stance', 'Defensive Stance'], '@berserker': ['In Berserker Stance', 'Berserker Stance']},
   SPEC_PLAN: {arms: 'lvl-arms', fury: 'lvl-fury', prot: 'lvl-protection'},
   SPECS: {arms: {label: 'Arms', ready: true}, fury: {label: 'Fury', ready: false}, prot: {label: 'Protection', ready: false}},
   MACROS: {

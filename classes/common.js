@@ -4,8 +4,10 @@ window.FY_makeClass = function(cls, H){
   const D = (window.FY_DATA || {})[cls];
   const states = H.CLASS_PROFILE.states;
   const SPELLS = {};
+  const SUMS = (window.FY_SUM || {})[cls] || {};
+  const spellSum = SUMS.spells || {};
   Object.entries(D.spells).forEach(([n, s]) => {
-    SPELLS[n] = {form: s.form, cd: s.cd, lvl: s.lvl, d: [s.cost, s.d].filter(Boolean).join('. '), ...(s.talent ? {talent: true} : {})};
+    SPELLS[n] = {form: (H.SPELL_FORMS || {})[n] || s.form, cd: s.cd, lvl: s.lvl, d: spellSum[n] || [s.cost, s.d].filter(Boolean).join('. '), ...(s.talent ? {talent: true} : {})};
   });
   /* racials of this class's races, so they can go on a key too */
   (D.races || []).forEach(r => r.abilities.forEach(([n, d]) => { if (!SPELLS[n] && /Instant|cooldown/i.test(d)) SPELLS[n] = {form: 'Racial · ' + r.race, cd: (d.match(/(\d+ (?:sec|min)) cooldown/) || [,''])[1], lvl: 1, d}; }));
@@ -15,36 +17,50 @@ window.FY_makeClass = function(cls, H){
   const mentions = text => { const found = []; let t = ' ' + (text || '') + ' '; spellNames.forEach(n => { const re = new RegExp('(^|[^A-Za-z])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])'); if (re.test(t)){ found.push(n); t = t.replace(re, '$1#'); } }); return found; };
   const short = t => (t || '').split(/(?<=\.)\s/)[0].replace(/\.$/, '');
   /* short summaries written for the site (classes/summaries), filled with this rank's numbers from the game text */
-  const SUM = ((window.FY_SUM || {})[cls] || {}).talents || {};
+  const SUM = SUMS.talents || {};
   const NUM = /\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?/g;
-  const summary = (name, text) => { const t = SUM[name]; if (!t) return null; const nums = (text || '').match(NUM) || []; let ok = true; const out = t.replace(/\{(\d+)\}/g, (m, i) => { const v = nums[+i - 1]; if (v === undefined) ok = false; return v; }); return ok ? out : null; };
+  const fillT = (t, text) => { const nums = (text || '').match(NUM) || []; let ok = true; const out = t.replace(/\{(\d+)\}/g, (m, i) => { const v = nums[+i - 1]; if (v === undefined) ok = false; return v; }); return ok ? out : null; };
+  const summary = (name, text) => { const t = SUM[name]; return t && typeof t === 'string' ? fillT(t, text) : null; };
+  /* groups in the gains panel: forms, stances and the like, from the class layout */
+  const GROUPS = H.GROUPS || {};
+  const groupOfSpell = Object.fromEntries(Object.entries(GROUPS).filter(([, v]) => v[1]).map(([g, v]) => [v[1], g]));
+  const groupsIn = text => Object.entries(GROUPS).filter(([, v]) => v[1] && (text || '').toLowerCase().includes(v[1].toLowerCase())).map(([g]) => g);
   const FX = {}, TALENT_USE = {};
   Object.entries(D.ranks || {}).forEach(([name, ranks]) => {
     const own = D.spells[name] && D.spells[name].talent;
-    const named = mentions(ranks[ranks.length - 1]).filter(n => n !== name);
+    const named = mentions(ranks[ranks.length - 1]).filter(n => n !== name).map(n => groupOfSpell[n] || n).concat(groupsIn(ranks[ranks.length - 1])).filter((n, i, a) => a.indexOf(n) === i);
+    const multi = SUM[name] && SUM[name].lines;
     FX[name] = r => {
+      const raw0 = ranks[Math.min(r, ranks.length) - 1];
+      if (multi){
+        const lines = multi.map(l => [l.on || (named.length ? named : ['@all']), fillT(l.t, raw0), l.on && l.on[0] === '@new']);
+        if (lines.every(l => l[1] !== null)) return lines.map(([on, t, neu]) => [on, neu ? `${name}: ${t}` : t]);
+      }
       const raw = ranks[Math.min(r, ranks.length) - 1];
       const sum = summary(name, raw);
       const text = sum || short(raw);
       if (own) return [[['@new'], `${name}: ${sum || short(D.spells[name].d)}`]];
       return [[named.length ? named : ['@all'], text]];
     };
-    const lv = named.map(n => (SPELLS[n] && SPELLS[n].lvl) || 1);
+    const lv = named.filter(n => !n.startsWith('@')).map(n => (SPELLS[n] && SPELLS[n].lvl) || 1);
     TALENT_USE[name] = lv.length ? Math.min(...lv) : 10;
   });
   Object.assign(TALENT_USE, H.TALENT_USE || {});
-  const G = {all: '@all', neu: '@new'};
-  const GROUP_LABEL = {'@new': 'New abilities', '@all': 'Always'};
+  const G = Object.assign({all: '@all', neu: '@new'}, Object.fromEntries(Object.keys(GROUPS).map(g => [g.slice(1), g])));
+  const GROUP_LABEL = Object.assign({'@new': 'New abilities', '@all': 'Always'}, Object.fromEntries(Object.entries(GROUPS).map(([g, v]) => [g, v[0]])));
+  /* the target level of a group: when its form or stance is learned */
+  const groupLevel = Object.fromEntries(Object.entries(GROUPS).map(([g, v]) => [g, v[1] && SPELLS[v[1]] ? SPELLS[v[1]].lvl : 1]));
   const stateOf = f => Object.values(states).find(st => st.match && st.match.test(f || ''));
   const notes = (D.notes || []).map(([n, t]) => `<p><b style="font-family:var(--cond);font-weight:600">${n}</b>. ${t}</p>`).join('');
   const NOTES_HTML = notes ? `<details><summary>Good to know in Forever</summary><div class="dbody notes">${notes}<p class="muted" style="font-size:13px">From talentsforever.com's notes on the Forever ${D.class}.</p></div></details>` : '';
   const SB_FORMS = [['all', 'All', 'var(--muted)']].concat(Object.values(states).filter(st => st.match).map(st => [st.label, st.label, st.c]), [['Any', 'Any', 'var(--gold)']]);
   const sbForm = f => (stateOf(f) || {label: 'Any'}).label;
   const FORM_COLOR = f => (stateOf(f) || {c: 'var(--gold)'}).c;
-  const targetLevel = t => t.startsWith('@') ? 1 : ((SPELLS[t] && SPELLS[t].lvl) || 1);
+  const targetLevel = t => t.startsWith('@') ? (groupLevel[t] || 1) : ((SPELLS[t] && SPELLS[t].lvl) || 1);
   const PRESETS = Object.assign({}, D.presets || {}, H.PRESETS || {});
+  const planWhy = n => { const rk = (D.ranks || {})[n] || []; const fx = FX[n] ? FX[n](rk.length) : []; const t = fx.map(x => x[1]).join(', '); return (t || (rk.slice(-1)[0] || '').split('. ')[0]).replace(/\.$/, ''); };
   /* the plan behind "Next point" for each spec: the community leveling order for its tree */
-  const PLAN = Object.fromEntries(Object.entries(H.SPEC_PLAN || {}).map(([spec, id]) => [spec, ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, (((D.ranks || {})[n] || []).slice(-1)[0] || '').split('. ')[0].replace(/\.$/, '')])]));
+  const PLAN = H.PLAN ? H.PLAN : Object.fromEntries(Object.entries(H.SPEC_PLAN || {}).map(([spec, id]) => [spec, ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, planWhy(n)])]));
   /* the big talent at the bottom of each spec's plan, and when it should land */
   const KEY_TALENT = Object.fromEntries(Object.entries(PLAN).map(([spec, seq]) => {
     const deep = seq.map(([tr, n]) => [tr, n, (D.trees[tr].list.find(x => x[0] === n) || [])[1] || 0]).filter(x => x[2] === 7);
@@ -67,7 +83,7 @@ window.FY_makeClass = function(cls, H){
   return {
     WIZ, CLASS_PROFILE: H.CLASS_PROFILE, SPECS: H.SPECS, MACROS: H.MACROS || {},
     TREES: D.trees, TREE_ORDER: D.order, PLAN, TT: {}, RANKS: D.ranks, SPELLS,
-    FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER: {}, targetLevel, KEY_TALENT,
+    FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER: H.TALENT_LATER || {}, targetLevel, KEY_TALENT: Object.assign({}, KEY_TALENT, H.KEY_TALENT || {}),
     PRESETS, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || NOTES_HTML, PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
     CLASS_NOTES: D.notes || [], DATA_SOURCE: D.talentSource || ''
   };

@@ -18,7 +18,7 @@ Your setup lives only in your own browser (localStorage). Nothing is sent anywhe
 
 ## Status
 
-All nine classes are ready. Each class has a hand-written layout in `classes/<class>.js` (where spells go, rotations, macros) and generated game data in `classes/data/<class>.js`.
+All nine classes are ready and built the same way: a hand-written layout in `classes/<class>.js` (forms or stances, where spells go, macros, rotations, PvP), generated game data in `classes/data/<class>.js`, and short summaries in `classes/summaries/<class>.js` (written in `tools/summaries/<class>.json`).
 
 ## Data
 

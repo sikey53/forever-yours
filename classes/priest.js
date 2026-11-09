@@ -6,6 +6,7 @@
     cls: 'priest', stateLabel: 'Bar',
     states: {normal: {label: 'Spells', c: 'var(--caster)'}}
   },
+  GROUPS: {'@shadowform': ['In Shadowform', 'Shadowform']},
   SPEC_PLAN: {shadow: 'lvl-shadow', holy: 'lvl-holy', disc: 'lvl-discipline'},
   SPECS: {shadow: {label: 'Shadow', ready: true}, holy: {label: 'Holy', ready: false}, disc: {label: 'Discipline', ready: false}},
   MACROS: {

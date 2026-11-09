@@ -19,8 +19,7 @@
   var c = 'druid';
   try { var pr = JSON.parse(localStorage.getItem('fc-profile') || 'null'); if (pr && /^[a-z]+$/.test(pr.cls || '')) c = pr.cls; } catch(e){}
   window.FY_CLASS = c;
-  if (c === 'druid') document.write('<script src="classes/druid.js"><\/script>');
-  else document.write('<script src="classes/data/' + c + '.js"><\/script><script src="classes/summaries/' + c + '.js"><\/script><script src="classes/common.js"><\/script><script src="classes/' + c + '.js"><\/script>');
+  document.write('<script src="classes/data/' + c + '.js"><\/script><script src="classes/summaries/' + c + '.js"><\/script><script src="classes/common.js"><\/script><script src="classes/' + c + '.js"><\/script>');
 })();
 </script>
 
@@ -570,6 +569,7 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
   </section>
 
   <section id="mod-fight" data-mod="fight" aria-labelledby="h-fight">
+    <h2 id="h-fight">How to fight</h2>
     <div id="fightBody"></div>
   </section>
 

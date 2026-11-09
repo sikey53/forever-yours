@@ -3,6 +3,7 @@
    This file decides where things go on the bars and what the rotations say. */
 (window.FY_CLASSES ||= {}).shaman = window.FY_makeClass('shaman', {
   CLASS_PROFILE: {cls: 'shaman', stateLabel: 'Bar', states: {normal: {label: 'Spells', c: 'var(--caster)'}}},
+  GROUPS: {'@ghostwolf': ['In Ghost Wolf', 'Ghost Wolf']},
   SPEC_PLAN: {enh: 'lvl-enhancement', ele: 'lvl-elemental', resto: 'lvl-resto'},
   SPECS: {enh: {label: 'Enhancement', ready: true}, ele: {label: 'Elemental', ready: false}, resto: {label: 'Restoration', ready: false}},
   MACROS: {
