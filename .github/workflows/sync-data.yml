@@ -26,6 +26,9 @@ jobs:
           for c in warrior paladin hunter rogue priest shaman mage warlock druid; do
             curl -fsSL --retry 3 -A "ForeverYours-sync (github.com/sikey53/forever-yours)" "https://talentsforever.com/export/$c.json" -o "data/talentsforever/$c.json"
             python3 -m json.tool "data/talentsforever/$c.json" > /dev/null
+            mkdir -p data/talentsforever/pages
+            curl -fsSL --retry 3 -A "ForeverYours-sync (github.com/sikey53/forever-yours)" "https://talentsforever.com/$c/leveling" -o "data/talentsforever/pages/$c-leveling.html" || true
+            curl -fsSL --retry 3 -A "ForeverYours-sync (github.com/sikey53/forever-yours)" "https://talentsforever.com/$c/builds" -o "data/talentsforever/pages/$c-builds.html" || true
             sleep 2
           done
           ls -la data/talentsforever

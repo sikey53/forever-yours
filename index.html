@@ -5,6 +5,9 @@
 <title>Forever Yours · Setup</title>
 <style>body{margin:0}</style>
 <script src="classes/druid.js"></script>
+<script src="classes/common.js"></script>
+<script src="classes/data/warrior.js"></script><script src="classes/warrior.js"></script>
+<!-- each ready class: its game data, then its layout -->
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -209,7 +212,8 @@ function generate(){
   // forms on the stance bar, long cooldowns on the modifier layer
   const race = A.race;
   const stance = w.stance(A.role).map((n, i) => ({key:`${modSym}${i+1}`, n, job:'short'}));
-  const longList = w.long(race, A.role);
+  const onBar = new Set(Object.values(pages).flat().map(x => x.base).filter(Boolean));
+  const longList = w.long(race, A.role, (w.racials || {})[race] || []).filter(n => !onBar.has(n));
   const layerKeys = ['Q','E','R','F','X','C','V','Z','3','4'].filter(k => usable(k) || ['Q','E','R','F'].includes(k)).filter(k => !hard.has(k));
   const layer = mod ? longList.map((n,i) => layerKeys[i] ? {key:`${modSym}${layerKeys[i]}`, n, job:'long'} : null).filter(Boolean) : longList.map(n => ({key:'Click', n, job:'long'}));
   const travelKey = usable('Z') ? 'Z' : spare.find(k => !used.has(k)) || 'Click';
@@ -225,7 +229,7 @@ function generate(){
   if (A.heal !== 'auto') { for (const k in defaults) if (defaults[k] === 'heal') delete defaults[k]; if (A.heal.startsWith('Mouse')) defaults[A.heal] = 'heal'; }
   if (A.escape !== 'auto') { for (const k in defaults) if (defaults[k] === 'escape') delete defaults[k]; if (A.escape.startsWith('Mouse')) defaults[A.escape] = 'escape'; }
   Object.assign(defaults, mouseJobs);
-  const MJ = Object.fromEntries(Object.entries(w.mouse(race, macros)).map(([k, v]) => [k, {...v, mac: !!v.macro}]));
+  const MJ = Object.fromEntries(Object.entries(w.mouse(race, macros, (w.racials || {})[race] || [])).map(([k, v]) => [k, {...v, mac: !!v.macro}]));
 
   mb.forEach(([k,lab]) => { const j = defaults[k]; if (j && MJ[j]) mouse.push({key:k, lab, ...MJ[j]}); });
   if (A.middle && mod && macros !== 'none' && MJ.instant && !mouse.some(m => m.base === MJ.instant.base)) mouse.push({key:`${modSym}Mouse 3`, lab:`${mod} + middle`, ...MJ.instant});

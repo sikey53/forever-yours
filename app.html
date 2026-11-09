@@ -19,7 +19,8 @@
   var c = 'druid';
   try { var pr = JSON.parse(localStorage.getItem('fc-profile') || 'null'); if (pr && /^[a-z]+$/.test(pr.cls || '')) c = pr.cls; } catch(e){}
   window.FY_CLASS = c;
-  document.write('<script src="classes/' + c + '.js"><\/script>');
+  if (c === 'druid') document.write('<script src="classes/druid.js"><\/script>');
+  else document.write('<script src="classes/data/' + c + '.js"><\/script><script src="classes/common.js"><\/script><script src="classes/' + c + '.js"><\/script>');
 })();
 </script>
 
@@ -639,6 +640,8 @@ const TIER = {spam:'var(--spam)', short:'var(--short)', mid:'var(--mid)', long:'
 const CD = (window.FY_CLASSES || {})[window.FY_CLASS] || (window.FY_CLASSES || {}).druid;
 const {CLASS_PROFILE, SPECS, MACROS, TREES, TREE_ORDER, PLAN, TT, SPELLS, FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER, targetLevel, PRESETS, SB_FORMS, sbForm, FIGHT_HTML, NOTES_HTML, PLAN_NOTE, GOALS_HTML} = CD;
 const FORMS = CLASS_PROFILE.states;
+const CLASS_NAME = (CD.WIZ && CD.WIZ.name) || 'Druid';
+document.documentElement.style.setProperty('--class', (CD.WIZ && CD.WIZ.color) || '#FF7C0A');
 /* Class profile. Action Bar 1 shows a different page in each "state" that swaps it in game:
    druid forms (bear, cat, caster; check moonkin in game), warrior stances (battle, defensive, berserker),
    rogue stealth (its own bar page), priest shadowform. Classes without bar swaps have one state.
@@ -676,7 +679,7 @@ function expandPlan(spec){
 }
 
 /* state */
-let spec = 'feral', form = 'cat';
+let spec = (B.spec && SPECS[B.spec]) ? B.spec : Object.keys(SPECS)[0], form = Object.keys(B.main || {}).find(f => FORMS[f]) || Object.keys(FORMS)[0];
 try { const v = JSON.parse(localStorage.getItem('fdk-ui')||'{}'); if (SPECS[v.spec]) spec = v.spec; if (FORMS[v.form]) form = v.form; } catch(e){}
 const saveUi = () => { try { localStorage.setItem('fdk-ui', JSON.stringify({spec, form})); } catch(e){} };
 let build = {level:10, name:'', legacy:{earned:0, picks:{}}, specs:{feral:{}, resto:{}, pvp:{}}};
@@ -985,7 +988,7 @@ function contextTurn(){
   const bars = {main: Object.fromEntries(Object.keys(FORMS).map(f => [f, mainFor(spec, f)])), stance: hydList(B.stance).map(x=>({key:x.key,...x.s})), bottomLeft: hydList(B.left).map(x=>({key:x.key,...x.s})), altLayer: hydList(B.alt).map(x=>({key:x.key,...(x.s||{n:'unknown, the player will say'})})), mouse: hydList(B.mouse).map(x=>({key:x.key,...x.s}))};
   const nx = nextStep();
   const data = {
-    character:{name: build.name||'', race: RACE_LABEL, class:'Druid', faction: FACTION},
+    character:{name: build.name||'', race: RACE_LABEL, class: CLASS_NAME, faction: FACTION},
     viewing:{spec: SPECS[spec].label, form},
     legacyPerks: build.legacy, legacyNote:'Talented ranks make talent points start that many levels earlier; level = points spent + 9 - Talented ranks.',
     levelingZones: ZONES, dungeons: DUNGEONS,
@@ -999,7 +1002,7 @@ function contextTurn(){
     rotationsAndPvpGuide: (document.getElementById('mod-fight') || {}).innerText || '',
     levelingAndXpRules: (document.getElementById('mod-leveling') || {}).innerText || ''
   };
-  return `The player pasted this from the Forever Yours site. You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell them to check the tooltip in game.
+  return `The player pasted this from the Forever Yours site. You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} ${CLASS_NAME.toLowerCase()} in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell them to check the tooltip in game.
 Layout logic to keep: the main bar keys ${MAIN_KEYS.join(' ')} change per form, and each key keeps the same job in every form (${Object.entries(JOB).map(([k,j]) => k + ' ' + j).join(', ')}). A spell usable in several forms sits on the same key in each. The modifier layer, stance bar and mouse bars are the same in every form and hold long cooldowns.${PROFILE.answers && PROFILE.answers.hard ? ' Keys the player cannot reach comfortably, never use them: ' + PROFILE.answers.hard.join(' ') + '.' : ''} Keep macros minimal, never two global cooldown spells in one macro. Talents: one point per level from 10, a new row every 5 points in a tree, and an arrow requirement means the talent above must be maxed.
 Answer the player's questions using this data first: their keybinds, macros, talents, level, Legacy perks, the Forever spellbook, the latest patch news and the rotation guide. Keep answers short and concrete, and name the exact key when you mention a spell. The player can change any key themselves on the Keybinds tab of the Forever Yours site (tap the button, pick a spell), so when a key change helps, say which spell to move to which key. The data was copied from https://sikey53.github.io/forever-yours/ on ${new Date().toISOString().slice(0,10)}; for anything newer, say so.
 Current page data as JSON:
@@ -1201,6 +1204,7 @@ document.getElementById('classChips').addEventListener('click', e => { const b =
 
 /* ===== tooltips: talents (talentsforever.com data, CC BY 4.0) and spells ===== */
 function talentText(name, rank){
+  const rk = CD.RANKS && CD.RANKS[name]; if (rk && rk.length) return rk[Math.min(rank, rk.length) - 1] || '';
   const d = TT[name]; if (!d) return '';
   if (!d.v.length) return d.t();
   return d.t(...d.v.map(arr => arr[Math.min(rank, arr.length) - 1]));
@@ -1277,7 +1281,7 @@ const autoLevel = () => spent() ? Math.min(60, spent() + 9 - talentedR()) : null
 function renderHeader(){
   const n = document.getElementById('charName'); if (document.activeElement !== n) n.value = build.name || ''; sizeName();
   document.getElementById('lvl').value = build.level;
-  document.getElementById('charSub').textContent = `${RACE_LABEL} Druid · ${SPECS[spec].label}`; document.getElementById('charFaction').textContent = `Forever Yours · ${FACTION}`;
+  document.getElementById('charSub').textContent = `${RACE_LABEL} ${CLASS_NAME} · ${SPECS[spec].label}`; document.getElementById('charFaction').textContent = `Forever Yours · ${FACTION}`;
   const wasSim = simMode; simMode = false;
   const a = autoLevel(), left = avail() - spent(), sp = spent();
   simMode = wasSim;
