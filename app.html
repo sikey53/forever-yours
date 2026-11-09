@@ -1,0 +1,1976 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever Companion</title>
+<style>body{margin:0}</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: spec tabs on top, then the four in-game bars per form (tap a button for details or its macro), then a fillable talent tree with next-point advice, then folded reference. Single dark look by choice (game UI). Forms wear their resource color. */
+:root{
+  color-scheme: dark;
+  --bg:#14120e;
+  --panel:#1e1a14;
+  --panel-2:#26211a;
+  --panel-3:#2f2920;
+  --line:#3a3226;
+  --fg:#efe7d6;
+  --muted:#a39780;
+  --dim:#6b6150;
+  --gold:#d4ad55;
+  --ink:#17130c;
+  --cat:#f2c94c;
+  --bear:#e5584a;
+  --caster:#6ea8f5;
+  --spam:#8fdc8a;
+  --short:#d9d36a;
+  --mid:#e8a04f;
+  --long:#e66a5c;
+  --form: var(--cat);
+  --display:"Cinzel", "Trajan Pro", Georgia, serif;
+  --body:"Barlow", "Segoe UI", system-ui, sans-serif;
+  --cond:"Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1240px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px 110px;display:grid;gap:34px}
+h1,h2{font-family:var(--display);font-weight:700;letter-spacing:.02em;text-wrap:balance;margin:0}
+h1{font-size:clamp(26px,5vw,38px);line-height:1.1}
+h2{font-size:21px;color:var(--gold)}
+h3{font-family:var(--cond);font-weight:600;font-size:18px;margin:0;letter-spacing:.02em}
+p{margin:0;max-width:70ch}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--cond);text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--muted)}
+header{display:grid;gap:12px}
+section{display:grid;gap:14px}
+.sec-head{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+kbd{font-family:var(--cond);font-weight:600;background:var(--panel-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:4px;padding:0 6px;font-size:.95em}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;background:var(--panel);color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:7px 13px;cursor:pointer;display:flex;gap:8px;align-items:center}
+.tab .dot{width:9px;height:9px;border-radius:50%;background:var(--c, var(--gold))}
+.tab[aria-pressed="true"]{color:var(--fg);border-color:var(--c, var(--gold));background:var(--panel-2);box-shadow:inset 0 -2px 0 var(--c, var(--gold))}
+.tab small{font-size:11px;color:var(--dim);text-transform:none;letter-spacing:0}
+
+/* bars */
+.bars{display:grid;gap:16px}
+.bar{display:grid;gap:7px}
+.bar-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 12px}
+.bar-head b{font-family:var(--cond);font-weight:600;font-size:17px}
+.bar-head span{font-size:12.5px;color:var(--muted)}
+.slots{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px}
+.slots.n10{grid-template-columns:repeat(10,minmax(0,1fr))}
+.slots.n4{grid-template-columns:repeat(4,minmax(0,1fr));max-width:520px}
+.slots.n2{grid-template-columns:repeat(2,minmax(0,1fr));max-width:260px}
+@media (max-width:760px){ .slots,.slots.n10{grid-template-columns:repeat(6,minmax(0,1fr))} .slots.n4{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width:420px){ .slots,.slots.n10{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.slot{position:relative;min-width:0;min-height:86px;text-align:left;background:var(--panel-2);border:1px solid var(--line);border-radius:7px;padding:6px 6px 10px;display:flex;flex-direction:column;justify-content:space-between;gap:4px;cursor:pointer;overflow:hidden}
+.slot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--sc)}
+.slot:hover{background:var(--panel-3);border-color:color-mix(in srgb, var(--sc) 50%, var(--line))}
+.slot.main{border-color:color-mix(in srgb, var(--form) 30%, var(--line))}
+.s-top{display:flex;justify-content:space-between;align-items:center;gap:3px}
+.s-key{font-family:var(--cond);font-weight:700;font-size:14px;color:var(--fg);line-height:1}
+.s-badges{display:flex;gap:3px}
+.b-mac,.b-lvl{font-family:var(--cond);font-weight:700;font-size:10.5px;line-height:1;padding:2px 4px;border-radius:3px}
+.b-mac{background:var(--gold);color:var(--ink)}
+.b-lvl{border:1px solid var(--line);color:var(--muted)}
+.s-name{font-family:var(--cond);font-weight:600;font-size:clamp(12px,1.5vw,14.5px);line-height:1.1;overflow-wrap:anywhere}
+.s-cd{font-size:11px;color:var(--muted);line-height:1.1;font-variant-numeric:tabular-nums}
+.slot.empty{background:transparent;border-style:dashed}
+.slot.notyet{opacity:.42}
+.slot.empty .s-name{color:var(--dim);font-style:italic;font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:16px;height:4px;border-radius:2px;display:inline-block}
+.placeholder{background:var(--panel);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;font-size:14px;color:var(--muted)}
+
+/* dialog */
+dialog{background:var(--panel);color:var(--fg);border:1px solid var(--line);border-radius:12px;padding:0;width:min(520px, calc(100vw - 32px));max-height:calc(100vh - 48px)}
+dialog::backdrop{background:rgba(8,6,3,.65)}
+.dlg{display:grid;gap:12px;padding:18px}
+.dlg-head{display:flex;justify-content:space-between;align-items:start;gap:12px}
+.dlg-head h3{font-size:22px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-family:var(--cond);font-weight:600;font-size:13px;padding:2px 8px;border-radius:4px;background:var(--panel-2);border:1px solid var(--line)}
+.chip.cd{background:var(--cc);color:var(--ink);border-color:transparent}
+.x{background:none;border:1px solid var(--line);border-radius:6px;width:32px;height:32px;cursor:pointer;color:var(--muted);flex:none}
+pre{margin:0;background:#0d0b08;border:1px solid var(--line);border-radius:6px;padding:10px 12px;font-family:var(--mono);font-size:13px;line-height:1.5;overflow-x:auto;color:#e9dfc8;white-space:pre}
+.btn{font-family:var(--cond);font-weight:600;font-size:14px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel-2);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer}
+.btn:hover{border-color:var(--gold)}
+.btn.primary{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+
+/* talents */
+.t-controls{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center}
+.t-controls label{display:flex;gap:8px;align-items:center;font-family:var(--cond);font-size:15px}
+.t-controls input{width:68px;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--fg);padding:5px 8px;font:inherit;font-variant-numeric:tabular-nums}
+.pts{font-family:var(--cond);font-size:15px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.pts b{color:var(--fg)}
+.next{display:grid;gap:4px;padding:14px 16px;border-radius:10px;border:1px solid color-mix(in srgb, var(--cat) 45%, var(--line));background:linear-gradient(135deg, color-mix(in srgb, var(--cat) 11%, var(--panel)), var(--panel) 65%)}
+.next .eyebrow{color:var(--cat)}
+.next strong{font-family:var(--cond);font-size:20px;font-weight:600}
+.trees{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.tree{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;min-width:0;align-content:start}
+.tree-head{display:flex;justify-content:space-between;align-items:baseline}
+.tree-head span{font-family:var(--cond);font-variant-numeric:tabular-nums;color:var(--muted)}
+.tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(7,auto);gap:5px}
+.tc{position:relative;min-width:0;min-height:56px;border-radius:7px;border:1px solid var(--line);background:var(--panel-2);padding:5px 4px 6px;display:flex;flex-direction:column;justify-content:space-between;text-align:left;cursor:pointer}
+.tc .tn{font-family:var(--cond);font-weight:600;font-size:10.5px;letter-spacing:-.01em;line-height:1.05;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}
+.tc .tn.tight{font-size:9.5px;letter-spacing:-.02em}
+.tc .tp{font-family:var(--cond);font-weight:700;font-size:12px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.tc.locked{opacity:.42}
+.tc.open{border-color:color-mix(in srgb, var(--spam) 55%, var(--line))}
+.tc.some{border-color:var(--spam);background:color-mix(in srgb, var(--spam) 10%, var(--panel-2))}
+.tc.some .tp{color:var(--spam)}
+.tc.full{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 14%, var(--panel-2))}
+.tc.full .tp{color:var(--gold)}
+.tc.plan::before{content:attr(data-plan);position:absolute;top:-6px;right:-5px;font-family:var(--cond);font-weight:700;font-size:10px;line-height:1;padding:2px 4px;border-radius:3px;background:var(--panel-3);border:1px solid var(--line);color:var(--muted)}
+.tc.isnext{outline:2px solid var(--cat);outline-offset:1px}
+.tc.sel{box-shadow:0 0 0 2px var(--fg) inset}
+.tdetail{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px}
+.tdetail .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.status{font-size:12.5px;color:var(--muted)}
+
+details{background:var(--panel);border:1px solid var(--line);border-radius:10px}
+details summary{cursor:pointer;padding:12px 16px;font-family:var(--cond);font-weight:600;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";color:var(--muted)}
+details[open] summary::after{content:"–"}
+.dbody{padding:0 16px 16px;display:grid;gap:10px}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:14px}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{font-family:var(--cond);text-transform:uppercase;letter-spacing:.08em;font-size:12.5px;background:var(--panel-2)}
+tbody th{font-family:var(--cond);font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.done td,tr.done th{color:var(--dim)}
+tr.done td:first-of-type::before{content:"✓ ";color:var(--spam)}
+tr.isnext td,tr.isnext th{background:color-mix(in srgb, var(--cat) 10%, transparent)}
+ol.steps{margin:0;padding-left:22px;display:grid;gap:8px;max-width:76ch}
+ol.steps li::marker{font-family:var(--cond);color:var(--gold);font-weight:700}
+.notes p{font-size:14px}
+
+/* news */
+.ms{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px 14px;display:grid;gap:8px}
+.ms-top{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 12px}
+.ms-top b{font-family:var(--cond);font-weight:600;font-size:16px}
+.ms-top b em{font-style:normal;color:var(--cat)}
+.ms-top span{font-size:12.5px;color:var(--muted)}
+/* one horizontal axis at --axis; every dot is centered on it */
+.tl{--axis:46px;position:relative;height:104px;margin:0 8px}
+.tl-line,.tl-fill{position:absolute;left:0;top:calc(var(--axis) - 2px);height:4px;border-radius:2px}
+.tl-line{background:var(--panel-3)}
+.tl-fill{background:linear-gradient(90deg,var(--gold),var(--cat))}
+.tl-dash{position:absolute;top:calc(var(--axis) - 1px);height:0;border-top:2px dashed var(--dim)}
+.tl-today{position:absolute;top:0;height:var(--axis);transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;pointer-events:none;z-index:3}
+.tl-today b{font-family:var(--cond);font-weight:700;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--fg);color:var(--ink);padding:2px 7px;border-radius:999px;white-space:nowrap}
+.tl-today i{flex:1;width:2px;background:var(--fg)}
+.tl-today s{position:absolute;left:50%;top:var(--axis);width:12px;height:12px;transform:translate(-50%,-50%);border-radius:50%;background:var(--fg);box-shadow:0 0 0 4px color-mix(in srgb, var(--fg) 25%, transparent)}
+.dot{position:absolute;top:var(--axis);transform:translate(-50%,-50%);width:14px;height:14px;border-radius:50%;background:var(--panel);border:2px solid var(--dim);z-index:2;pointer-events:none;box-sizing:border-box}
+.dot.done{background:var(--gold);border-color:var(--gold)}
+.dot.upnext{width:20px;height:20px;border:3px solid var(--cat);background:var(--bg)}
+.dot.tba{border-style:dashed}
+.dot.sel{box-shadow:0 0 0 3px color-mix(in srgb, var(--cat) 35%, transparent)}
+.mk{position:absolute;top:calc(var(--axis) - 16px);bottom:0;transform:translateX(-50%);width:120px;background:none;border:0;border-radius:6px;padding:28px 2px 2px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;text-align:center;color:inherit}
+.mk.first{transform:translateX(-12px);align-items:flex-start;text-align:left;padding-left:4px}
+.mk.last{transform:translateX(calc(-100% + 12px));align-items:flex-end;text-align:right;padding-right:4px}
+.mk:hover .nm,.mk[aria-pressed="true"] .nm{color:var(--cat)}
+.mk .nm{font-family:var(--cond);font-weight:600;font-size:13.5px;line-height:1.1;color:var(--fg);text-decoration:underline dotted color-mix(in srgb, var(--muted) 60%, transparent);text-underline-offset:3px}
+.mk .dt{font-family:var(--cond);font-size:12px;line-height:1.15;color:var(--muted);font-variant-numeric:tabular-nums}
+.mk.upnext .dt{color:var(--cat)}
+.mk.done .nm{color:var(--muted)}
+@media (max-width:480px){ .mk{width:78px} .mk .nm{font-size:12.5px} .mk .dt{font-size:11.5px} }
+.ms-detail{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:6px}
+.ms-detail .mh{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline}
+.ms-detail .mh b{font-family:var(--cond);font-weight:600;font-size:17px}
+.ms-detail .mh span{font-family:var(--cond);font-size:13px;color:var(--muted)}
+.ms-detail .mh span.soon{color:var(--cat)}
+.mi{display:flex;gap:8px;align-items:baseline;font-size:13.5px;line-height:1.4}
+.mi .ctag{flex:none;font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:.05em;text-transform:uppercase;padding:1px 6px;border-radius:3px;background:var(--cc);color:var(--ink)}
+.mi .bul{flex:none;width:5px;height:5px;border-radius:50%;background:var(--gold);transform:translateY(-2px)}
+.ms-detail a{color:var(--caster);font-size:13px}
+.news-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:12px;align-items:start}
+@media (max-width:820px){.news-grid{grid-template-columns:minmax(0,1fr)}}
+.ncard{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:10px;min-width:0}
+.nrow{display:grid;grid-template-columns:54px 1fr;gap:10px;font-size:13.5px;line-height:1.4;padding-top:8px;border-top:1px solid var(--line)}
+.nrow:first-child{border-top:0;padding-top:0}
+.nd{font-family:var(--cond);font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+.nrow a{color:var(--caster);white-space:nowrap}
+.ntype{display:inline-block;font-family:var(--cond);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;margin-right:6px;background:var(--tc);color:var(--ink)}
+.nplan{font-family:var(--cond);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--cat);margin-right:6px}
+.cchips{display:flex;flex-wrap:wrap;gap:5px}
+.cchip{font-family:var(--cond);font-weight:600;font-size:13px;padding:4px 9px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);cursor:pointer;display:flex;gap:6px;align-items:center}
+.cchip i{width:8px;height:8px;border-radius:50%;background:var(--cc)}
+.cchip small{font-size:11px;color:var(--dim)}
+.cchip[aria-pressed="true"]{color:var(--ink);background:var(--cc);border-color:var(--cc)}
+.cchip[aria-pressed="true"] i{background:var(--ink)}
+.cchip[aria-pressed="true"] small{color:var(--ink)}
+.chead{display:flex;align-items:center;gap:8px;font-family:var(--cond);font-weight:600;font-size:17px;color:var(--cc)}
+.chead::before{content:"";width:4px;height:18px;border-radius:2px;background:var(--cc)}
+.ncard details{border:0;background:none}
+.ncard details summary{padding:6px 0 0;font-size:13.5px;color:var(--muted)}
+
+/* fight */
+.rgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:12px;align-items:start}
+.rcard{background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--rc);border-radius:10px;padding:14px 16px;display:grid;gap:10px;min-width:0}
+.rcard .eyebrow{color:var(--rc)}
+.rcard ol.steps,.pcard ol.steps{font-size:14px;gap:7px}
+.pcard{min-width:0}
+.pcard ol.steps{padding:0 16px 14px 36px}
+#mod-fight h3{margin-top:6px}
+
+/* tooltips, in-game style */
+.sp{color:var(--spc);font-weight:600;border-bottom:1px dotted color-mix(in srgb, var(--spc) 60%, transparent);cursor:help;border-radius:2px}
+.sp:focus-visible{outline:2px solid var(--spc);outline-offset:1px}
+.gtip{position:fixed;z-index:60;max-width:300px;background:#0b0e1a;border:1px solid #4a4f66;border-radius:5px;padding:8px 10px;box-shadow:0 6px 20px rgba(0,0,0,.6);font-size:13px;line-height:1.4;color:#fff;pointer-events:none;display:grid;gap:3px}
+.gtip[hidden]{display:none}
+.gt-h{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.gt-h b{font-size:14.5px;font-weight:600}
+.gt-h span{color:#c9c9c9;font-size:12.5px;white-space:nowrap}
+.gt-m{color:#fff;font-size:12.5px}
+.gt-d{color:#ffd100}
+.gt-n{color:#fff;margin-top:4px}
+.gt-r{color:#ff4040}
+.gt-f{color:#9aa0b4;font-size:12px;margin-top:2px}
+
+/* talent layout and gains panel */
+.tal-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px}
+.tal-actions{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.seg{display:inline-flex;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:3px;gap:3px}
+.seg button{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;background:none;border:0;border-radius:6px;color:var(--muted);padding:6px 14px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--gold);color:var(--ink)}
+#modeSim[aria-pressed="true"]{background:var(--caster)}
+.trees{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){ .trees{grid-template-columns:minmax(0,1fr)} }
+body.sim .tree{border-color:color-mix(in srgb, var(--caster) 45%, var(--line))}
+.gains{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:12px}
+.gains-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
+.gains-head h3{font-size:17px}
+.gains-head span{font-size:13px;color:var(--muted)}
+.ggrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;align-items:start}
+.gn{display:grid;gap:4px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;min-width:0}
+.gn.wide{grid-column:1/-1;background:none;border:0;padding:0}
+.gl{font-family:var(--cond);font-weight:600;font-size:14px;color:var(--gold);letter-spacing:.02em}
+.gi{font-size:13px;line-height:1.35;color:var(--fg)}
+.gi small{color:var(--dim);font-size:11.5px}
+.gi.add::before{content:"New ";font-family:var(--cond);font-weight:700;font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink);background:var(--spam);border-radius:3px;padding:0 4px;margin-right:4px}
+.gi.chg .was{color:var(--muted);font-size:12px}
+.gi.lost{color:var(--dim);text-decoration:line-through}
+.gnew{display:flex;flex-wrap:wrap;gap:5px}
+.gnew span{font-size:13px;padding:2px 8px;border-radius:999px;background:var(--panel-3);border:1px solid var(--line)}
+.gnew span.add{border-color:var(--spam)}
+.gnew span.lost{text-decoration:line-through;color:var(--dim)}
+.gspells{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px}
+.gs{display:grid;gap:2px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+.gsn{font-size:13.5px}
+/* talent popover */
+.tpop{position:fixed;z-index:55;width:260px;max-width:calc(100vw - 16px);background:var(--panel-3);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.55);padding:10px 12px;display:grid;gap:6px}
+.tpop[hidden]{display:none}
+.tpop .ph{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.tpop .ph b{font-family:var(--cond);font-weight:600;font-size:16px}
+.tpop .ph span{font-family:var(--cond);font-weight:700;font-variant-numeric:tabular-nums;color:var(--gold)}
+.tpop p{font-size:12.5px;line-height:1.4;color:var(--fg)}
+.tpop p.nx{color:var(--muted)}
+.tpop p.why{color:var(--long)}
+.tpop .pc{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tpop .pc button{font-family:var(--cond);font-weight:700;font-size:15px;border-radius:7px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);padding:7px;cursor:pointer}
+.tpop .pc button.plus{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.tpop .pc button:disabled{opacity:.35;cursor:not-allowed}
+
+[hidden]{display:none!important}
+/* character header + module nav */
+.char{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:12px 20px}
+.char-main{display:grid;gap:6px;min-width:0}
+.char-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.char-name{font-family:var(--display);font-weight:700;font-size:clamp(24px,4.6vw,36px);line-height:1.1;color:var(--fg);background:transparent;border:0;border-bottom:1px dashed var(--line);padding:0 2px;width:min(13ch,100%);min-width:0}
+.char-name::placeholder{color:var(--dim)}
+.char-name:focus{outline:none;border-bottom-color:var(--gold)}
+.lvl-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:600;font-size:15px;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:3px 6px 3px 12px}
+.lvl-badge input{width:52px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;color:var(--fg);padding:3px 8px;font:inherit;font-size:16px;text-align:center;font-variant-numeric:tabular-nums}
+.char-sub{font-family:var(--cond);font-weight:600;font-size:17px;color:#FF7C0A}
+.char-note{font-size:12.5px;color:var(--muted)}
+.modnav{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;display:flex;gap:4px;overflow-x:auto;background:var(--bg);border-bottom:1px solid var(--line);padding-block:8px;margin-top:-14px;scrollbar-width:none}
+.modnav::-webkit-scrollbar{display:none}
+.modnav button{flex:none;font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.04em;text-transform:uppercase;background:none;border:0;border-radius:6px;color:var(--muted);padding:7px 12px;cursor:pointer}
+.modnav button:hover{color:var(--fg);background:var(--panel)}
+.modnav button[aria-current="page"]{color:var(--ink);background:var(--gold)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:21;background:var(--bg)}
+/* legacy */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;align-items:start}
+.ltree{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:8px;min-width:0}
+.lperk{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding-top:8px;border-top:1px solid var(--line)}
+.lperk:first-of-type{border-top:0;padding-top:0}
+.lperk b{font-family:var(--cond);font-weight:600;font-size:15px}
+.lperk .lrec{font-family:var(--cond);font-weight:700;font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);background:var(--spam);border-radius:3px;padding:1px 5px;margin-left:6px;vertical-align:2px}
+.lperk p{grid-column:1/-1;font-size:13px;color:var(--muted)}
+.lperk p.lreq{color:var(--long)}
+.lctl{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:700;font-variant-numeric:tabular-nums}
+.lctl button{width:28px;height:28px;border-radius:6px;border:1px solid var(--line);background:var(--panel-2);color:var(--fg);cursor:pointer;font-size:16px;line-height:1}
+.lctl button:disabled{opacity:.35;cursor:not-allowed}
+.lpips{display:flex;gap:3px}
+.lpips i{width:8px;height:8px;border-radius:2px;background:var(--panel-3)}
+.lpips i.on{background:var(--gold)}
+.lcount{font-size:13px;color:var(--muted);min-width:2.4em;text-align:center}
+.lrank{font-family:var(--cond);font-weight:600;font-size:14px;color:var(--muted);margin-left:8px}
+/* leveling route */
+#leveling .ncard{gap:8px}
+.route{display:grid;gap:3px;--axis-l:170px}
+.rrow{display:grid;grid-template-columns:var(--axis-l) 1fr;align-items:center;gap:10px;font-size:13px;padding:3px 4px;border-radius:5px}
+.rrow.now{background:color-mix(in srgb, var(--spam) 10%, transparent)}
+.rrow.soon{background:color-mix(in srgb, var(--cat) 8%, transparent)}
+.rname{min-width:0;display:flex;gap:6px;align-items:baseline;justify-content:space-between}
+.rname b{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rname span{font-family:var(--cond);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.rnew{font-family:var(--cond);font-weight:700;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--cat);margin-left:4px}
+.rbar{position:relative;height:12px;border-radius:3px;background:var(--panel-2)}
+.rbar .rr{position:absolute;top:0;bottom:0;border-radius:3px;background:color-mix(in srgb, var(--rc) 30%, transparent)}
+.rbar .rw{position:absolute;top:0;bottom:0;border-radius:3px;background:var(--rc)}
+.rbar .you{position:absolute;top:-4px;bottom:-4px;width:2px;margin-left:-1px;background:var(--fg)}
+.raxis{display:grid;grid-template-columns:var(--axis-l) 1fr;gap:10px;padding:0 4px;font-family:var(--cond);font-size:11px;color:var(--dim)}
+.raxis div{position:relative;height:14px}
+.raxis span{position:absolute;transform:translateX(-50%)}
+.rnote{grid-column:2;font-size:12px;color:var(--muted);margin-top:-1px}
+@media (max-width:560px){ .route{--axis-l:118px} .rname{flex-direction:column;gap:0} }
+/* simulator */
+.simbox{display:grid;gap:10px;background:color-mix(in srgb, var(--caster) 7%, var(--panel));border:1px solid color-mix(in srgb, var(--caster) 35%, var(--line));border-radius:10px;padding:10px 12px}
+.btabs{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.btab{display:flex;align-items:center;gap:6px;font-family:var(--cond);font-weight:600;font-size:14px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;color:var(--muted);padding:5px 12px;cursor:pointer}
+.btab[aria-selected="true"]{background:var(--caster);border-color:var(--caster);color:var(--ink)}
+.btab small{font-weight:500;opacity:.75}
+.btab.add{border-style:dashed}
+.bname{font-family:var(--cond);font-weight:600;font-size:14px;background:var(--panel-2);border:1px solid var(--caster);border-radius:999px;color:var(--fg);padding:4px 12px;width:14ch}
+.bact{font-family:var(--cond);font-size:13px;background:none;border:0;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:2px 4px}
+.simrow{display:flex;flex-wrap:wrap;align-items:center;gap:10px 18px}
+.goal{display:flex;align-items:center;gap:8px;font-family:var(--cond);font-size:15px}
+.goal select{background:var(--panel-2);border:1px solid var(--line);border-radius:6px;color:var(--fg);padding:6px 8px;font:inherit;font-family:var(--body);font-size:14px}
+.switch{display:inline-flex;align-items:center;gap:8px;font-family:var(--cond);font-size:15px;cursor:pointer}
+.switch input{position:absolute;opacity:0;width:1px;height:1px}
+.switch .knob{width:38px;height:22px;border-radius:999px;background:var(--panel-3);border:1px solid var(--line);position:relative;transition:background .15s}
+.switch .knob::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:transform .15s}
+.switch input:checked + .knob{background:var(--caster)}
+.switch input:checked + .knob::after{transform:translateX(16px);background:var(--ink)}
+.switch input:focus-visible + .knob{outline:2px solid var(--gold);outline-offset:2px}
+.slegend{display:flex;gap:12px;margin-left:auto;font-size:12.5px;color:var(--muted)}
+.slegend span{display:flex;align-items:center;gap:5px}
+.slegend span::before{content:"";width:10px;height:10px;border-radius:3px;border:2px solid var(--c);background:color-mix(in srgb, var(--c) 25%, transparent)}
+.lg-gain{--c:var(--spam)} .lg-miss{--c:var(--long)} .lg-same{--c:var(--gold)}
+body.sim .tc.full,body.sim .tc.some{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 12%, var(--panel-2))}
+body.sim .tc.gain{border-color:var(--spam);background:color-mix(in srgb, var(--spam) 20%, var(--panel-2));box-shadow:inset 0 0 0 1px var(--spam)}
+body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--long) 16%, var(--panel-2));box-shadow:inset 0 0 0 1px var(--long);opacity:1}
+.tc .dl{position:absolute;right:4px;bottom:4px;font-family:var(--cond);font-weight:700;font-size:11px;line-height:1;padding:2px 4px;border-radius:3px;color:var(--ink)}
+.tc .dl.up{background:var(--spam)} .tc .dl.down{background:var(--long)}
+.dsum{display:flex;flex-wrap:wrap;gap:6px}
+.dsum span{font-family:var(--cond);font-weight:700;font-size:13px;padding:3px 9px;border-radius:999px;color:var(--ink)}
+.dsum .g{background:var(--spam)} .dsum .m{background:var(--long)} .dsum .c{background:var(--mid)}
+.gi.add{color:var(--spam)}
+.gi.add::before{content:"+ ";font-weight:700;background:none;color:var(--spam);padding:0;margin:0;font-size:13px;font-family:inherit;letter-spacing:0;text-transform:none}
+.gi.lost{color:var(--long);text-decoration:line-through;opacity:.85}
+.gi.chg{color:var(--mid)}
+.gnew span.add{border-color:var(--spam);color:var(--spam)}
+.gnew span.lost{border-color:var(--long);color:var(--long)}
+.gs:has(.gi.add){border-color:color-mix(in srgb, var(--spam) 50%, var(--line))}
+.gs:has(.gi.lost){border-color:color-mix(in srgb, var(--long) 50%, var(--line))}
+
+.gi.later,.gi.later.add,.gi.later.chg{color:var(--dim)}
+.gi.later.add::before{color:var(--dim)}
+.gi .lt,.gsn .lt{font-family:var(--cond);font-weight:600;font-size:11px;color:var(--muted);border:1px solid var(--line);border-radius:3px;padding:0 4px;margin-left:2px;white-space:nowrap}
+.gs.later{opacity:.7}
+.gnew span.later{opacity:.55}
+.tc.early{border-style:dashed}
+/* spellbook */
+.sbook{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:12px}
+.sb-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px}
+.sb-head h3{font-size:17px}
+.sb-filter{display:flex;flex-wrap:wrap;gap:5px}
+.sb-filter button{font-family:var(--cond);font-weight:600;font-size:13px;padding:4px 10px;border-radius:999px;border:1px solid var(--line);background:var(--panel-2);color:var(--muted);cursor:pointer;display:flex;gap:6px;align-items:center}
+.sb-filter button i{width:8px;height:8px;border-radius:50%;background:var(--fc)}
+.sb-filter button[aria-pressed="true"]{color:var(--fg);border-color:var(--fc)}
+.sb-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 14px}
+.sb-lvl{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-family:var(--cond);font-weight:700;font-size:13px;color:var(--muted);margin-top:6px}
+.sb-lvl::after{content:"";flex:1;height:1px;background:var(--line)}
+.sb-here{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-family:var(--cond);font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin:8px 0 2px}
+.sb-here span{background:var(--fg);border-radius:999px;padding:3px 10px}
+.sb-here::after{content:"";flex:1;height:2px;background:var(--fg)}
+.sb-sp{display:grid;grid-template-columns:auto 1fr;gap:1px 10px;align-items:baseline;padding:6px 8px;border-radius:6px;border-left:3px solid var(--fc)}
+.sb-sp.soon{background:color-mix(in srgb, var(--cat) 8%, transparent)}
+.sb-sp.later{opacity:.5}
+.sb-sp b{font-weight:600;font-size:13.5px}
+.sb-sp em{font-style:normal;font-family:var(--cond);font-size:12px;color:var(--muted);text-align:right}
+.sb-sp p{grid-column:1/-1;font-size:12.5px;color:var(--muted);line-height:1.35}
+
+.setupbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
+.setupbar a.btn{text-decoration:none;color:inherit}
+/* chat */
+.chat[hidden],.fab[hidden]{display:none}
+.fab{position:fixed;right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:30;font-family:var(--cond);font-weight:700;font-size:15px;letter-spacing:.05em;text-transform:uppercase;background:var(--gold);color:var(--ink);border:0;border-radius:999px;padding:12px 18px;cursor:pointer;box-shadow:0 6px 24px rgba(0,0,0,.45)}
+.chat{position:fixed;right:calc(16px + env(safe-area-inset-right, 0px));bottom:calc(16px + env(safe-area-inset-bottom, 0px));z-index:31;width:min(420px, calc(100vw - 32px));height:min(600px, calc(100vh - 32px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)));background:var(--panel);border:1px solid var(--line);border-radius:12px;display:flex;flex-direction:column;box-shadow:0 10px 40px rgba(0,0,0,.55)}
+.chat-head{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 12px;border-bottom:1px solid var(--line)}
+.chat-head b{font-family:var(--cond);font-size:17px;font-weight:600}
+.chat-log{flex:1;overflow-y:auto;padding:12px;display:grid;gap:10px;align-content:start}
+.msg{max-width:88%;padding:8px 11px;border-radius:10px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.u{justify-self:end;background:var(--panel-3)}
+.msg.a{justify-self:start;background:var(--panel-2);border:1px solid var(--line)}
+.msg.err{color:var(--long)}
+.chat-form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+.chat-form textarea{flex:1;min-width:0;resize:none;height:44px;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;color:var(--fg);padding:8px 10px;font:inherit;font-size:14px}
+.chat-empty{color:var(--muted);font-size:13.5px}
+.chat-empty button{margin-top:6px}
+@media (prefers-reduced-motion: no-preference){ .tc.isnext{animation:pulse 1.8s ease-in-out infinite} @keyframes pulse{50%{outline-color:transparent}} }
+</style>
+
+<div class="wrap" lang="en">
+  <header class="char">
+    <div class="char-main">
+      <div class="eyebrow" id="charFaction">WoW Forever</div>
+      <div class="char-row">
+        <input id="charName" class="char-name" maxlength="24" placeholder="Character name" aria-label="Character name" autocomplete="off">
+        <span class="lvl-badge"><label for="lvl">Level</label><input id="lvl" type="number" min="1" max="60" inputmode="numeric"></span>
+        <span class="char-sub" id="charSub">Druid</span>
+      </div>
+      <div class="char-note" id="lvlNote"></div>
+    </div>
+    <div class="tabs" role="group" aria-label="Spec" id="specTabs"></div>
+  </header>
+
+  <nav class="modnav" id="modnav" aria-label="Sections">
+    <button type="button" data-mod="news">News</button>
+    <button type="button" data-mod="binds">Keybinds</button>
+    <button type="button" data-mod="talents">Talents</button>
+    <button type="button" data-mod="legacy">Legacy</button>
+    <button type="button" data-mod="fight">Rotations</button>
+    <button type="button" data-mod="leveling">Leveling</button>
+  </nav>
+
+  <section id="mod-news" data-mod="news" aria-labelledby="h-news">
+    <div class="sec-head"><h2 id="h-news">Forever news</h2><span class="status" id="newsChecked"></span></div>
+    <div class="ms" id="milestones"></div>
+    <div class="news-grid">
+      <div class="ncard"><div class="eyebrow">Announced</div><div id="newsAnnounced"></div></div>
+      <div class="ncard nclass">
+        <div class="eyebrow">Class changes</div>
+        <div class="cchips" id="classChips" role="group" aria-label="Class"></div>
+        <div id="classChanges"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mod-binds" data-mod="binds" aria-labelledby="h-binds">
+    <div class="sec-head">
+      <h2 id="h-binds">Keybinds</h2>
+      <div class="tabs" role="group" aria-label="Form" id="formTabs"></div>
+    </div>
+    <p class="muted">Tap any button to see what it does. Buttons marked <span class="b-mac" style="font-size:12px">M</span> are macros, and tapping them shows the macro to copy. A number badge is the level you learn it.</p>
+    <div id="specNote"></div>
+    <div class="bars" id="bars"></div>
+    <div class="legend">
+      <span><i style="background:var(--spam)"></i>Spam</span>
+      <span><i style="background:var(--short)"></i>Short cooldown</span>
+      <span><i style="background:var(--mid)"></i>Once a fight</span>
+      <span><i style="background:var(--long)"></i>Long cooldown</span>
+      <span style="opacity:.5">Faded: not learned yet at your level</span>
+    </div>
+  </section>
+
+  <section id="mod-talents" data-mod="talents" aria-labelledby="h-tal">
+    <div class="sec-head">
+      <h2 id="h-tal">Talents</h2>
+      <span class="status" id="saveStatus"></span>
+    </div>
+    <div class="tal-bar">
+      <div class="seg" role="group" aria-label="Talent mode">
+        <button type="button" id="modeMine" aria-pressed="true">My talents</button>
+        <button type="button" id="modeSim" aria-pressed="false">Simulator</button>
+      </div>
+      <span class="pts" id="ptsInfo"></span>
+      <div class="tal-actions" id="actMine">
+        <button class="btn" id="fillPlan" type="button">Fill plan to my level</button>
+        <button class="btn" id="resetTree" type="button">Reset</button>
+      </div>
+      <div class="tal-actions" id="actSim" hidden>
+        <button class="btn" id="simCopy" type="button">Copy my talents</button>
+        <button class="btn" id="simClear" type="button">Clear</button>
+        <button class="btn primary" id="simApply" type="button">Apply to my talents</button>
+      </div>
+    </div>
+    <div class="simbox" id="simBox" hidden>
+      <div class="btabs" id="buildTabs" role="tablist" aria-label="Saved builds"></div>
+      <div class="simrow">
+        <label class="goal" for="simGoal"><span>What do you want to play?</span>
+          <select id="simGoal">
+            <option value="">Pick a play style…</option>
+            <optgroup label="Leveling"><option value="lvl-cat">Leveling damage (cat)</option><option value="lvl-hybrid">Leveling damage, can tank dungeons</option><option value="lvl-heal">Leveling healer</option></optgroup>
+            <optgroup label="Dungeons"><option value="dng-cat">Dungeon damage (cat)</option><option value="dng-tank">Dungeon tank (bear)</option><option value="dng-heal">Dungeon healer</option></optgroup>
+            <optgroup label="Raids at 60"><option value="raid-cat">Raid damage (cat)</option><option value="raid-tank">Raid tank (bear)</option><option value="raid-heal">Raid healer</option></optgroup>
+            <optgroup label="PvP"><option value="pvp-feral">PvP feral</option><option value="pvp-heal">PvP healer</option></optgroup>
+          </select>
+        </label>
+        <label class="switch" for="simLock"><input type="checkbox" id="simLock"><span class="knob"></span><span id="simLockLabel">Lock to my level</span></label>
+        <div class="slegend"><span class="lg-gain">Gained</span><span class="lg-miss">Missing</span><span class="lg-same">Same as yours</span></div>
+      </div>
+    </div>
+    <div class="next" id="nextCard"></div>
+    <div class="trees" id="trees"></div>
+    <section class="gains" id="gains" aria-label="What your talents give you"></section>
+    <details id="planBox">
+      <summary>Your remaining talent order</summary>
+      <div class="dbody">
+        <div class="tablewrap"><table id="planTable"></table></div>
+        <p class="muted" style="font-size:13px">Recalculated every time you add or remove a point, starting from what you have actually trained. This is a hybrid: cat damage first up to Shifting Power, then Primal Bite and Lacerate so bear can tank dungeons, then defense for both forms. Restoration stays free for your PvP dual spec at 40.</p>
+      </div>
+    </details>
+    <section class="sbook" id="sbook" aria-label="Spellbook"></section>
+  </section>
+
+  <section id="mod-legacy" data-mod="legacy" aria-labelledby="h-legacy">
+    <div class="sec-head"><h2 id="h-legacy">Legacy perks</h2><span class="status" id="legacyInfo"></span></div>
+    <p class="muted">Legacy points are earned once on your account from 65 challenges, and every character spends up to 16 of them on its own perks. Your first point usually comes at level 25 on any class.</p>
+    <div class="t-controls">
+      <label for="legacyEarned">Points earned <input id="legacyEarned" type="number" min="0" max="16" inputmode="numeric"></label>
+      <button class="btn" id="legacyLeveling" type="button">Use the leveling build</button>
+      <button class="btn" id="legacyReset" type="button">Reset</button>
+    </div>
+    <div class="next" id="legacyAdvice"></div>
+    <div class="lgrid" id="legacyTrees"></div>
+    <details>
+      <summary>How to earn Legacy points</summary>
+      <div class="dbody notes">
+        <p>Classes give 27 points: reach level 25, 45 and 60 on each class. That is 3 for your druid.</p>
+        <p>Professions give 18: reach 150, 225 and 300 in each non-gathering profession.</p>
+        <p>PvP gives 12: honor ranks 3, 7, 10, 13 and 14, Exalted with each battleground faction, and three Field of Honor weekly quests.</p>
+        <p>Dungeons give 3: the final boss of every dungeon from 15 to 25, from 26 to 45, and from 46 to 60. Raids give 3: Onyxia, all of Hyjal Summit and all of Barrow Deeps.</p>
+        <p>Adventure gives 2: explore the whole world map on one character, and finish the Lord Valthalak questline.</p>
+        <p class="muted" style="font-size:13px">From <a href="https://worldofwarcraft.blizzard.com/en-us/news/24307383" target="_blank" rel="noopener">Blizzard's Legacy announcement</a> and <a href="https://talentsforever.com/legacy" target="_blank" rel="noopener">Talents Forever</a>. Blizzard has not said how to respec perks.</p>
+      </div>
+    </details>
+  </section>
+
+  <section id="mod-fight" data-mod="fight" aria-labelledby="h-fight">
+    <h2 id="h-fight">How to fight</h2>
+    <p class="muted">Each line is one press, top to bottom. The number after a spell is the level you learn it, so skip a line until you have it.</p>
+    <h3>Rotations</h3>
+    <div class="rgrid">
+      <div class="rcard" style="--rc:var(--cat)">
+        <div class="eyebrow">Cat · questing and dungeons</div>
+        <ol class="steps">
+          <li>Before you pull: <kbd>⇧Q</kbd> Mark of the Wild and <kbd>⇧F</kbd> Thorns on yourself.</li>
+          <li>Open from <kbd>V</kbd> Prowl with <kbd>E</kbd> Ravage from behind (32) or <kbd>Q</kbd> Pounce to stun (36). Before 32, open from Prowl with <kbd>1</kbd> Rake. Without Prowl, pull with <kbd>F</kbd> Faerie Fire.</li>
+          <li>Build combo points with <kbd>E</kbd> Shred when you are behind, <kbd>Q</kbd> Claw otherwise.</li>
+          <li><kbd>1</kbd> Rake once on any mob that will live a while (24). Skip it on mobs about to die.</li>
+          <li>At 4 or 5 combo points: <kbd>2</kbd> Rip for long fights, <kbd>3</kbd> Ferocious Bite when you have 70 energy or more, or the mob is low (24).</li>
+          <li><kbd>R</kbd> Shifting Power whenever energy drops under 50 (40).</li>
+          <li>Two or more mobs: cat has no area attack. Root the extra one with <kbd>R</kbd> Entangling Roots in caster first, or go <kbd>⇧1</kbd> bear and Swipe.</li>
+          <li>After the fight: <kbd>Middle</kbd> heal and drink. Furor keeps your cat energy while you are out.</li>
+        </ol>
+      </div>
+      <div class="rcard" style="--rc:var(--bear)">
+        <div class="eyebrow">Bear · packs and tanking</div>
+        <ol class="steps">
+          <li>Pull with <kbd>F</kbd> Faerie Fire from range, or <kbd>5</kbd> Feral Charge to close in. The charge also interrupts.</li>
+          <li><kbd>R</kbd> Enrage for rage at the start, then <kbd>1</kbd> Demoralizing Roar on the pack.</li>
+          <li><kbd>4</kbd> Primal Bite every time it is ready (44).</li>
+          <li>One big target: <kbd>2</kbd> Lacerate up to 5 stacks and keep them rolling (45), <kbd>Q</kbd> Maul with spare rage.</li>
+          <li>Two or more mobs: <kbd>E</kbd> Swipe, with Primal Bite on whatever is loose.</li>
+          <li><kbd>3</kbd> Growl a mob that leaves you. Click Challenging Roar if the whole pack runs at the healer.</li>
+          <li><kbd>X</kbd> Bash a caster mid cast. It fires Enrage too, so you always have the rage.</li>
+          <li>Getting low: <kbd>Mouse 4</kbd> potion, <kbd>V</kbd> Frenzied Regeneration (36), <kbd>C</kbd> Barkskin (44).</li>
+        </ol>
+      </div>
+      <div class="rcard" style="--rc:var(--caster)">
+        <div class="eyebrow">Caster · saving the group</div>
+        <ol class="steps">
+          <li><kbd>Middle</kbd> drops your form and starts a heal in one press.</li>
+          <li><kbd>E</kbd> Rejuvenation on the tank early. It is cheap and keeps working while you do other things.</li>
+          <li><kbd>3</kbd> Regrowth when someone drops fast, <kbd>Q</kbd> Healing Touch when they are low and you are safe to cast.</li>
+          <li>Hover a party frame and press <kbd>4</kbd> for poison or <kbd>5</kbd> for a curse.</li>
+          <li><kbd>⇧E</kbd> Tranquility when the whole group is low, and do not move (30).</li>
+          <li><kbd>V</kbd> Innervate on yourself when mana runs out (40). <kbd>⇧R</kbd> Rebirth if someone dies mid fight.</li>
+        </ol>
+      </div>
+    </div>
+
+    <h3>When a player attacks you</h3>
+    <p class="muted">Find the card that matches and follow it. If you panic, use the first card: it works against everyone.</p>
+    <div class="rgrid">
+      <details class="pcard" open>
+        <summary>Any fight going badly</summary>
+        <ol class="steps">
+          <li><kbd>Mouse 4</kbd> potion. It works in any form, so it costs you nothing.</li>
+          <li><kbd>⇧3</kbd> Nature's Grasp, so the next melee hit roots them.</li>
+          <li><kbd>⇧X</kbd> War Stomp to stun everyone around you for a moment.</li>
+          <li>Use that moment: <kbd>⇧Middle</kbd> instant Rejuvenation, then <kbd>⇧1</kbd> bear for armor, or <kbd>Mouse 5</kbd> to run in cat.</li>
+          <li>From 44, press <kbd>C</kbd> Barkskin before a cast heal so hits cannot push it back.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>A rogue opens on you</summary>
+        <ol class="steps">
+          <li>You cannot act while stunned or sapped. Wait for it to end and do not mash keys.</li>
+          <li><kbd>F</kbd> Faerie Fire on the rogue first: it cannot go back into stealth while it lasts.</li>
+          <li><kbd>⇧3</kbd> Nature's Grasp, then <kbd>⇧X</kbd> War Stomp when it is next to you.</li>
+          <li>Healthy: fight it in cat with bleeds. Low: <kbd>⇧1</kbd> bear, <kbd>Mouse 4</kbd> potion, <kbd>V</kbd> Frenzied Regeneration.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>A warrior or melee keeps slowing you</summary>
+        <ol class="steps">
+          <li>Shifting removes roots and slows. Press <kbd>⇧2</kbd> twice in cat, or <kbd>⇧1</kbd> twice in bear. It costs mana each time.</li>
+          <li><kbd>⇧3</kbd> Nature's Grasp so their next hit roots them, then walk out of range.</li>
+          <li><kbd>Mouse 5</kbd> Dash away, or <kbd>Z</kbd> Travel Form outdoors (30).</li>
+          <li>Never stand still to cast Regrowth next to a warrior. Use <kbd>⇧Middle</kbd> instant Rejuvenation while you run.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>A mage</summary>
+        <ol class="steps">
+          <li>Stay in cat or bear. An animal form cannot be turned into a sheep.</li>
+          <li>Frost Nova roots you: shift out of it with <kbd>⇧2</kbd> twice.</li>
+          <li>Close in with <kbd>5</kbd> Feral Charge, the cat leap or the bear charge, which also interrupts.</li>
+          <li>Stop big casts with <kbd>⇧X</kbd> War Stomp, or <kbd>X</kbd> Bash in bear.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>A warlock or priest, fears and casters</summary>
+        <ol class="steps">
+          <li>Druids have no way to break a fear, and War Stomp does not work while you are feared. So stop the fear before it lands.</li>
+          <li>Get into melee fast with <kbd>5</kbd> Feral Charge, then interrupt casts with <kbd>⇧X</kbd> War Stomp or <kbd>X</kbd> Bash.</li>
+          <li>When a fear ends, <kbd>⇧Middle</kbd> instant Rejuvenation first, then go back on them.</li>
+          <li>A PvP trinket that breaks fear, if Forever gives you one, goes on <kbd>⇧C</kbd>.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>A hunter or an enemy druid</summary>
+        <ol class="steps">
+          <li>Put the hunter's pet to sleep with <kbd>⇧V</kbd> Hibernate from caster form, then fight the hunter up close where it is weakest.</li>
+          <li>Hibernate also works on an enemy druid in cat or bear form.</li>
+          <li>Shift out of Wing Clip and other slows with <kbd>⇧2</kbd> twice, then <kbd>5</kbd> Feral Charge back in.</li>
+        </ol>
+      </details>
+      <details class="pcard">
+        <summary>Two or more players</summary>
+        <ol class="steps">
+          <li>Do not fight. <kbd>⇧3</kbd> Nature's Grasp and <kbd>⇧X</kbd> War Stomp to buy a few seconds.</li>
+          <li><kbd>Mouse 5</kbd> Dash away in cat, and shift out of every slow.</li>
+          <li><kbd>Mouse 4</kbd> potion and <kbd>⇧Middle</kbd> instant Rejuvenation while running. Never stop to cast.</li>
+          <li>Run toward guards, friends or a doorway that breaks their line of sight.</li>
+        </ol>
+      </details>
+    </div>
+    <p class="muted" style="font-size:13px">Built from the Forever druid guides where they cover it and Classic rules where they do not. If a line works differently in game, tell us and the card gets fixed.</p>
+  </section>
+
+  <section id="mod-leveling" data-mod="leveling" aria-labelledby="h-leveling">
+    <div class="sec-head"><h2 id="h-leveling">Where to level</h2><span class="status" id="routeNote">Tauren route, Horde</span></div>
+    <div class="next" id="lvlAdvice"></div>
+    <div class="ncard">
+      <div class="eyebrow">Questing zones</div>
+      <p class="muted" style="font-size:13px">The bright part of each bar is the window worth questing in. Leave about 2 levels before the zone's top: past that, most of its quests sit 5 or more levels below you and give much less experience.</p>
+      <div class="route" id="routeZones"></div>
+    </div>
+    <div class="ncard">
+      <div class="eyebrow">Dungeons</div>
+      <div class="route" id="routeDungeons"></div>
+    </div>
+    <details>
+      <summary>Experience rules in Forever</summary>
+      <div class="dbody notes">
+        <p>Dungeon kills give 50% more experience since the November 8 hotfix. Dungeon quests give 50% less bonus experience than in the beta, so a dungeon is worth it for the kills.</p>
+        <p>In a group, kill experience depends only on your own level. But if anyone in the group is far above the enemy, nobody gets experience from it.</p>
+        <p>Quest experience in Classic drops once a quest is 6 levels below you: 80%, then 60%, 40%, 20% and finally 10%. Blizzard has not said whether Forever changed this, so the leave-by levels follow that rule.</p>
+        <p>Quest counts per zone are not published yet, except Riverglades with over 150. The daily check adds them when guides do.</p>
+        <p class="muted" style="font-size:13px">Sources: <a href="https://outputlag.com/guides/wow-forever-leveling-guide-1-60/" target="_blank" rel="noopener">Outputlag leveling guide</a>, <a href="https://topbuilds.gg/wow-forever/leveling/horde/" target="_blank" rel="noopener">TopBuilds Horde route</a>. Ranges for the original dungeons are their Classic values.</p>
+      </div>
+    </details>
+  </section>
+
+  <section data-mod="binds" aria-label="Your setup">
+    <div class="setupbar">
+      <button class="btn" type="button" id="copyLink">Copy my setup link</button>
+      <a class="btn" href="index.html?redo=1">Redo my setup</a>
+      <span class="muted" id="linkNote" style="font-size:13px">Your setup lives only in this browser. The link moves it to another device.</span>
+    </div>
+  </section>
+  <section data-mod="binds" aria-label="Reference">
+    <details>
+      <summary>Not on a key, click from the spellbook</summary>
+      <div class="dbody notes" id="unbound"></div>
+    </details>
+    <details class="personal-only">
+      <summary>Play notes</summary>
+      <div class="dbody notes">
+        <p>Forever is built to keep you in one form. Going into bear wipes the energy you saved, so in cat interrupt with War Stomp on <kbd>Shift</kbd> <kbd>X</kbd> first and keep the X route into bear as the backup.</p>
+        <p>Every shapeshift starts a global cooldown, about a second. /cancelform never does, which is why the middle mouse heal starts instantly.</p>
+        <p>Fire Shifting Power when your energy drops under 50 so none of the 40 is wasted. Your mana bar is hidden in forms, so turn on Options, Combat, Personal Resource Display.</p>
+        <p>Enrage gives 10 rage instantly in Forever, which is exactly what Bash costs. Furor also gives 10 rage when you enter bear.</p>
+        <p>Barkskin works in any form from level 44, so C becomes the same defensive everywhere. Faerie Fire is free in cat and bear with a 6 second cooldown.</p>
+        <p>Potions, bandages and most objects work without leaving form. Tranquility, Rebirth, Innervate and the buffs still need caster form: tap middle mouse first.</p>
+      </div>
+    </details>
+    <details>
+      <summary>Setting it up in game</summary>
+      <div class="dbody">
+        <ol class="steps">
+          <li>In Options, Keybindings, clear any default that sits on a key your bars use below.</li>
+          <li>Bind Action Bar 1, your main bar at the bottom of the screen, button 1 to 12 to the keys in the order shown. That bar swaps by itself with each form.</li>
+          <li>Bind the stance bar icons to the keys shown on the stance bar. Bear is the first icon and cat usually the third, counted from the left.</li>
+          <li>Turn on Action Bars 2, 3 and 4 in the game's action bar settings. Bind them in the order shown, pressing the mouse buttons themselves for Action Bar 4. Leave the side buttons unassigned in your mouse software.</li>
+          <li>Go into cat, bear and caster one at a time and drag that form's spells onto the main bar. Make the macros with <kbd>/macro</kbd>.</li>
+        </ol>
+      </div>
+    </details>
+  </section>
+</div>
+
+<dialog id="slotDlg" aria-labelledby="dlgTitle"><div class="dlg" id="dlgBody"></div></dialog>
+
+<button class="fab" id="chatFab" type="button" hidden>Ask Claude</button>
+<aside class="chat" id="chat" hidden aria-label="Chat with Claude">
+  <div class="chat-head"><b>Ask Claude</b><div style="display:flex;gap:6px"><button class="btn" id="chatClear" type="button">Clear</button><button class="x" id="chatClose" type="button" aria-label="Close chat">✕</button></div></div>
+  <div class="chat-log" id="chatLog" aria-live="polite"></div>
+  <form class="chat-form" id="chatForm"><textarea id="chatInput" placeholder="Ask about your binds or talents" aria-label="Message"></textarea><button class="btn primary" id="chatSend" type="submit">Send</button></form>
+</aside>
+
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const TIER = {spam:'var(--spam)', short:'var(--short)', mid:'var(--mid)', long:'var(--long)'};
+/* Class profile. Action Bar 1 shows a different page in each "state" that swaps it in game:
+   druid forms (bear, cat, caster; check moonkin in game), warrior stances (battle, defensive, berserker),
+   rogue stealth (its own bar page), priest shadowform. Classes without bar swaps have one state.
+   A spell usable in several states sits on the same key in each; everything else lives on bars that never swap. */
+const CLASS_PROFILE = {
+  cls: 'druid', stateLabel: 'Form',
+  states: {cat:{label:'Cat', c:'var(--cat)'}, bear:{label:'Bear', c:'var(--bear)'}, caster:{label:'Caster', c:'var(--caster)'}}
+};
+const FORMS = CLASS_PROFILE.states;
+const SPECS = {feral:{label:'Feral', ready:true}, resto:{label:'Restoration', ready:false}, pvp:{label:'PvP', ready:false}};
+
+const MACROS = {
+  clawpounce:{name:'Claw or Pounce', code:'#showtooltip\n/cast [stealth] Pounce; Claw', note:'In Prowl it casts Pounce, out of stealth Claw. Until you learn Pounce at 36 it does nothing in Prowl, so open with 1 Rake instead.'},
+  shredravage:{name:'Shred or Ravage', code:'#showtooltip\n/cast [stealth] Ravage; Shred', note:'In Prowl it casts Ravage, out of stealth Shred. Both need you behind the target. Until you learn Ravage at 32 it does nothing in Prowl, so open with 1 Rake instead.'},
+  enragebash:{name:'Enrage + Bash', code:'#showtooltip Bash\n/cast Enrage\n/cast Bash', note:'Enrage is off the global cooldown and gives 10 rage at once, exactly what Bash costs.'},
+  travel:{name:'Travel or Aquatic', code:'#showtooltip\n/cast [swimming] Aquatic Form; Travel Form', note:'One key for land and water.'},
+  dash:{name:'Cat, then Dash', code:'#showtooltip Dash\n/cast Dash\n/cast [noform][form:1] Cat Form', note:'In cat it Dashes. From caster or bear it goes cat, then Dashes on the next press. The 1 is bear, the first icon on your stance bar.'},
+  heal:{name:'Emergency Regrowth', code:'#showtooltip Regrowth\n/cancelform\n/cast [@target,help,nodead][@mouseover,help,nodead][@player] Regrowth', note:'Drops your form and heals your friendly target. With an enemy targeted it heals whoever you hover, otherwise you. Leaves you in caster form.'},
+  poison:{name:'Abolish Poison on mouseover', code:'#showtooltip\n/cast [@mouseover,help,nodead][@target,help,nodead][@player] Abolish Poison', note:'Cleanses whoever you hover, a name, a character or a party frame. Otherwise your friendly target, otherwise you.'},
+  curse:{name:'Remove Curse on mouseover', code:'#showtooltip\n/cast [@mouseover,help,nodead][@target,help,nodead][@player] Remove Curse', note:'Cleanses whoever you hover, a name, a character or a party frame. Otherwise your friendly target, otherwise you.'},
+  instant:{name:'Instant Rejuvenation', code:'#showtooltip Rejuvenation\n/cancelform\n/cast [@target,help,nodead][@mouseover,help,nodead][@player] Rejuvenation', note:'Same targeting, but instant: use it while moving or taking hits.'}
+};
+const S = (n, cd, t, role, x = {}) => ({n, cd, t, role, ...x});
+
+/* ===== profile: each player's own keys, kept only in their own browser =====
+   A private import link (#import=...) or the setup wizard (index.html) writes it. Nothing personal ships in this file. */
+const PROFILE_KEY = 'fc-profile';
+(function importFromLink(){
+  const m = location.hash.match(/^#import=([A-Za-z0-9_\-]+)/); if (!m) return;
+  try {
+    const b64 = m[1].replace(/-/g,'+').replace(/_/g,'/');
+    const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    const p = JSON.parse(new TextDecoder().decode(bytes));
+    if (p && p.profile && p.profile.binds){
+      localStorage.setItem(PROFILE_KEY, JSON.stringify(p.profile));
+      if (p.build) localStorage.setItem('fdk-build', JSON.stringify(p.build));
+    }
+  } catch(e){}
+  history.replaceState(null, '', location.pathname + '#binds');
+})();
+let PROFILE = null;
+try { PROFILE = JSON.parse(localStorage.getItem(PROFILE_KEY) || 'null'); } catch(e){}
+if (!PROFILE || !PROFILE.binds){ location.replace('index.html'); throw new Error('No setup yet, opening the setup wizard'); }
+const B = PROFILE.binds;
+const MAIN_KEYS = B.mainKeys;
+const JOB = B.job || {};
+const RACE_LABEL = PROFILE.raceLabel || 'Tauren', FACTION = PROFILE.faction || 'Horde';
+if (B.spec && SPECS[B.spec]){ Object.values(SPECS).forEach(v => v.ready = false); SPECS[B.spec].ready = true; if (B.specLabel) SPECS[B.spec].label = B.specLabel; }
+/* fill in cooldown, description and learn level from the spell list, unless the profile already has them */
+function hyd(x){
+  if (!x) return null;
+  const sp = SPELLS[x.base || x.n] || {};
+  return {cd: sp.cd || '', t: 'short', role: sp.d || '', ...(sp.lvl > 1 ? {lvl: sp.lvl} : {}), ...x};
+}
+const hydList = list => (list || []).map(x => ({...x, s: hyd(x.s)}));
+const UNBOUND = B.unbound || [];
+
+/* talents (Forever data from talentsforever.com): [name,row,col,max,req,desc] */
+const TREES = {
+  balance:{label:'Balance', list:[
+    ['Improved Wrath',1,2,5,null,'Wrath cast time down to 0.5 sec faster and up to 50% cheaper.'],
+    ['Genesis',1,3,5,null,'Periodic damage and healing up to 10%.'],
+    ['Moonglow',2,1,3,null,'Damaging spells up to 25% cheaper.'],
+    ['Improved Moonfire',2,2,2,null,'Moonfire damage and crit up to 10%.'],
+    ["Nature's Majesty",2,3,2,null,'Spell and melee crit up to 4%.'],
+    ["Nature's Reach",2,4,2,null,'Balance spell range up to 20%, hit up to 4%.'],
+    ['Improved Entangling Roots',3,1,3,null,'More root damage, takes more damage before breaking.'],
+    ["Nature's Splendor",3,3,1,"Nature's Majesty",'Longer Moonfire, Rejuvenation, Regrowth and Insect Swarm.'],
+    ['Insect Swarm',4,1,1,null,'Damage over time and lowers enemy hit by 2%.'],
+    ['Vengeance',4,2,5,'Improved Moonfire','Arcane and Nature crit damage up to 100% more.'],
+    ['Improved Starfire',4,3,5,null,'Starfire up to 0.5 sec faster, chance to stun.'],
+    ['Overgrowth',5,1,2,null,'Entangling Roots hits up to 2 more targets.'],
+    ["Nature's Grace",5,2,1,null,'Spell crits give 10% haste for 3 sec.'],
+    ['Eclipse',5,3,3,null,'Wrath speeds up your next two Starfires.'],
+    ['Moonfury',6,2,5,null,'Arcane and Nature damage up to 10%.'],
+    ['Moonkin Form',7,2,1,null,'Moonkin Form: armor, group crit, double Omen of Clarity.']
+  ]},
+  feral:{label:'Feral Combat', list:[
+    ['Ferocity',1,2,5,null,'Maul, Primal Bite, Swipe, Claw and Rake cost up to 5 less.'],
+    ['Furor',1,3,5,null,'Up to 100% chance for 10 rage entering bear. Keeps cat energy while you are out of cat.'],
+    ['Feral Swiftness',2,1,2,null,'Cat speed up to 30%, dodge up to 4%.'],
+    ['Feral Instinct',2,2,3,null,'Swipe damage up to 30%, harder to spot in Prowl.'],
+    ['Brutal Impact',2,3,2,null,'Bash and Pounce stun up to 1 sec longer, Bash cooldown up to 30 sec shorter.'],
+    ['Thick Hide',2,4,3,null,'More armor in bear, cat and moonkin.'],
+    ['Shredding Attacks',3,1,3,null,'Shred up to 18 energy cheaper, Lacerate cheaper.'],
+    ['Savage Fury',3,2,2,null,'Claw, Rake, Shred, Maul and Swipe up to 10% more damage.'],
+    ['Feral Charge',3,3,1,null,'Bear charge that roots and interrupts. Cat leap too.'],
+    ['Sharpened Claws',3,4,2,null,'Crit up to 6% in cat and bear.'],
+    ['Predatory Strikes',4,1,3,null,'Attack power in forms up to 150% of your level.'],
+    ['Lacerate',4,2,1,'Savage Fury','Stacking bear bleed with high threat.'],
+    ['Predatory Discipline',4,3,1,null,'Ferocious Bite no longer eats extra energy but still hits harder with it.'],
+    ['Blood Frenzy',4,4,2,'Sharpened Claws','Bear crits give rage, cat crits can give an extra combo point.'],
+    ['Leader of the Pack',5,2,1,null,'3% crit for your party in forms.'],
+    ['Natural Instinct',5,4,2,null,'Melee crit damage up to 20% more, heals scale with Intellect.'],
+    ['Rend and Tear',6,1,5,'Predatory Strikes','Up to 15% more melee damage on bleeding targets.'],
+    ['Natural Reaction',6,4,5,null,'Dodge up to 5%, rage when you dodge.'],
+    ['Primal Bite',7,2,1,'Leader of the Pack','Bear hit with very high threat, 6 sec cooldown.'],
+    ['Shifting Power',7,3,1,'Predatory Discipline','Cat: turn mana into 40 energy, 8 sec cooldown.']
+  ]},
+  resto:{label:'Restoration', list:[
+    ["Nature's Focus",1,2,5,null,'Nature and Arcane casts lose less time when hit.'],
+    ['Heart of the Wild',1,3,5,null,'Intellect up to 10%, bear Stamina up to 20%, cat Strength up to 10%.'],
+    ['Naturalist',2,1,5,null,'Healing Touch and Wild Growth faster, all damage up to 10%.'],
+    ['Reflection',2,2,3,null,'Up to 50% mana regeneration while casting.'],
+    ['Natural Shapeshifter',2,3,3,null,'Shapeshifts and Shifting Power up to 30% cheaper.'],
+    ['Subtlety',3,2,3,null,'Less threat from Nature and Arcane spells.'],
+    ['Gift of Nature',3,3,5,null,'All healing up to 10%.'],
+    ['Bloom',3,4,1,null,'Rejuvenation and Regrowth heal extra when they expire.'],
+    ['Tranquil Spirit',4,2,5,null,'Healing Touch and Tranquility up to 10% cheaper.'],
+    ['Improved Rejuvenation',4,3,3,null,'Rejuvenation up to 15% stronger.'],
+    ['Swiftmend',4,4,1,null,'Instant heal that consumes a Rejuvenation or Regrowth.'],
+    ["Nature's Swiftness",5,1,1,'Naturalist','Next Nature spell is instant, 3 min cooldown.'],
+    ['Living Spirit',5,2,3,null,'Spirit up to 15%.'],
+    ['Improved Tranquility',5,4,2,null,'Tranquility less threat and shorter cooldown.'],
+    ['Improved Regrowth',6,3,5,'Improved Rejuvenation','Regrowth crit chance up to 50%.'],
+    ['Wild Growth',7,2,1,'Living Spirit','Group heal over time.']
+  ]}
+};
+const TREE_ORDER = ['balance','feral','resto'];
+const PLAN = {
+  feral:[
+    ['feral','Ferocity',5,'Cheaper Maul and Swipe now, Claw and Rake later'],
+    ['feral','Thick Hide',3,'Armor in bear now and cat later',true],
+    ['feral','Feral Instinct',2,'Stronger Swipe for bear pulls. Opens row 3 for level 20',true],
+    ['feral','Sharpened Claws',2,'Crit in cat and bear'],
+    ['feral','Savage Fury',2,'More damage on all main attacks'],
+    ['feral','Feral Charge',1,'Bear charge and cat leap'],
+    ['feral','Feral Swiftness',2,'30% faster in cat'],
+    ['feral','Predatory Strikes',3,'Big attack power boost'],
+    ['feral','Leader of the Pack',1,'3% party crit'],
+    ['feral','Predatory Discipline',1,'Needed for Shifting Power'],
+    ['feral','Furor',3,'Keep cat energy when you drop out to heal'],
+    ['feral','Rend and Tear',5,'15% more damage on bleeding targets'],
+    ['feral','Shifting Power',1,'Mana into energy every 8 sec'],
+    ['feral','Furor',5,'Full energy kept between forms, 10 rage entering bear'],
+    ['feral','Blood Frenzy',2,'Extra combo points and rage on crits'],
+    ['feral','Primal Bite',1,'Tank: big threat hit on a short cooldown'],
+    ['feral','Lacerate',1,'Tank: stacking bleed that holds threat'],
+    ['feral','Natural Instinct',2,'More crit damage in both forms'],
+    ['feral','Feral Instinct',3,'Swipe holds packs better'],
+    ['feral','Natural Reaction',5,'Dodge for both forms, rage when you dodge'],
+    ['resto','Heart of the Wild',5,'Strength in cat, Stamina in bear'],
+    ['feral','Shredding Attacks',1,'Cheaper Shred and Lacerate']
+  ],
+  resto:[], pvp:[]
+};
+function expandPlan(spec){
+  const seq = []; const run = {}; let lvl = 10 - talentedR();
+  (PLAN[spec]||[]).forEach(([tree,name,to,why,filler],stepIdx)=>{
+    const k = tree+'|'+name; const from = run[k]||0;
+    for (let r = from+1; r <= to; r++) seq.push({tree,name,rank:r,level:lvl++,why,step:stepIdx,filler:!!filler});
+    run[k] = to;
+  });
+  return seq;
+}
+
+/* state */
+let spec = 'feral', form = 'cat';
+try { const v = JSON.parse(localStorage.getItem('fdk-ui')||'{}'); if (SPECS[v.spec]) spec = v.spec; if (FORMS[v.form]) form = v.form; } catch(e){}
+const saveUi = () => { try { localStorage.setItem('fdk-ui', JSON.stringify({spec, form})); } catch(e){} };
+let build = {level:10, name:'', legacy:{earned:0, picks:{}}, specs:{feral:{}, resto:{}, pvp:{}}};
+let selTalent = null;
+
+/* ===== bars ===== */
+let currentBars = [];
+function mainFor(sp, f){ if (!SPECS[sp].ready) return {}; return Object.fromEntries(Object.entries((B.main||{})[f]||{}).map(([k,v]) => [k, hyd(v)])); }
+function renderTabs(){
+  document.getElementById('specTabs').innerHTML = Object.entries(SPECS).map(([k,v]) =>
+    `<button class="tab" type="button" data-spec="${k}" aria-pressed="${k===spec}">${esc(v.label)}${v.ready?'':' <small>later</small>'}</button>`).join('');
+  document.getElementById('formTabs').innerHTML = Object.entries(FORMS).map(([k,v]) =>
+    `<button class="tab" type="button" data-form="${k}" style="--c:${v.c}" aria-pressed="${k===form}"><span class="dot"></span>${v.label}</button>`).join('');
+}
+function slotHTML(item, barId, i, isMain){
+  const s = item.s;
+  const empty = !s;
+  const sc = empty ? 'var(--line)' : TIER[s.t];
+  const badges = empty ? '' : `${s.lvl?`<span class="b-lvl">${s.lvl}</span>`:''}${s.macro?'<span class="b-mac">M</span>':''}`;
+  const notyet = !empty && s.lvl && s.lvl > (build.level||1);
+  return `<button type="button" class="slot ${isMain?'main':''} ${empty?'empty':''} ${notyet?'notyet':''}" data-bar="${barId}" data-i="${i}" style="--sc:${sc}">
+    <span class="s-top"><span class="s-key">${esc(item.key)}</span><span class="s-badges">${badges}</span></span>
+    <span class="s-name">${empty ? esc(item.job || 'Free slot') : esc(s.n)}</span>
+    <span class="s-cd">${empty ? '' : esc(s.cd)}</span></button>`;
+}
+function renderBars(){
+  document.documentElement.style.setProperty('--form', FORMS[form].c);
+  const main = mainFor(spec, form);
+  const ready = SPECS[spec].ready;
+  currentBars = [
+    {id:'main', title:`Action Bar 1 · ${FORMS[form].label}`, sub:'Your main bar at the bottom of the screen · swaps with your form', cls:'',
+      items: MAIN_KEYS.map((k,i)=>({key:k, s: main[k]||null, job: ready ? 'Free slot' : JOB[k], bind:`Action Bar 1 · Button ${i+1}`})), main:true},
+    {id:'stance', title:'Stance bar', sub:'The form icons just above Action Bar 1 · same in every form', cls:'n2', items: hydList(B.stance)},
+    {id:'left', title: B.leftTitle || 'Action Bar 2 · Shift keys', sub:'Same in every form', cls:'n10',
+      items: hydList(B.left).map((x,i)=>({...x, bind:`Action Bar 2 · Button ${i+1}`}))},
+    {id:'alt', title:'Action Bar 3 · Alt keys', sub:'Rarely used spells · same in every form', cls:'n4',
+      items: hydList(B.alt).map((x,i)=>({...x, bind:`Action Bar 3 · Button ${i+1}`}))},
+    {id:'mouse', title:'Action Bar 4 · Mouse', sub:'Same in every form', cls:'n4',
+      items: hydList(B.mouse).map((x,i)=>({...x, bind:`Action Bar 4 · Button ${i+1} · ${x.label}`}))}
+  ].filter(b => b.items.length);
+  document.getElementById('specNote').innerHTML = ready ? '' :
+    `<div class="placeholder">${esc(SPECS[spec].label)} is not planned yet. The main bar shows the job each key will keep, and the other bars stay the same in every spec. Fill its talent tree below whenever you want, and plan it with your AI coach.</div>`;
+  document.getElementById('bars').innerHTML = currentBars.map(b => `
+    <div class="bar"><div class="bar-head"><b>${esc(b.title)}</b><span>${esc(b.sub)}</span></div>
+    <div class="slots ${b.cls}">${b.items.map((it,i)=>slotHTML(it,b.id,i,b.main)).join('')}</div></div>`).join('');
+}
+const dlg = document.getElementById('slotDlg');
+function openSlot(barId, i){
+  const bar = currentBars.find(b=>b.id===barId); if (!bar) return;
+  const it = bar.items[i]; const s = it.s;
+  let h = `<div class="dlg-head"><div><div class="eyebrow">${esc(bar.title)}</div><h3 id="dlgTitle">${esc(s ? s.n : (it.job||'Free slot'))}</h3></div><button class="x" type="button" data-close aria-label="Close">✕</button></div>
+    <div class="chips"><span class="chip">Key ${esc(it.key)}</span>${it.bind?`<span class="chip">${esc(it.bind)}</span>`:''}${s?`<span class="chip cd" style="--cc:${TIER[s.t]}">${esc(s.cd)}</span>`:''}${s&&s.lvl?`<span class="chip">Level ${s.lvl}</span>`:''}</div>`;
+  if (s) h += `<p>${esc(s.role)}</p>`;
+  else h += `<p class="muted">${SPECS[spec].ready ? 'Free slot, nothing assigned yet.' : 'This key keeps its job in every spec. Plan it with your AI coach using the copy button.'}</p>`;
+  if (s && s.macro){
+    const m = MACROS[s.macro];
+    h += `<div class="eyebrow">Macro · ${esc(m.name)}</div><pre id="macroCode">${esc(m.code)}</pre><p class="muted" style="font-size:13.5px">${esc(m.note)}</p>
+      <div><button class="btn primary" type="button" id="copyMacro">Copy macro</button></div>`;
+  }
+  document.getElementById('dlgBody').innerHTML = h;
+  linkify(document.getElementById('dlgBody'));
+  dlg.showModal();
+  const cb = document.getElementById('copyMacro');
+  if (cb) cb.addEventListener('click', () => {
+    const text = MACROS[s.macro].code;
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('macroCode')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); cb.textContent = 'Selected, press Ctrl C'; };
+    try { navigator.clipboard.writeText(text).then(()=>{ cb.textContent = 'Copied'; setTimeout(()=>cb.textContent='Copy macro',1400); }, fallback); } catch(e){ fallback(); }
+  });
+}
+dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
+document.getElementById('bars').addEventListener('click', e => { const b = e.target.closest('.slot'); if (b) openSlot(b.dataset.bar, +b.dataset.i); });
+document.getElementById('specTabs').addEventListener('click', e => { const b = e.target.closest('[data-spec]'); if (!b) return; spec = b.dataset.spec; selTalent = null; saveUi(); renderAll(); });
+document.getElementById('formTabs').addEventListener('click', e => { const b = e.target.closest('[data-form]'); if (!b) return; form = b.dataset.form; saveUi(); renderTabs(); renderBars(); });
+
+/* ===== talents ===== */
+const T = {}; TREE_ORDER.forEach(tr => TREES[tr].list.forEach(([name,row,col,max,req,desc]) => { T[tr+'|'+name] = {tree:tr,name,row,col,max,req,desc}; }));
+const picks = () => simMode ? (activeSim().picks[spec] ||= {}) : (build.specs[spec] ||= {});
+const pts = (tr,name) => (picks()[tr]?.[name]) || 0;
+const treeTotal = tr => Object.values(picks()[tr]||{}).reduce((a,b)=>a+b,0);
+const spent = () => TREE_ORDER.reduce((a,tr)=>a+treeTotal(tr),0);
+const avail = () => simMode ? simBudget() : Math.min(51, Math.max(0, (build.level||1) - 9 + talentedR()));
+function setPts(tr,name,v){ const p = picks(); p[tr] ||= {}; if (v<=0) delete p[tr][name]; else p[tr][name] = v; }
+function canAdd(t){
+  if (spent() >= 51) return 'All 51 points are spent';
+  if (simMode && sims().lock && spent() >= realAvail()) return `Locked to level ${build.level}: no points left`;
+  if (pts(t.tree,t.name) >= t.max) return 'Already maxed';
+  if (treeTotal(t.tree) < 5*(t.row-1)) return `Needs ${5*(t.row-1)} points in ${TREES[t.tree].label}`;
+  if (t.req){ const r = T[t.tree+'|'+t.req]; if (pts(t.tree,t.req) < r.max) return `Needs ${t.req} maxed`; }
+  return '';
+}
+function canRemove(t){
+  const cur = pts(t.tree,t.name); if (!cur) return 'No points here';
+  const dep = TREES[t.tree].list.find(x => x[4]===t.name && pts(t.tree,x[0])>0);
+  if (dep) return `${dep[0]} depends on it`;
+  setPts(t.tree,t.name,cur-1);
+  let bad = '';
+  for (const x of TREES[t.tree].list){
+    const [n,row] = x; if (row>1 && pts(t.tree,n)>0){
+      const below = TREES[t.tree].list.filter(y=>y[1]<row).reduce((a,y)=>a+pts(t.tree,y[0]),0);
+      if (below < 5*(row-1)){ bad = `${n} needs the points above it`; break; }
+    }
+  }
+  setPts(t.tree,t.name,cur);
+  return bad;
+}
+/* Recalculates the rest of the plan from what is actually trained: each future level takes the
+   earliest planned point that is still missing and legal in the tree at that moment. */
+function project(){
+  const seq = expandPlan(spec); if (!seq.length) return null;
+  const p = JSON.parse(JSON.stringify(picks()));
+  const get = (tr,n) => (p[tr]?.[n]) || 0;
+  const tt = tr => Object.values(p[tr]||{}).reduce((a,b)=>a+b,0);
+  const legal = t => get(t.tree,t.name) < t.max && tt(t.tree) >= 5*(t.row-1) && (!t.req || get(t.tree,t.req) >= T[t.tree+'|'+t.req].max);
+  const out = []; let level = spent() + 10 - talentedR();
+  while (level <= 60 && spent() + out.length < 51){
+    // when behind schedule, early row-opening fillers wait if a more useful planned point is already possible
+    const ok = x => get(x.tree,x.name) < x.rank && legal(T[x.tree+'|'+x.name]);
+    const useful = x => useAt(x.name) <= level;
+    const c = seq.find(x => ok(x) && useful(x) && !(x.filler && x.level < level)) || seq.find(x => ok(x) && useful(x)) || seq.find(ok);
+    if (!c) break;
+    p[c.tree] ||= {}; p[c.tree][c.name] = get(c.tree,c.name) + 1;
+    out.push({tree:c.tree, name:c.name, rank:p[c.tree][c.name], level, why:c.why});
+    level++;
+  }
+  return out;
+}
+function nextStep(){
+  const pr = project(); if (!pr) return null;
+  return pr[0] || 'done';
+}
+function offPlan(){
+  const seq = expandPlan(spec); if (!seq.length) return [];
+  const target = {}; seq.forEach(p => target[p.tree+'|'+p.name] = Math.max(target[p.tree+'|'+p.name]||0, p.rank));
+  const out = [];
+  TREE_ORDER.forEach(tr => Object.entries(picks()[tr]||{}).forEach(([n,v]) => { const tg = target[tr+'|'+n]||0; if (v>tg) out.push(`${n} (${v-tg} extra)`); }));
+  return out;
+}
+function renderTalents(){
+  document.getElementById('lvl').value = build.level;
+  const left = avail() - spent();
+  document.getElementById('ptsInfo').innerHTML = `<b>${spent()}</b> of ${avail()} points ${simMode?'in the simulator':'spent'} · ${TREE_ORDER.map(tr=>`${TREES[tr].label} ${treeTotal(tr)}`).join(' · ')}`;
+  const seq = expandPlan(spec);
+  const nx = nextStep();
+  const nextKey = !simMode && nx && nx !== 'done' ? nx.tree+'|'+nx.name : null;
+  // plan badges: step number of first appearance
+  const planNum = {}; (PLAN[spec]||[]).forEach(([tr,n],i)=>{ const k=tr+'|'+n; if(!(k in planNum)) planNum[k]=i+1; });
+  // next card
+  let nc;
+  const off = simMode ? [] : offPlan();
+  document.body.classList.toggle('sim', simMode);
+  document.getElementById('modeMine').setAttribute('aria-pressed', String(!simMode)); document.getElementById('modeSim').setAttribute('aria-pressed', String(simMode));
+  document.getElementById('actMine').hidden = simMode; document.getElementById('actSim').hidden = !simMode;
+  renderSimBox();
+  if (simMode){ const a = activeSim(); const pr = a.goal && PRESETS[a.goal]; nc = `<div class="eyebrow" style="color:var(--caster)">Simulator · ${esc(a.name)}</div><strong>${pr ? esc(pr.label) : 'Test a build without touching yours'}</strong><p class="muted">${pr ? esc(pr.why) + ' ' : ''}${sims().lock ? `Locked to your level: ${realAvail()} points.` : 'Up to 51 points, as at level 60.'} Green is what this build adds, red what it drops compared with yours.</p>`; }
+  else if (!seq.length) nc = `<div class="eyebrow">Next point</div><strong>No plan for ${esc(SPECS[spec].label)} yet</strong><p class="muted">Fill in what you trained and ask your AI coach to suggest a build.</p>`;
+  else if (nx === 'done') nc = `<div class="eyebrow">Next point</div><strong>Plan complete</strong><p class="muted">Every planned talent is trained.</p>`;
+  else {
+    const pr = project();
+    const sp = pr.find(x => x.name === 'Shifting Power');
+    const spLine = spec === 'feral' && pts('feral','Shifting Power') === 0 ? (sp ? ` Shifting Power lands at level ${sp.level}${sp.level>40?', later than the ideal 40 because of points spent elsewhere':''}.` : '') : '';
+    if (left <= 0) nc = `<div class="eyebrow">Next point · level ${nx.level}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}. No point to spend until level ${nx.level}.${spLine}</p>`;
+    else nc = `<div class="eyebrow">Next point · spend it now · ${esc(TREES[nx.tree].label)}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}.${left>1?` You have ${left} points to spend, follow the order below.`:''}${spLine}</p>`;
+  }
+  if (off.length) nc += `<p class="muted" style="font-size:13px">Off plan: ${esc(off.join(', '))}. Ask your AI coach whether to keep them.</p>`;
+  document.getElementById('nextCard').innerHTML = nc;
+  // trees
+  document.getElementById('trees').innerHTML = TREE_ORDER.map(tr => {
+    const cells = TREES[tr].list.map(([name,row,col,max]) => {
+      const t = T[tr+'|'+name]; const p = pts(tr,name);
+      const open = !canAdd(t) || (p>0);
+      let cls = p>=max ? 'full' : p>0 ? 'some' : (canAdd(t)==='' ? 'open' : (treeTotal(tr) < 5*(row-1) || (t.req && pts(tr,t.req) < T[tr+'|'+t.req].max) ? 'locked' : ''));
+      const k = tr+'|'+name;
+      const dd = simMode ? p - realPts(tr,name) : 0; if (p > 0 && useAt(name) > viewLevel()) cls += ' early'; if (dd > 0) cls += ' gain'; else if (dd < 0) cls += ' miss';
+      return `<button type="button" class="tc ${cls} ${planNum[k]?'plan':''} ${k===nextKey?'isnext':''} ${k===selTalent?'sel':''}" ${planNum[k]?`data-plan="${planNum[k]}"`:''} data-t="${esc(k)}" style="grid-row:${row};grid-column:${col}" aria-label="${esc(name)} ${p} of ${max}">
+        <span class="tn ${Math.max(...name.split(' ').map(w=>w.length))>8?'tight':''}">${esc(name)}</span><span class="tp">${p}/${max}</span>${dd ? `<span class="dl ${dd>0?'up':'down'}">${dd>0?'+':'−'}${Math.abs(dd)}</span>` : ''}</button>`;
+    }).join('');
+    return `<div class="tree"><div class="tree-head"><h3>${esc(TREES[tr].label)}</h3><span>${treeTotal(tr)}</span></div><div class="tgrid">${cells}</div></div>`;
+  }).join('');
+  renderDetail();
+  // plan table: remaining points, recalculated from the current build
+  const steps = PLAN[spec]||[];
+  const pr = project() || [];
+  const groups = [];
+  pr.forEach(x => { const g = groups[groups.length-1]; if (g && g.name===x.name && g.tree===x.tree) { g.to = x.level; g.rank = x.rank; } else groups.push({...x, from:x.level, to:x.level}); });
+  const rows = groups.map((g,i) => `<tr class="${i===0?'isnext':''}"><th>${g.from===g.to?g.from:g.from+' to '+g.to}${g.from<=build.level?' · now':''}</th><td>${esc(g.name)}</td><td>${g.rank}/${T[g.tree+'|'+g.name].max}</td><td>${esc(TREES[g.tree].label)}</td><td>${esc(g.why)}</td></tr>`).join('');
+  document.getElementById('planTable').innerHTML = !steps.length ? `<tbody><tr><td>No plan yet for this spec.</td></tr></tbody>`
+    : groups.length ? `<thead><tr><th>Level</th><th>Talent</th><th>Up to</th><th>Tree</th><th>Why</th></tr></thead><tbody>${rows}</tbody>`
+    : `<tbody><tr><td>Every planned point is trained.</td></tr></tbody>`;
+  document.getElementById('planBox').hidden = !steps.length || simMode;
+  if (typeof renderGains === 'function') renderGains();
+}
+document.getElementById('lvl').addEventListener('change', e => { let v = Math.round(+e.target.value||1); v = Math.min(60, Math.max(1, v)); build.level = v; changed(); });
+document.getElementById('fillPlan').addEventListener('click', () => {
+  const seq = expandPlan(spec); if (!seq.length) return;
+  build.specs[spec] = {};
+  seq.filter(p => p.level <= build.level).forEach(p => setPts(p.tree,p.name,p.rank));
+  changed();
+});
+let resetArmed = false;
+document.getElementById('resetTree').addEventListener('click', e => {
+  const b = e.currentTarget;
+  if (!resetArmed){ resetArmed = true; b.textContent = 'Tap again to reset'; setTimeout(()=>{ resetArmed=false; b.textContent='Reset'; }, 3000); return; }
+  resetArmed = false; b.textContent = 'Reset'; build.specs[spec] = {}; selTalent = null; changed();
+});
+
+/* ===== persistence: db, else browser ===== */
+let dbRef = null, canWrite = true, saveTimer = null, saving = false, again = false;
+const statusEl = document.getElementById('saveStatus');
+function localLoad(){ try { const v = JSON.parse(localStorage.getItem('fdk-build')||'null'); if (v && v.specs) build = v; } catch(e){} }
+function localSave(){ try { localStorage.setItem('fdk-build', JSON.stringify(build)); } catch(e){} }
+function changed(){ refreshAll(); if (!canWrite) return; localSave(); clearTimeout(saveTimer); saveTimer = setTimeout(flush, 700); statusEl.textContent = 'Saving…'; }
+async function flush(){
+  saveTimer = null;
+  if (!dbRef){ statusEl.textContent = 'Saved in this browser'; return; }
+  if (saving){ again = true; return; }
+  saving = true;
+  try { await dbRef.set(JSON.parse(JSON.stringify(build))); statusEl.textContent = 'Saved'; }
+  catch(e){ if (e && e.code === 'invalid_argument'){ canWrite = false; statusEl.textContent = 'Read only, not saved'; renderDetail(); } else statusEl.textContent = 'Could not save, try again in a moment'; }
+  saving = false; if (again){ again = false; flush(); }
+}
+localLoad();
+(async () => {
+  if (!window.claude?.use) return;
+  const db = await claude.use('db');
+  if (!db) return;
+  try { const u = await claude.use('user'); if (u && typeof u.isOwner === 'function'){ const own = await Promise.resolve(u.isOwner()); if (own === false){ canWrite = false; renderDetail(); } } } catch(e){}
+  dbRef = db.doc('builds/main');
+  const timer = setTimeout(() => { statusEl.textContent = 'Saved talents cannot be reached yet'; }, 10000);
+  dbRef.onSnapshot(snap => {
+    if (!snap.metadata.fromCache) { clearTimeout(timer); if (statusEl.textContent.startsWith('Saved talents')) statusEl.textContent = ''; }
+    if (snap.metadata.hasPendingWrites || saveTimer || saving) return;
+    if (snap.exists && PROFILE.personal){ const d = snap.data(); if (d && d.specs){ build = JSON.parse(JSON.stringify(d)); build.specs.feral ||= {}; build.specs.resto ||= {}; build.specs.pvp ||= {}; build.legacy ||= {earned:0, picks:{}}; sims(); refreshAll(); } }
+  }, () => { clearTimeout(timer); statusEl.textContent = 'Saving in this browser only'; dbRef = null; });
+})();
+
+/* ===== unbound ===== */
+document.getElementById('unbound').innerHTML = UNBOUND.map(([n,l,w]) => `<p><b style="font-family:var(--cond);font-weight:600">${esc(n)}</b>${l?` <span class="muted">· level ${l}</span>`:''}. ${esc(w)}.</p>`).join('');
+
+/* ===== chat ===== */
+const fab = document.getElementById('chatFab'), chat = document.getElementById('chat'), log = document.getElementById('chatLog');
+const input = document.getElementById('chatInput'), sendBtn = document.getElementById('chatSend');
+let sample = null, turns = [], ctl = null, busy = false;
+try { const v = JSON.parse(localStorage.getItem('fdk-chat')||'[]'); if (Array.isArray(v)) turns = v.slice(-30); } catch(e){}
+const saveChat = () => { try { localStorage.setItem('fdk-chat', JSON.stringify(turns.slice(-30))); } catch(e){} };
+function contextTurn(){
+  const bars = {main: Object.fromEntries(Object.keys(FORMS).map(f => [f, mainFor(spec, f)])), stance: hydList(B.stance).map(x=>({key:x.key,...x.s})), bottomLeft: hydList(B.left).map(x=>({key:x.key,...x.s})), altLayer: hydList(B.alt).map(x=>({key:x.key,...(x.s||{n:'unknown, the player will say'})})), mouse: hydList(B.mouse).map(x=>({key:x.key,...x.s}))};
+  const nx = nextStep();
+  const data = {
+    character:{name: build.name||'', race: RACE_LABEL, class:'Druid', faction: FACTION},
+    viewing:{spec: SPECS[spec].label, form},
+    legacyPerks: build.legacy, legacyNote:'Talented ranks make talent points start that many levels earlier; level = points spent + 9 - Talented ranks.',
+    levelingZones: ZONES, dungeons: DUNGEONS,
+    characterLevel: build.level, pointsAvailable: avail(), pointsSpent: spent(),
+    trainedTalents: build.specs, nextPlannedPoint: nx==='done'?'plan complete':nx, remainingOrderFromCurrentBuild: project(),
+    feralLevelingPlanInOrder: PLAN.feral.map(([tr,n,to,why])=>({tree:tr,talent:n,rankTo:to,why})),
+    talentTrees: Object.fromEntries(TREE_ORDER.map(tr=>[tr, TREES[tr].list.map(([n,r,c,m,q,d])=>({n,row:r,col:c,max:m,req:q,d}))])),
+    feralKeybinds: bars, macros: MACROS, unboundSpells: UNBOUND
+  };
+  return `You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell him to check the tooltip in game.
+Layout logic to keep: the main bar keys ${MAIN_KEYS.join(' ')} change per form, and each key keeps the same job in every form (${Object.entries(JOB).map(([k,j]) => k + ' ' + j).join(', ')}). A spell usable in several forms sits on the same key in each. The modifier layer, stance bar and mouse bars are the same in every form and hold long cooldowns.${PROFILE.answers && PROFILE.answers.hard ? ' Keys the player cannot reach comfortably, never use them: ' + PROFILE.answers.hard.join(' ') + '.' : ''} Keep macros minimal, never two global cooldown spells in one macro. Talents: one point per level from 10, a new row every 5 points in a tree, and an arrow requirement means the talent above must be maxed.
+Write in plain prose only, with no bullet points, numbered lists, dashes as list markers, bold, headers or symbols. Keep answers short and concrete. You cannot edit this page. If the player wants a different layout, tell them to use Redo my setup on the Keybinds tab, or to move spells in game and keep notes.
+Current page data as JSON:
+${JSON.stringify(data)}`;
+}
+function renderChat(){
+  if (!turns.length){
+    log.innerHTML = `<div class="chat-empty">Ask about your binds, a macro, or where your next talent point should go. I can read your trained talents and level from this page.<br><button class="btn" type="button" data-q="Look at my trained talents and level. Where should my next point go, and is anything off?">Check my talents</button></div>`;
+    return;
+  }
+  log.innerHTML = turns.map(t => `<div class="msg ${t.role==='user'?'u':'a'} ${t.err?'err':''}">${esc(t.content)}</div>`).join('');
+  log.scrollTop = log.scrollHeight;
+}
+const ERR = {not_granted:'Claude is not allowed on this page. You can allow it from the page permissions.', sampling_disabled:'Claude is not available for this account.', rate_limited:'Too many questions right now. Try again in a minute.', session_expired:'Please sign in again.', refused:'Claude could not answer that. Try asking it another way.', prompt_too_large:'The conversation got too long. Tap Clear and ask again.'};
+async function ask(text){
+  if (!sample || busy || !text.trim()) return;
+  busy = true; sendBtn.textContent = 'Stop';
+  turns.push({role:'user', content:text.trim()}); saveChat(); renderChat();
+  const bubble = document.createElement('div'); bubble.className = 'msg a'; bubble.textContent = 'Thinking…'; log.appendChild(bubble); log.scrollTop = log.scrollHeight;
+  ctl = new AbortController();
+  const history = turns.filter(t=>!t.err).slice(-14).map(t=>({role:t.role, content:t.content}));
+  try {
+    const {text: ans} = await sample([{role:'user', content: contextTurn()}, ...history], {cache:false, signal: ctl.signal, onText: ({text}) => { bubble.textContent = text; log.scrollTop = log.scrollHeight; }});
+    turns.push({role:'assistant', content: ans});
+  } catch(e){
+    if (e && e.code === 'cancelled'){ if (e.text) turns.push({role:'assistant', content: e.text}); }
+    else { if (e && e.text) turns.push({role:'assistant', content:e.text}); turns.push({role:'assistant', content: ERR[e?.code] || 'Something went wrong. Try again.', err:true}); if (e?.code==='not_granted'||e?.code==='sampling_disabled'){ fab.hidden = true; } }
+  }
+  busy = false; ctl = null; sendBtn.textContent = 'Send'; saveChat(); renderChat();
+}
+document.getElementById('chatForm').addEventListener('submit', e => { e.preventDefault(); if (busy){ ctl?.abort(); return; } const v = input.value; input.value = ''; ask(v); });
+input.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); document.getElementById('chatForm').requestSubmit(); } });
+log.addEventListener('click', e => { const b = e.target.closest('[data-q]'); if (b) ask(b.dataset.q); });
+fab.addEventListener('click', () => { if (!sample){ copyForAI(); return; } chat.hidden = false; fab.hidden = true; renderChat(); input.focus(); });
+document.getElementById('chatClose').addEventListener('click', () => { chat.hidden = true; fab.hidden = !sample; });
+document.getElementById('chatClear').addEventListener('click', () => { if (busy) ctl?.abort(); turns = []; saveChat(); renderChat(); });
+function copyForAI(){
+  const text = contextTurn();
+  const done = () => { fab.textContent = 'Copied, paste it into any AI'; setTimeout(() => fab.textContent = 'Copy my setup for an AI', 2200); };
+  try { navigator.clipboard.writeText(text).then(done, () => { fab.textContent = 'Copy blocked by the browser'; }); } catch(e){ fab.textContent = 'Copy blocked by the browser'; }
+}
+(async () => {
+  if (window.claude?.use){ sample = await claude.use('sample'); if (sample){ fab.hidden = false; return; } }
+  fab.textContent = 'Copy my setup for an AI'; fab.hidden = false;
+})();
+
+/* ===== news (kept current by the daily check) ===== */
+const MY_CLASS = 'druid';
+const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
+const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
+const NEWS = {
+  checked: '2026-11-09',
+  milestones: [
+    {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
+      [null,'Everyone starts at level 1. Beta characters were wiped.'],
+      [null,'Realms are replaced by rulesets: Normal, PvP, Roleplay and Roleplay PvP.'],
+      [null,'On first login you pick Classic or Enhanced experience speed. You can change it later in Options.']]},
+    {name:'Class tuning', date:'2026-11-10', detail:'Hotfixes Blizzard announced for Tuesday. More may follow on later Tuesdays.', source:'https://www.warcrafttavern.com/forever/news/class-tuning-coming-for-shamans-warlocks-hunter-pets-in-wow-forever/', items:[
+      ['hunter','Pets made tougher as tanks, close to how they were in Classic Era.'],
+      ['warlock','Voidwalker made tougher as a tank.'],
+      ['warlock','Affliction: damage over time spells made worth casting next to Wrack, without raising total damage.'],
+      ['shaman','Enhancement: Strength and Attack Power made better than Intellect and Spell Power.']]},
+    {name:'First raids', date:'2026-12-09', detail:'The first raids open for level 60 characters.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
+      [null,'Barrow Deeps'],[null,'Hyjal Summit'],[null,"Onyxia's Lair"]]},
+    {name:'Hardcore', date:null, detail:'Blizzard has announced the Hardcore ruleset for after launch, with no date yet.', source:'https://www.zockify.com/forever/', items:[
+      [null,'The launch roadmap placed it in winter 2026.']]}
+  ],
+  announced: [
+    ['Nov 8','XP','Dungeon enemy kill experience raised by 50%. Dungeon quest experience unchanged.','https://eu.forums.blizzard.com/en/wow/t/dungeon-enemy-xp-increased-8-november/640598'],
+    ['Nov 6','Fix','Vorsha the Lasher quest in Ashenvale works again.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-6-2026'],
+    ['Nov 5','Issue','PvP vendors unavailable in the capitals. No fix date yet.','https://www.warcrafttavern.com/forever/news/pvp-vendors-unavailable-other-known-issues-in-wow-forever/'],
+    ['Nov 4','Launch','Forever is live. Classic or Enhanced experience speed can be changed in Options.','https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/']
+  ],
+  /* rows: [date, text, planned?] newest first */
+  changes: {
+    general:[
+      ['Nov 6','Other players and their targets are easier to see at long distance.'],
+      ['Nov 6','Night Elf druids no longer get Ravage and Pounce in Shadowmeld.'],
+      ['Nov 5','Plainsrunning no longer stacks in battlegrounds and drops when you carry a flag.'],
+      ['Nov 2','New spells no longer go onto your bars by themselves. Drag each one in.'],
+      ['Nov 2','Roots from item procs have diminishing returns. Battleground Quitter debuff lasts 40 seconds.'],
+      ['Nov 2','Racials: Dwarf +1% hit, Human Spirit 10%, Orc Blood Fury every 2 min, Plainsrunning up to 60%, Berserking 15 sec, Touch of the Grave every 15 sec.']
+    ],
+    druid:[
+      ['Nov 6','Bloom now heals its target. Tooltip fixes for Bear Form, Ravage and Swiftmend.'],
+      ['Nov 2','Shred 200% weapon damage, Claw 140%, Ravage 435%. Rip, Rake, Ferocious Bite and Pounce about 25% stronger.'],
+      ['Nov 2','Bear threat raised to 115%. Lacerate is now a Feral talent.'],
+      ['Nov 2','New passive Poised at 32: next energy ability costs 10 less. Ferocious Bite rank 1 at 24.'],
+      ['Nov 2','Starfire about 40% stronger. Swiftmend needs your own HoT. Berserk removed.']
+    ],
+    hunter:[
+      ['Nov 10','Pets to be made tougher as tanks.',true],
+      ['Nov 2','All traps share a 30 second cooldown. Hunter\'s Mark ranks no longer stack.'],
+      ['Nov 2','Aimed Shot about 110% more bonus damage, Arcane Shot about 30% more, Serpent Sting stronger.'],
+      ['Nov 2','Aspect of the Hawk, Trueshot Aura, Barrage and Lightning Reflexes buffed.']
+    ],
+    mage:[
+      ['Nov 6','Arcane Blast lasts 18 seconds. Study is the only spell from the Research quest.'],
+      ['Nov 2','Ice Lance and Fire Blast share an 8 second cooldown. Frozen targets take 300% again.'],
+      ['Nov 2','Arcane Blast cost per stack 100%, damage per stack 12%. Missile Barrage used at the start of Arcane Missiles.'],
+      ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
+    ],
+    paladin:[
+      ['Nov 2','Righteous Fury at level 10, +33% threat and 90% more threat from Holy damage.'],
+      ['Nov 2','Salvation, Mass Salvation, Revoke and Blessing of Light removed.'],
+      ['Nov 2','New talents Oath of Light, Boundless Light, Stoicism, Shieldsworn, and Unsealed Wrath at 31 points.'],
+      ['Nov 2','Conviction gives 2/4/6% crit to all spells and attacks. Vengeance stacks 5 times.']
+    ],
+    priest:[
+      ['Nov 2','Binding Heal replaced by Holy Binding: 50% of Flash Heal also heals you.'],
+      ['Nov 2','Shadow Word: Death costs 30% of your health if it fails to kill, nothing on a miss.'],
+      ['Nov 2','Vampiric Embrace can no longer crit. Cure and Abolish Disease no longer remove Shadowform.']
+    ],
+    rogue:[
+      ['Nov 6','Shank tooltips show both ranks and the Boot Knife combo points.'],
+      ['Nov 2','New Shank at 24: 5 energy, 10 sec cooldown, gives 15 energy, cannot miss. Rank 2 at 44.'],
+      ['Nov 2','New passive Poised at 18: next energy ability costs 10 less. Poison scaling doubled.'],
+      ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
+    ],
+    shaman:[
+      ['Nov 10','Enhancement: Strength to become better than Intellect and Spell Power.',true],
+      ['Nov 2','Windfury Weapon and Totem give an extra swing. Totemic Call every 30 seconds.'],
+      ['Nov 2','Stormstrike 150% weapon damage, 6 sec cooldown. Chain Lightning 2.5 sec cast.'],
+      ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
+    ],
+    warlock:[
+      ['Nov 10','Voidwalker tougher as a tank. Affliction DoTs made worth casting next to Wrack.',true],
+      ['Nov 6','Voidwalker health about 40 higher at all levels. Soul Siphon no longer boosts Wrack by mistake.'],
+      ['Nov 2','Wrack scaling doubled. Pets get 2 health per point of your Stamina.'],
+      ['Nov 2','Drain Soul gives shards much less often. Spellstones only boost Shadow. Training cheaper.']
+    ],
+    warrior:[
+      ['Nov 6','Reckless Swings tooltip mentions Gore Drinker.'],
+      ['Nov 2','Defensive Stance threat 80%. Slam cooldown 15 seconds. Defiance up to 20% threat.'],
+      ['Nov 2','Bloodthirst requires Death Wish. New Fury talents Reckless Swings and Improved Whirlwind.'],
+      ['Nov 2','Tauren warriors start with 5 more Strength than Humans.']
+    ]
+  },
+  doc: 'https://claude.ai/artifact/CAmjbTFQHH5sdKbDxkSRzZ'
+};
+const CLASS_ORDER = ['general','druid','hunter','mage','paladin','priest','rogue','shaman','warlock','warrior'];
+let newsClass = MY_CLASS;
+try { const v = localStorage.getItem('fdk-newsclass'); if (v && NEWS.changes[v]) newsClass = v; } catch(e){}
+const cap1 = s => s.charAt(0).toUpperCase() + s.slice(1);
+const dayMs = 86400000;
+const fmtDay = iso => new Date(iso+'T12:00:00').toLocaleDateString('en-GB',{day:'numeric',month:'short'});
+let selMs = null;
+function renderMilestones(){
+  const now = Date.now();
+  const T = m => m.date ? Date.parse(m.date+'T00:00:00') : null;
+  const dated = NEWS.milestones.filter(m=>m.date).sort((a,b)=>T(a)-T(b));
+  const all = dated.concat(NEWS.milestones.filter(m=>!m.date));
+  const n = all.length, xs = all.map((m,i) => n === 1 ? 0 : i/(n-1)*100);
+  const next = dated.find(m => T(m) > now);
+  // milestones are evenly spaced; today sits proportionally inside its segment
+  let tx; const i = dated.findIndex(m => T(m) > now);
+  if (i === -1) tx = xs[dated.length-1] + (dated.length < n ? (xs[dated.length]-xs[dated.length-1])*0.15 : 0);
+  else if (i === 0) tx = 0;
+  else { tx = xs[i-1] + (now - T(dated[i-1])) / (T(dated[i]) - T(dated[i-1])) * (xs[i] - xs[i-1]); tx = Math.min(Math.max(tx, xs[i-1] + 6), xs[i] - 6); }
+  const days = m => Math.ceil((T(m) - now) / dayMs);
+  const left = m => { const d = days(m); return d===1 ? 'tomorrow' : 'in '+d+' days'; };
+  const when = m => !m.date ? 'No date yet' : (m === next ? `${fmtDay(m.date)} · ${left(m)}` : fmtDay(m.date));
+  if (selMs === null || !all[selMs]) selMs = Math.max(0, all.indexOf(next || dated[dated.length-1]));
+  const lastDated = xs[dated.length-1];
+  const state = m => !m.date ? 'tba' : (T(m) <= now ? 'done' : (m === next ? 'upnext' : ''));
+  const dots = all.map((m,k) => `<span class="dot ${state(m)} ${k===selMs?'sel':''}" style="left:${xs[k]}%"></span>`).join('');
+  const marks = all.map((m,k) => `<button type="button" class="mk ${k===0?'first':''} ${k===n-1?'last':''} ${state(m)}" data-ms="${k}" aria-pressed="${k===selMs}" style="left:${xs[k]}%"><span class="nm">${esc(m.name)}</span><span class="dt">${esc(when(m))}</span></button>`).join('');
+  const s = all[selMs];
+  const sWhen = !s.date ? 'No date yet' : (T(s) <= now ? new Date(T(s)).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}) + ' · done' : new Date(T(s)).toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'}) + ' · ' + left(s));
+  const items = (s.items||[]).map(([c,t]) => `<div class="mi">${c ? `<span class="ctag" style="--cc:${CLASS_COLORS[c]||'var(--muted)'}">${esc(cap1(c))}</span>` : '<span class="bul"></span>'}<span>${esc(t)}</span></div>`).join('');
+  const head = next ? `<b>Next: <em>${esc(next.name)}</em> ${left(next)}</b><span>Tap a milestone for details</span>` : `<b>All announced milestones reached</b><span></span>`;
+  document.getElementById('milestones').innerHTML = `<div class="ms-top">${head}</div>
+    <div class="tl">
+      <div class="tl-line" style="right:${100-lastDated}%"></div>
+      ${dated.length < n ? `<div class="tl-dash" style="left:${lastDated}%;right:0"></div>` : ''}
+      <div class="tl-fill" style="width:${tx}%"></div>
+      ${dots}
+      <div class="tl-today" style="left:${tx}%"><b>Today · ${fmtDay(new Date().toISOString().slice(0,10))}</b><i></i><s></s></div>
+      ${marks}
+    </div>
+    <div class="ms-detail" aria-live="polite"><div class="mh"><b>${esc(s.name)}</b><span class="${s===next?'soon':''}">${esc(sWhen)}</span></div>
+      ${s.detail ? `<p class="muted" style="font-size:13.5px">${esc(s.detail)}</p>` : ''}${items}
+      ${s.source ? `<a href="${esc(s.source)}" target="_blank" rel="noopener">Source</a>` : ''}</div>`;
+}
+document.getElementById('milestones').addEventListener('click', e => { const b = e.target.closest('[data-ms]'); if (!b) return; selMs = +b.dataset.ms; renderMilestones(); });
+function renderNews(){
+  document.getElementById('newsChecked').textContent = 'Last checked ' + fmtDay(NEWS.checked);
+  renderMilestones();
+  const row = (d, html) => `<div class="nrow"><span class="nd">${esc(d)}</span><span>${html}</span></div>`;
+  const ann = NEWS.announced.map(([d,ty,t,u]) => row(d, `<span class="ntype" style="--tc:${TYPE_COLORS[ty]||'var(--muted)'}">${esc(ty)}</span>${esc(t)}${u?` <a href="${esc(u)}" target="_blank" rel="noopener">Source</a>`:''}`));
+  document.getElementById('newsAnnounced').innerHTML = ann.slice(0,4).join('') + (ann.length>4 ? `<details><summary>Older</summary>${ann.slice(4).join('')}</details>` : '');
+  document.getElementById('classChips').innerHTML = CLASS_ORDER.map(c => `<button type="button" class="cchip" data-c="${c}" style="--cc:${CLASS_COLORS[c]}" aria-pressed="${c===newsClass}"><i></i>${cap1(c)}${c===MY_CLASS?' <small>you</small>':''}</button>`).join('');
+  const rows = NEWS.changes[newsClass] || [];
+  document.getElementById('classChanges').innerHTML = `<div class="chead" style="--cc:${CLASS_COLORS[newsClass]}">${cap1(newsClass)}</div>` +
+    (rows.length ? rows.slice(0,5).map(([d,t,p]) => row(d, `${p?'<span class="nplan">Planned</span>':''}${esc(t)}`)).join('') + (rows.length>5 ? `<details><summary>Older</summary>${rows.slice(5).map(([d,t,p]) => row(d, `${p?'<span class="nplan">Planned</span>':''}${esc(t)}`)).join('')}</details>` : '') : '<p class="muted">No changes yet.</p>') +
+    `<div class="nrow"><span></span><span><a href="${NEWS.doc}" target="_blank" rel="noopener">Full list in the Keybind Coach doc</a></span></div>`;
+}
+document.getElementById('classChips').addEventListener('click', e => { const b = e.target.closest('[data-c]'); if (!b) return; newsClass = b.dataset.c; try { localStorage.setItem('fdk-newsclass', newsClass); } catch(err){} renderNews(); });
+
+/* ===== tooltips: talents (talentsforever.com data, CC BY 4.0) and spells ===== */
+const R5 = [1,2,3,4,5], P20 = [20,40,60,80,100], P2 = [2,4,6,8,10];
+const TT = {
+  // Feral Combat
+  'Ferocity':{v:[R5], t:a=>`Reduces the cost of your Maul, Primal Bite, Swipe, Claw, and Rake abilities by ${a} Rage or Energy.`},
+  'Furor':{v:[P20,P2], t:(a,b)=>`Gives you a ${a}% chance to gain 10 Rage when shapeshifting into Bear Form or Dire Bear Form. Entering Cat Form restores ${a}% of the Energy you had when you last left it, plus ${b} Energy per second spent outside Bear forms, up to ${a} Energy.`},
+  'Feral Swiftness':{v:[[15,30],[2,4]], t:(a,b)=>`Increases your movement speed while in Cat Form by ${a}%, and increases your chance to Dodge by ${b}%.`},
+  'Feral Instinct':{v:[[10,20,30],[1,2,3]], t:(a,b)=>`Increases damage done by your Swipe ability by ${a}% and reduces the chance enemies have to detect you while Prowling, as if you were ${b} level${b>1?'s':''} higher.`},
+  'Brutal Impact':{v:[[0.5,1],[15,30]], t:(a,b)=>`Increases the stun duration of your Bash and Pounce abilities by ${a} sec and reduces the cooldown of Bash by ${b} sec.`},
+  'Thick Hide':{v:[[1,2,3],['0.67','1.33','2.00']], t:(a,b)=>`While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain ${a} additional base Armor per level, plus ${b} Armor per point of Defense skill above 5 times your level.`},
+  'Shredding Attacks':{v:[[6,12,18],[1,2,3]], t:(a,b)=>`Reduces the Energy cost of your Shred ability by ${a} and reduces the Rage cost of your Lacerate ability by ${b}.`},
+  'Savage Fury':{v:[[5,10]], t:a=>`Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by ${a}%.`},
+  'Feral Charge':{v:[], meta:'5 Rage · 8 to 25 yd · Instant · 15 sec cooldown · Bear Form', t:()=>`Charge an enemy, immobilizing them and interrupting any spell they are casting for 4 sec. In Cat Form it is a leap with a 30 sec cooldown that does not interrupt.`},
+  'Sharpened Claws':{v:[[3,6]], t:a=>`Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by ${a}%.`},
+  'Predatory Strikes':{v:[[50,100,150]], t:a=>`Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by ${a}% of your level.`},
+  'Lacerate':{v:[], meta:'15 Rage · Melee range · Instant · Bear Form', t:()=>`Lacerates the enemy target, making them bleed for 20 damage over 15 sec plus 10% weapon damage per existing application. Causes a high amount of threat. Stacks up to 5 times.`},
+  'Predatory Discipline':{v:[], t:()=>`Your Ferocious Bite ability no longer converts extra Energy into damage, but still deals extra damage based on your excess Energy.`},
+  'Blood Frenzy':{v:[[50,100]], t:a=>`Gives you a ${a}% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form, and a ${a}% chance to gain an additional combo point when you critically strike with a combo point ability in Cat Form.`},
+  'Leader of the Pack':{v:[], t:()=>`While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the critical strike chance of all party and raid members within 45 yards by 3%.`},
+  'Natural Instinct':{v:[[10,20],[12,25]], t:(a,b)=>`Increases the critical strike damage bonus of your melee abilities by ${a}% and increases your spell healing by ${b}% of your Intellect.`},
+  'Rend and Tear':{v:[[3,6,9,12,15]], t:a=>`Increases damage done by your melee abilities on Bleeding targets by ${a}%.`},
+  'Natural Reaction':{v:[R5,P20], t:(a,b)=>`Increases your dodge chance by ${a}%, and gives you a ${b}% chance to gain 5 Rage each time you dodge.`},
+  'Primal Bite':{v:[], meta:'20 Rage · Melee range · Instant · 6 sec cooldown · Bear Form', t:()=>`Bite the target, dealing 100% normal damage plus 42 and generating a high amount of threat.`},
+  'Shifting Power':{v:[], meta:'55% of base Mana · Instant · 8 sec cooldown · Cat Form', t:()=>`Instantly convert 55% of base Mana into 40 Energy. Shifting Power's cost is reduced by effects that reduce the cost of shapeshifting.`},
+  // Restoration
+  "Nature's Focus":{v:[[14,28,42,56,70]], t:a=>`Gives your Arcane and Nature spells a ${a}% chance to not lose casting time when you take damage.`},
+  'Heart of the Wild':{v:[P2,[4,8,12,16,20]], t:(a,b)=>`Increases your Intellect by ${a}%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by ${b}%, and while in Cat Form your Strength is increased by ${a}%.`},
+  'Naturalist':{v:[[0.1,0.2,0.3,0.4,0.5],P2], t:(a,b)=>`Reduces the cast time of your Healing Touch and Wild Growth spells by ${a} sec and increases all damage you deal by ${b}%.`},
+  'Reflection':{v:[[17,33,50]], t:a=>`Allows ${a}% of your Mana regeneration to continue while casting.`},
+  'Natural Shapeshifter':{v:[[10,20,30]], t:a=>`Reduces the mana cost of all shapeshifting by ${a}%.`},
+  'Subtlety':{v:[[10,20,30]], t:a=>`Reduces the threat generated by your Nature and Arcane spells by ${a}%.`},
+  'Gift of Nature':{v:[P2], t:a=>`Increases the effect of all your healing spells by ${a}%.`},
+  'Bloom':{v:[], t:()=>`When your Rejuvenation or Regrowth spell expires due to its duration, the target is instantly healed for 100% of your Spirit. If it is dispelled, the target is healed for 50% of your Spirit.`},
+  'Tranquil Spirit':{v:[P2], t:a=>`Reduces the mana cost of your Healing Touch and Tranquility spells by ${a}%.`},
+  'Improved Rejuvenation':{v:[[5,10,15]], t:a=>`Increases the effect of your Rejuvenation spell by ${a}%.`},
+  'Swiftmend':{v:[], meta:'20% of base Mana · 40 yd · Instant · 15 sec cooldown', t:()=>`Instantly heals a friendly target that has your active Rejuvenation or Regrowth for an amount equal to the full duration of that effect.`},
+  "Nature's Swiftness":{v:[], meta:'Instant · 3 min cooldown', t:()=>`When activated, your next Nature spell becomes an instant cast spell.`},
+  'Living Spirit':{v:[[5,10,15]], t:a=>`Increases your Spirit by ${a}%.`},
+  'Improved Tranquility':{v:[[50,100],[30,60]], t:(a,b)=>`Reduces threat caused by Tranquility by ${a}% and its cooldown by ${b}%.`},
+  'Improved Regrowth':{v:[[10,20,30,40,50]], t:a=>`Increases the critical effect chance of your Regrowth spell by ${a}%.`},
+  'Wild Growth':{v:[], meta:'550 Mana · 40 yd · 3 sec cast · 6 sec cooldown', t:()=>`Heals the target and their party for 336 over 7 sec. Party members must be within 43.5 yards of the target.`},
+  // Balance
+  'Improved Wrath':{v:[[0.1,0.2,0.3,0.4,0.5],[10,20,30,40,50]], t:(a,b)=>`Reduces the cast time of your Wrath spell by ${a} sec and its mana cost by ${b}%.`},
+  'Genesis':{v:[P2], t:a=>`Increases the damage and healing done by your periodic spells by ${a}%.`},
+  'Moonglow':{v:[[8,17,25]], t:a=>`Reduces the mana cost of your damaging spells by ${a}%.`},
+  'Improved Moonfire':{v:[[5,10]], t:a=>`Increases the damage and critical strike chance of your Moonfire spell by ${a}%.`},
+  "Nature's Majesty":{v:[[2,4]], t:a=>`Increases the critical strike chance of your spells and melee attacks by ${a}%.`},
+  "Nature's Reach":{v:[[10,20],[2,4]], t:(a,b)=>`Increases the range of your Balance spells by ${a}% and your chance to hit by ${b}%.`},
+  'Improved Entangling Roots':{v:[[25,50,75]], t:a=>`Increases the damage of Entangling Roots by ${a}% and lets the target take ${a}% more damage before the root breaks.`},
+  "Nature's Splendor":{v:[], t:()=>`Increases the duration of Moonfire and Rejuvenation by 3 sec, Regrowth by 6 sec and Insect Swarm by 2 sec.`},
+  'Insect Swarm':{v:[], meta:'45 Mana · 30 yd · Instant', t:()=>`The enemy target is swarmed by insects, decreasing their chance to hit by 2% and causing 48 Nature damage over 12 sec.`},
+  'Vengeance':{v:[[20,40,60,80,100]], t:a=>`Increases the critical strike damage bonus of your Arcane and Nature spells by ${a}%.`},
+  'Improved Starfire':{v:[[0.1,0.2,0.3,0.4,0.5],[3,6,9,12,15]], t:(a,b)=>`Reduces the cast time of Starfire by ${a} sec and gives it a ${b}% chance to stun the target for 3 sec.`},
+  'Overgrowth':{v:[[1,2]], t:a=>`Your Entangling Roots affects up to ${a} additional target${a>1?'s':''}.`},
+  "Nature's Grace":{v:[], t:()=>`A critical strike with a non-periodic spell increases your casting speed and reduces your global cooldown by 10% for 3 sec.`},
+  'Eclipse':{v:[[0.17,0.33,0.5]], t:a=>`Your Wrath casts reduce the cast time of your next 2 Starfires by ${a} sec. Stores up to 4 charges and lasts 15 sec.`},
+  'Moonfury':{v:[P2], t:a=>`Increases the damage done by your Arcane and Nature spells by ${a}%.`},
+  'Moonkin Form':{v:[], meta:'35% of base Mana · Instant', t:()=>`Shapeshift into Moonkin Form. Armor from items is increased by 360%, Omen of Clarity triggers twice as often, and party and raid members within 45 yards gain 3% critical strike chance. You cannot cast healing spells, and you are immune to Polymorph.`}
+};
+function talentText(name, rank){
+  const d = TT[name]; if (!d) return '';
+  if (!d.v.length) return d.t();
+  return d.t(...d.v.map(arr => arr[Math.min(rank, arr.length) - 1]));
+}
+
+/* spells: what matters at a glance, from the Forever guides and patch notes */
+const SPELLS = {
+  'Claw':{form:'Cat',cd:'',lvl:20,d:'Builder from any angle. Adds 1 combo point. 140% weapon damage in Forever.'},
+  'Shred':{form:'Cat',cd:'',lvl:20,d:'Builder from behind the target. Adds 1 combo point. 200% weapon damage in Forever.'},
+  'Rake':{form:'Cat',cd:'',lvl:24,d:'Bleed that adds 1 combo point. Works from Prowl.'},
+  'Rip':{form:'Cat',cd:'',lvl:20,d:'Finisher. Bleed that lasts longer with more combo points.'},
+  'Ferocious Bite':{form:'Cat',cd:'',lvl:24,d:'Finisher. Hits harder with more combo points and spare energy.'},
+  'Pounce':{form:'Cat, from Prowl',cd:'',lvl:36,d:'Stuns the target and makes it bleed. Adds 1 combo point.'},
+  'Ravage':{form:'Cat, from Prowl',cd:'',lvl:32,d:'Big opener from behind. 435% weapon damage in Forever. Adds 1 combo point.'},
+  'Cower':{form:'Cat',cd:'10 sec',lvl:28,d:'Lowers your threat on the target.'},
+  'Prowl':{form:'Cat',cd:'10 sec',lvl:20,d:'Stealth. You move slower while prowling.'},
+  'Dash':{form:'Cat',cd:'5 min',lvl:26,d:'Large burst of movement speed for a short time.'},
+  'Poised':{form:'Passive',cd:'',lvl:32,d:'Your next energy ability costs 10 less.'},
+  'Maul':{form:'Bear',cd:'',lvl:10,d:'Your next melee swing hits harder and causes extra threat.'},
+  'Swipe':{form:'Bear',cd:'',lvl:16,d:'Hits up to 3 enemies in front of you.'},
+  'Demoralizing Roar':{form:'Bear',cd:'',lvl:10,d:'Lowers the attack power of nearby enemies.'},
+  'Growl':{form:'Bear',cd:'8 sec',lvl:10,d:'Taunts the target to attack you.'},
+  'Enrage':{form:'Bear',cd:'1 min',lvl:12,d:'Gives 10 rage at once and more over 10 sec, but lowers your armor while active.'},
+  'Bash':{form:'Bear',cd:'1 min',lvl:14,d:'Stuns the target and interrupts its spell. Brutal Impact shortens the cooldown.'},
+  'Frenzied Regeneration':{form:'Bear',cd:'3 min',lvl:36,d:'Turns rage into health over a few seconds.'},
+  'Challenging Roar':{form:'Bear',cd:'10 min',lvl:28,d:'Forces all nearby enemies to attack you for a few seconds.'},
+  'Bear Form':{form:'Shapeshift',cd:'',lvl:10,d:'More armor and health, uses rage. Entering it gives rage with Furor. Becomes Dire Bear Form at 40.'},
+  'Dire Bear Form':{form:'Shapeshift',cd:'',lvl:40,d:'Stronger version of Bear Form.'},
+  'Cat Form':{form:'Shapeshift',cd:'',lvl:20,d:'Uses energy and combo points. Learned through a quest at level 20.'},
+  'Travel Form':{form:'Shapeshift',cd:'',lvl:30,d:'Fast travel form, outdoors only.'},
+  'Aquatic Form':{form:'Shapeshift',cd:'',lvl:16,d:'Swim fast and breathe underwater.'},
+  'Faerie Fire':{form:'Any form',cd:'6 sec',lvl:18,d:'Lowers target armor and stops it from stealthing. Free in Cat and Bear Form in Forever.'},
+  'Barkskin':{form:'Any form',cd:'1 min',lvl:44,d:'Reduces damage taken and stops hits from delaying your casts.'},
+  "Nature's Grasp":{form:'Any form',cd:'1 min',lvl:10,d:'The next enemy that hits you in melee is rooted. Works indoors and in forms in Forever.'},
+  'War Stomp':{form:'Tauren racial, any form',cd:'2 min',lvl:1,d:'Stuns nearby enemies for a moment.'},
+  'Wrath':{form:'Caster',cd:'',lvl:1,d:'Nature damage. Cheap in Forever, best as a pull.'},
+  'Moonfire':{form:'Caster',cd:'',lvl:4,d:'Instant Arcane damage plus damage over time. Can crit.'},
+  'Starfire':{form:'Caster',cd:'',lvl:20,d:'Slow, heavy Arcane nuke. About 40% stronger in Forever.'},
+  'Entangling Roots':{form:'Caster',cd:'',lvl:8,d:'Roots the target in place. Damage can break it. Works indoors in Forever.'},
+  'Hibernate':{form:'Caster',cd:'',lvl:18,d:'Puts a beast or dragonkin to sleep. Damage wakes it.'},
+  'Soothe Animal':{form:'Caster',cd:'',lvl:22,d:'Shrinks the aggro range of a beast.'},
+  'Healing Touch':{form:'Caster',cd:'',lvl:1,d:'Big, slow heal.'},
+  'Rejuvenation':{form:'Caster',cd:'',lvl:4,d:'Heal over time. Cheap and instant.'},
+  'Regrowth':{form:'Caster',cd:'',lvl:12,d:'Fast heal plus a heal over time. Cheaper in Forever.'},
+  'Tranquility':{form:'Caster',cd:'5 min',lvl:30,d:'Channeled heal on your whole party. Stand still while it runs.'},
+  'Rebirth':{form:'Caster',cd:'30 min',lvl:20,d:'Brings a dead ally back during combat. Needs a reagent.'},
+  'Revive':{form:'Caster',cd:'',lvl:12,d:'Brings a dead ally back out of combat.'},
+  'Innervate':{form:'Caster',cd:'6 min',lvl:40,d:'Large mana regeneration on the target.'},
+  'Remove Curse':{form:'Caster',cd:'',lvl:24,d:'Removes one curse.'},
+  'Cure Poison':{form:'Caster',cd:'',lvl:14,d:'Removes one poison.'},
+  'Abolish Poison':{form:'Caster',cd:'',lvl:26,d:'Removes one poison now and keeps removing poisons for 8 sec.'},
+  'Mark of the Wild':{form:'Caster',cd:'',lvl:1,d:'Buff: armor, stats and resistances for 30 min.'},
+  'Gift of the Wild':{form:'Caster',cd:'',lvl:50,d:'Mark of the Wild on your whole party.'},
+  'Thorns':{form:'Caster',cd:'',lvl:6,d:'Damages melee attackers. Scales with spell power in Forever.'},
+  'Omen of Clarity':{form:'Passive',cd:'',lvl:20,d:'Your attacks and spells can make your next ability free.'},
+  'Track Humanoids':{form:'Cat',cd:'',lvl:32,d:'Shows nearby humanoids on the minimap.'}
+};
+// talent actives are spells too
+['Feral Charge','Lacerate','Primal Bite','Shifting Power','Swiftmend',"Nature's Swiftness",'Wild Growth','Insect Swarm','Moonkin Form','Leader of the Pack'].forEach(n => { if (!SPELLS[n]) SPELLS[n] = {talent:true}; });
+const FORM_COLOR = f => /^Cat/.test(f) ? 'var(--cat)' : /^Bear|Dire/.test(f) ? 'var(--bear)' : /^Caster/.test(f) ? 'var(--caster)' : 'var(--gold)';
+const SPELL_RE = new RegExp('\\b(' + Object.keys(SPELLS).sort((a,b)=>b.length-a.length).map(s=>s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')).join('|') + ')\\b','g');
+const SKIP = new Set(['SCRIPT','STYLE','KBD','A','BUTTON','PRE','TEXTAREA','INPUT','CODE']);
+function linkify(root){
+  if (!root) return;
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode(n){
+    for (let p = n.parentElement; p && p !== root.parentElement; p = p.parentElement){ if (SKIP.has(p.tagName) || p.classList.contains('sp') || p.classList.contains('slot') || p.classList.contains('tc')) return NodeFilter.FILTER_REJECT; }
+    SPELL_RE.lastIndex = 0; return SPELL_RE.test(n.nodeValue) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT; }});
+  const nodes = []; while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(n => {
+    const frag = document.createDocumentFragment(); let last = 0; const s = n.nodeValue; SPELL_RE.lastIndex = 0; let m;
+    while ((m = SPELL_RE.exec(s))){
+      frag.append(s.slice(last, m.index));
+      const sp = document.createElement('span'); sp.className = 'sp'; sp.tabIndex = 0; sp.dataset.sp = m[1]; sp.textContent = m[1];
+      const info = SPELLS[m[1]]; sp.style.setProperty('--spc', info.talent ? FORM_COLOR(TT[m[1]]?.meta||'') : FORM_COLOR(info.form||''));
+      frag.append(sp); last = m.index + m[1].length;
+    }
+    frag.append(s.slice(last)); n.replaceWith(frag);
+  });
+}
+
+/* one tooltip for everything */
+const tipEl = document.createElement('div'); tipEl.className = 'gtip'; tipEl.hidden = true; tipEl.setAttribute('role','tooltip'); document.body.appendChild(tipEl);
+function spellTip(name){
+  const s = SPELLS[name];
+  if (s.talent){
+    const t = TT[name]; const tree = Object.keys(TREES).find(k => TREES[k].list.some(x => x[0]===name));
+    return `<div class="gt-h"><b>${esc(name)}</b><span>Talent</span></div>${t?.meta?`<div class="gt-m">${esc(t.meta)}</div>`:''}<div class="gt-d">${esc(talentText(name,1))}</div><div class="gt-f">${esc(TREES[tree]?.label||'')} talent</div>`;
+  }
+  const known = s.lvl <= (build.level||1);
+  return `<div class="gt-h"><b>${esc(name)}</b><span>${s.lvl>1?'Level '+s.lvl:''}</span></div><div class="gt-m">${esc(s.form)}${s.cd?' · '+esc(s.cd)+' cooldown':''}</div><div class="gt-d">${esc(s.d)}</div>${known?'':`<div class="gt-r">Learned at level ${s.lvl}</div>`}`;
+}
+function talentTip(key){
+  const t = T[key]; const p = pts(t.tree,t.name); const d = TT[t.name];
+  let h = `<div class="gt-h"><b>${esc(t.name)}</b><span>Rank ${p}/${t.max}</span></div>`;
+  if (d?.meta) h += `<div class="gt-m">${esc(d.meta)}</div>`;
+  if (p > 0) h += `<div class="gt-d">${esc(talentText(t.name, p))}</div>`;
+  if (p < t.max) h += `${p>0?'<div class="gt-n">Next rank:</div>':''}<div class="gt-d">${esc(talentText(t.name, p+1))}</div>`;
+  const vl = viewLevel();
+  if (useAt(t.name) > vl) h += `<div class="gt-r">Does nothing until level ${useAt(t.name)}</div>`;
+  else if (TALENT_LATER[t.name] && TALENT_LATER[t.name][0] > vl) h += `<div class="gt-f">${esc(TALENT_LATER[t.name][1])}</div>`;
+  const need = 5*(t.row-1);
+  if (treeTotal(t.tree) < need) h += `<div class="gt-r">Requires ${need} points in ${esc(TREES[t.tree].label)}</div>`;
+  if (t.req && pts(t.tree,t.req) < T[t.tree+'|'+t.req].max) h += `<div class="gt-r">Requires ${T[t.tree+'|'+t.req].max} points in ${esc(t.req)}</div>`;
+  if (p < t.max && !canAdd(t)) h += `<div class="gt-f">Click, then Add point</div>`;
+  return h;
+}
+let tipFor = null;
+function showTip(el, html){
+  tipEl.innerHTML = html; tipEl.hidden = false; tipFor = el;
+  const r = el.getBoundingClientRect(), w = tipEl.offsetWidth, h = tipEl.offsetHeight;
+  let x = Math.min(Math.max(8, r.left + r.width/2 - w/2), window.innerWidth - w - 8);
+  let y = r.top - h - 8; if (y < 8) y = r.bottom + 8;
+  tipEl.style.left = x + 'px'; tipEl.style.top = y + 'px';
+}
+function hideTip(){ tipEl.hidden = true; tipFor = null; }
+function tipHtmlFor(el){ if (el.classList.contains('sp')) return spellTip(el.dataset.sp); if (el.classList.contains('tc')) return talentTip(el.dataset.t); return null; }
+document.addEventListener('mouseover', e => { const el = e.target.closest('.sp,.tc'); if (el && el !== tipFor) showTip(el, tipHtmlFor(el)); else if (!el && tipFor) hideTip(); });
+document.addEventListener('focusin', e => { const el = e.target.closest('.sp,.tc'); if (el) showTip(el, tipHtmlFor(el)); });
+document.addEventListener('focusout', () => hideTip());
+document.addEventListener('click', e => { const el = e.target.closest('.sp'); if (el){ if (tipFor === el) hideTip(); else showTip(el, spellTip(el.dataset.sp)); } else if (!e.target.closest('.tc')) hideTip(); });
+window.addEventListener('scroll', hideTip, {passive:true});
+
+function renderAll(){ renderTabs(); renderBars(); renderTalents(); }
+renderNews();
+/* ===== what your talents give you: grouped by the spell or form they change ===== */
+const G = {cat:'@cat', bear:'@bear', all:'@all', heal:'@heal', caster:'@caster', neu:'@new'};
+const GROUP_LABEL = {'@new':'New abilities', '@cat':'In Cat Form', '@bear':'In Bear Form', '@heal':'Healing', '@caster':'Caster spells', '@all':'Always'};
+const FX = {
+  'Ferocity': r=>[[['Claw','Rake','Maul','Swipe','Primal Bite'], `${r} cheaper`]],
+  'Furor': r=>[[[G.bear], `${20*r}% chance for 10 rage when you shift in`], [[G.cat], `keeps up to ${20*r} energy while you are out of cat`]],
+  'Feral Swiftness': r=>[[[G.cat], `${15*r}% faster`], [[G.all], `+${2*r}% dodge`]],
+  'Feral Instinct': r=>[[['Swipe'], `+${10*r}% damage`], [['Prowl'], `harder to spot`]],
+  'Brutal Impact': r=>[[['Bash','Pounce'], `stun ${0.5*r} sec longer`], [['Bash'], `cooldown ${15*r} sec shorter`]],
+  'Thick Hide': r=>[[[G.cat,G.bear], `+${r} armor per level`]],
+  'Shredding Attacks': r=>[[['Shred'], `${6*r} energy cheaper`], [['Lacerate'], `${r} rage cheaper`]],
+  'Savage Fury': r=>[[['Claw','Rake','Shred','Maul','Swipe'], `+${5*r}% damage`]],
+  'Feral Charge': ()=>[[[G.neu], 'Feral Charge']],
+  'Sharpened Claws': r=>[[[G.cat,G.bear], `+${3*r}% crit`]],
+  'Predatory Strikes': r=>[[[G.cat,G.bear], `+${50*r}% of your level as attack power`]],
+  'Lacerate': ()=>[[[G.neu], 'Lacerate']],
+  'Predatory Discipline': ()=>[[['Ferocious Bite'], 'spare energy adds damage without being spent']],
+  'Blood Frenzy': r=>[[[G.bear], `${50*r}% chance for 5 rage on crits`], [[G.cat], `${50*r}% chance for an extra combo point on crits`]],
+  'Leader of the Pack': ()=>[[[G.cat,G.bear], '+3% crit for you and your party']],
+  'Natural Instinct': r=>[[[G.cat,G.bear], `+${10*r}% crit damage`], [[G.heal], `heals gain ${[12,25][r-1]}% of your Intellect`]],
+  'Rend and Tear': r=>[[[G.cat,G.bear], `+${3*r}% damage on bleeding targets`]],
+  'Natural Reaction': r=>[[[G.all], `+${r}% dodge`], [[G.bear], `${20*r}% chance for 5 rage when you dodge`]],
+  'Primal Bite': ()=>[[[G.neu], 'Primal Bite']],
+  'Shifting Power': ()=>[[[G.neu], 'Shifting Power']],
+  "Nature's Focus": r=>[[[G.heal], `${14*r}% chance hits do not slow your casts`]],
+  'Heart of the Wild': r=>[[[G.all], `+${2*r}% Intellect`], [[G.cat], `+${2*r}% Strength`], [[G.bear], `+${4*r}% Stamina`]],
+  'Naturalist': r=>[[['Healing Touch'], `${(0.1*r).toFixed(1)} sec faster`], [[G.all], `+${2*r}% damage`]],
+  'Reflection': r=>[[[G.heal], `${[17,33,50][r-1]}% mana regeneration while casting`]],
+  'Natural Shapeshifter': r=>[[['Bear Form','Cat Form','Shifting Power'], `${10*r}% cheaper`]],
+  'Subtlety': r=>[[[G.heal], `${10*r}% less threat`]],
+  'Gift of Nature': r=>[[[G.heal], `+${2*r}% healing`]],
+  'Bloom': ()=>[[['Rejuvenation','Regrowth'], 'heal once more when they expire']],
+  'Tranquil Spirit': r=>[[['Healing Touch','Tranquility'], `${2*r}% cheaper`]],
+  'Improved Rejuvenation': r=>[[['Rejuvenation'], `+${5*r}% healing`]],
+  'Swiftmend': ()=>[[[G.neu], 'Swiftmend']],
+  "Nature's Swiftness": ()=>[[[G.neu], "Nature's Swiftness"]],
+  'Living Spirit': r=>[[[G.all], `+${5*r}% Spirit`]],
+  'Improved Tranquility': r=>[[['Tranquility'], `${30*r}% shorter cooldown, less threat`]],
+  'Improved Regrowth': r=>[[['Regrowth'], `+${10*r}% crit chance`]],
+  'Wild Growth': ()=>[[[G.neu], 'Wild Growth']],
+  'Improved Wrath': r=>[[['Wrath'], `${(0.1*r).toFixed(1)} sec faster, ${10*r}% cheaper`]],
+  'Genesis': r=>[[['Moonfire','Rejuvenation','Insect Swarm'], `+${2*r}% over time`]],
+  'Moonglow': r=>[[[G.caster], `damage spells ${[8,17,25][r-1]}% cheaper`]],
+  'Improved Moonfire': r=>[[['Moonfire'], `+${5*r}% damage and crit`]],
+  "Nature's Majesty": r=>[[[G.all], `+${2*r}% crit`]],
+  "Nature's Reach": r=>[[[G.caster], `+${2*r}% hit, +${10*r}% range`]],
+  'Improved Entangling Roots': r=>[[['Entangling Roots'], `+${25*r}% damage, breaks less easily`]],
+  "Nature's Splendor": ()=>[[['Moonfire','Rejuvenation','Regrowth','Insect Swarm'], 'last longer']],
+  'Insect Swarm': ()=>[[[G.neu], 'Insect Swarm']],
+  'Vengeance': r=>[[[G.caster], `+${20*r}% spell crit damage`]],
+  'Improved Starfire': r=>[[['Starfire'], `${(0.1*r).toFixed(1)} sec faster, ${3*r}% stun chance`]],
+  'Overgrowth': r=>[[['Entangling Roots'], `+${r} target${r>1?'s':''}`]],
+  "Nature's Grace": ()=>[[[G.caster], 'spell crits speed up your next casts']],
+  'Eclipse': r=>[[['Starfire'], `${[0.17,0.33,0.5][r-1]} sec faster after each Wrath`]],
+  'Moonfury': r=>[[[G.caster], `+${2*r}% Arcane and Nature damage`]],
+  'Moonkin Form': ()=>[[[G.neu], 'Moonkin Form']]
+};
+
+/* ===== character, modules, legacy, leveling ===== */
+const talentedR = () => (build.legacy && build.legacy.picks && build.legacy.picks['Talented']) || 0;
+const autoLevel = () => spent() ? Math.min(60, spent() + 9 - talentedR()) : null;
+function renderHeader(){
+  const n = document.getElementById('charName'); if (document.activeElement !== n) n.value = build.name || ''; sizeName();
+  document.getElementById('lvl').value = build.level;
+  document.getElementById('charSub').textContent = `${RACE_LABEL} Druid · ${SPECS[spec].label}`; document.getElementById('charFaction').textContent = `WoW Forever · ${FACTION}`;
+  const wasSim = simMode; simMode = false;
+  const a = autoLevel(), left = avail() - spent(), sp = spent();
+  simMode = wasSim;
+  document.getElementById('lvlNote').textContent = !a ? 'Your level fills in as you add talent points.'
+    : left > 0 ? `${left} talent point${left>1?'s':''} not spent yet.`
+    : `Level worked out from your ${sp} talent points${talentedR()?`, with ${talentedR()} rank${talentedR()>1?'s':''} of Talented`:''}. Set it higher if you have points left to spend.`;
+}
+document.getElementById('charName').addEventListener('change', e => { build.name = e.target.value.trim().slice(0,24); changed(); });
+
+const MODS = ['news','binds','talents','legacy','fight','leveling'];
+function showModule(){
+  let m = (location.hash || '').slice(1); if (!MODS.includes(m)) m = 'news';
+  document.querySelectorAll('[data-mod]').forEach(el => { if (el.tagName !== 'BUTTON') el.hidden = el.dataset.mod !== m; });
+  document.querySelectorAll('#modnav button').forEach(b => b.setAttribute('aria-current', b.dataset.mod === m ? 'page' : 'false'));
+  hideTip();
+  window.scrollTo(0, 0);
+}
+document.getElementById('modnav').addEventListener('click', e => { const b = e.target.closest('[data-mod]'); if (!b) return; if (location.hash !== '#'+b.dataset.mod) location.hash = b.dataset.mod; else showModule(); window.scrollTo({top:0}); });
+window.addEventListener('hashchange', showModule);
+
+/* Legacy perks (Blizzard announcement + talentsforever.com, CC BY 4.0) */
+const LEGACY = {
+  adventure:{label:'Adventure', list:[
+    ['Well Rested',5,'Rested experience builds 4% faster and its cap rises by 4%, per rank.'],
+    ['Talented',5,'Talent points start one level earlier per rank, down to level 5. You still get 51 in total.','Well Rested'],
+    ['Thrill of Adventure',5,'Killing a non-trivial enemy restores 1% of your health and mana over 10 sec, per rank. Not in dungeons, raids or battlegrounds.'],
+    ['Frequent Flier',1,'Flight paths cost 50% less and fly 20% faster.'],
+    ['High Alert',2,'Spot stealthed players as if you were one level higher, per rank. Not in battlegrounds.'],
+    ['Field Guide',3,'Camp feature cooldowns 8% shorter, per rank.'],
+    ['Field Medicine',2,'Recently Bandaged lasts 5 sec less, per rank. Not in dungeons, raids or battlegrounds.']]},
+  resourcefulness:{label:'Resourcefulness', list:[
+    ['Reagent Economy',1,'Class abilities no longer need reagents you buy from vendors.'],
+    ['The Quick and the Dead',2,'Move 5% faster while dead, per rank. Helpful spells cost nothing for 1 min after you resurrect, or until combat.'],
+    ['Reinforce',5,'Lose 8% less durability when you die, per rank.'],
+    ['Gourmand',3,'Food buffs last 33% longer, per rank.'],
+    ['Permanence',2,'Long party buffs and camp rest last longer.'],
+    ['Diplomat',5,'Reputation gains 2% higher, per rank.'],
+    ['For Great Honor',5,'Honor gains 2% higher, per rank.']]},
+  professions:{label:'Professions', list:[
+    ['Working Overtime',5,'4% better chance of a skill-up in every tradeskill, per rank.'],
+    ['Bountiful Harvest',5,'20% more likely to find scarce materials when mining, herbing or skinning, per rank.'],
+    ['Bartering',2,'Vendor prices 5% lower, per rank.'],
+    ['Master Chef',5,'10% chance for cooking to make an extra result, per rank.'],
+    ['Luremaster',2,'25% chance of an extra fish while a lure is active, per rank.'],
+    ['Performance Bonus',3,'5% chance of double Merchant\'s Favor when you turn in a supply crate, per rank.'],
+    ['Dedicated Study',1,'Daily boost to your lowest tradeskill, or Elemental Essences once everything is at 300.']]}
+};
+const LEGACY_PLAN = [['Well Rested',5],['Talented',5],['Thrill of Adventure',5],['Frequent Flier',1]];
+const LEG_CAP = 16;
+const lg = () => (build.legacy ||= {earned:0, picks:{}});
+const lgSpent = () => Object.values(lg().picks).reduce((a,b)=>a+b,0);
+const lgPts = n => lg().picks[n] || 0;
+const lgFind = n => { for (const k in LEGACY){ const p = LEGACY[k].list.find(x=>x[0]===n); if (p) return p; } };
+function lgCanAdd(n){ const p = lgFind(n); if (lgPts(n) >= p[1]) return 'Maxed'; if (lgSpent() >= Math.min(LEG_CAP, lg().earned)) return 'No Legacy points left'; if (p[3] && lgPts(p[3]) < lgFind(p[3])[1]) return `Needs ${p[3]} at full ranks`; return ''; }
+function lgCanRemove(n){ if (!lgPts(n)) return 'No points here'; for (const k in LEGACY) for (const x of LEGACY[k].list) if (x[3]===n && lgPts(x[0])>0) return `${x[0]} depends on it`; return ''; }
+function renderLegacy(){
+  const L = lg(); const cap = Math.min(LEG_CAP, L.earned);
+  const ei = document.getElementById('legacyEarned'); if (document.activeElement !== ei) ei.value = L.earned;
+  document.getElementById('legacyInfo').textContent = `${lgSpent()} of ${cap} spent`;
+  const recNext = LEGACY_PLAN.find(([n,to]) => lgPts(n) < to);
+  document.getElementById('legacyAdvice').innerHTML = !L.earned
+    ? `<div class="eyebrow">Best for leveling</div><strong>Well Rested, then Talented</strong><p class="muted">Enter how many Legacy points your account has. For leveling, put 5 in Well Rested, then 5 in Talented so talent points arrive 5 levels sooner, then 5 in Thrill of Adventure for less downtime, and 1 in Frequent Flier.</p>`
+    : recNext && lgSpent() < cap ? `<div class="eyebrow">Next Legacy point</div><strong>${esc(recNext[0])}</strong><span class="lrank">${lgPts(recNext[0])}/${lgFind(recNext[0])[1]} now</span><p class="muted">${esc(lgFind(recNext[0])[2])}</p>`
+    : `<div class="eyebrow">Legacy</div><strong>${lgSpent() >= cap ? 'All your points are spent' : 'Leveling build complete'}</strong><p class="muted">${talentedR()?`Talented ${talentedR()}/5: your talent points come ${talentedR()} level${talentedR()>1?'s':''} early.`:'Talented is the perk that changes your talent levels.'}</p>`;
+  const rec = Object.fromEntries(LEGACY_PLAN);
+  document.getElementById('legacyTrees').innerHTML = Object.entries(LEGACY).map(([k,t]) => `<div class="ltree"><div class="tree-head"><h3>${esc(t.label)}</h3><span>${t.list.reduce((a,x)=>a+lgPts(x[0]),0)}</span></div>${t.list.map(([n,max,txt,req]) => {
+    const p = lgPts(n), addWhy = lgCanAdd(n), remWhy = lgCanRemove(n);
+    return `<div class="lperk"><div><b>${esc(n)}</b>${rec[n]?'<span class="lrec">Leveling</span>':''}</div>
+      <div class="lctl"><button type="button" data-lg="${esc(n)}" data-d="-1" aria-label="Remove a point from ${esc(n)}" ${remWhy?'disabled':''}>−</button><span class="lpips">${Array.from({length:max},(_,i)=>`<i class="${i<p?'on':''}"></i>`).join('')}</span><span class="lcount">${p}/${max}</span><button type="button" data-lg="${esc(n)}" data-d="1" aria-label="Add a point to ${esc(n)}" ${addWhy?'disabled':''}>+</button></div>
+      <p>${esc(txt)}</p>${req && lgPts(req) < lgFind(req)[1] ? `<p class="lreq">Needs ${esc(req)} at full ranks first.</p>` : ''}</div>`; }).join('')}</div>`).join('');
+}
+document.getElementById('legacyTrees').addEventListener('click', e => { const b = e.target.closest('[data-lg]'); if (!b || b.disabled) return; const n = b.dataset.lg, d = +b.dataset.d; const L = lg(); L.picks[n] = Math.max(0, lgPts(n) + d); if (!L.picks[n]) delete L.picks[n]; changed(); });
+document.getElementById('legacyEarned').addEventListener('change', e => { const L = lg(); L.earned = Math.min(65, Math.max(0, Math.round(+e.target.value||0))); changed(); });
+document.getElementById('legacyLeveling').addEventListener('click', () => { const L = lg(); if (!L.earned) L.earned = LEG_CAP; L.picks = {}; let left = Math.min(LEG_CAP, L.earned); for (const [n,to] of LEGACY_PLAN){ const k = Math.min(to, left); if (k>0) L.picks[n] = k; left -= k; if (k < to) break; } changed(); });
+document.getElementById('legacyReset').addEventListener('click', () => { lg().picks = {}; changed(); });
+
+/* Leveling: Tauren route (Outputlag, TopBuilds). [name, min, max, note, newInForever] */
+const ZONES = [
+  ['Mulgore',1,10,'Tauren starting zone'],['The Barrens',10,25,''],['Stonetalon Mountains',15,27,''],['Ashenvale',18,30,''],['Hillsbrad Foothills',20,30,'Start the City of Dalaran attunement in Tarren Mill before 28'],
+  ['Thousand Needles',25,35,''],['Desolace',30,40,'Forever adds quests here',true],['Arathi Highlands',30,40,''],['Stranglethorn Vale',30,45,''],['Riverglades',35,45,'New zone, over 150 quests',true],
+  ['Dustwallow Marsh',35,45,''],['Tanaris',40,50,''],['Feralas',40,50,''],['The Hinterlands',40,50,''],['Searing Gorge',43,50,''],['Azshara',45,55,'Forever adds quests here',true],
+  ["Un'Goro Crater",48,55,'Gather power crystals here for Shaper\'s Terrace'],['Felwood',48,55,''],['Burning Steppes',50,58,''],['Western Plaguelands',51,58,''],['Eastern Plaguelands',53,60,''],['Winterspring',53,60,''],['Silithus',55,60,''],['Mount Hyjal',60,60,'New level 60 zone',true]
+];
+const DUNGEONS = [
+  ['Ragefire Chasm',13,18,'Orgrimmar'],['Hall of Thanes',13,18,'',true],['Ruins of Lordaeron',15,20,'Horde home dungeon',true],['Wailing Caverns',17,24,'The Barrens'],['Shadowfang Keep',22,30,'Silverpine Forest'],
+  ['Excavation Site',24,29,'',true],['Blackfathom Deeps',24,32,'Ashenvale'],['City of Dalaran',28,33,'Needs the attunement from Tarren Mill',true],['Scarlet Monastery',28,45,'Tirisfal Glades'],['Razorfen Kraul',29,38,'The Barrens'],
+  ['The Drowned City',35,40,'',true],['Razorfen Downs',37,46,'The Barrens'],['Krol\'dok Stronghold',40,45,'',true],['Uldaman',41,51,'Badlands'],['Zul\'Farrak',44,54,'Tanaris'],['Maraudon',46,55,'Desolace'],
+  ['Alcaz Prison',48,53,'',true],['Sunken Temple',50,56,'Swamp of Sorrows'],['Blackrock Depths',52,60,'Blackrock Mountain'],['Blackmaw Hold',55,60,'',true],['Dire Maul',55,60,'Feralas'],['Lower Blackrock Spire',55,60,'Blackrock Mountain'],
+  ['Shaper\'s Terrace',58,60,'Needs power crystals from Un\'Goro',true],['Stratholme',58,60,'Eastern Plaguelands'],['Scholomance',58,60,'Western Plaguelands']
+];
+const leaveBy = z => z[2] >= 60 ? 60 : z[2] - 2;
+function routeRows(list, color, lvl, isZone){
+  const X = v => ((v - 1) / 59) * 100;
+  const axis = `<div class="raxis"><i></i><div>${[1,10,20,30,40,50,60].map(v=>`<span style="left:${X(v)}%">${v}</span>`).join('')}</div></div>`;
+  return axis + list.map(z => {
+    const [n,a,b,note,neu] = z; const w2 = isZone ? leaveBy(z) : b;
+    const now = lvl >= a && lvl <= w2, soon = !now && a > lvl && a <= lvl + 3;
+    return `<div class="rrow ${now?'now':''} ${soon?'soon':''}"><div class="rname"><b title="${esc(n)}">${esc(n)}${neu?'<span class="rnew">New</span>':''}</b><span>${a===b?a:a+'–'+b}</span></div>
+      <div class="rbar" style="--rc:${color}"><span class="rr" style="left:${X(a)}%;width:${Math.max(1.2,X(b)-X(a))}%"></span><span class="rw" style="left:${X(a)}%;width:${Math.max(1.2,X(w2)-X(a))}%"></span><span class="you" style="left:${X(lvl)}%"></span></div>
+      ${note && (now||soon) ? `<div class="rnote">${esc(note)}</div>` : ''}</div>`;
+  }).join('');
+}
+function renderLeveling(){
+  const lvl = build.level || 1;
+  document.getElementById('routeZones').innerHTML = routeRows(ZONES, 'var(--spam)', lvl, true);
+  document.getElementById('routeDungeons').innerHTML = routeRows(DUNGEONS, 'var(--caster)', lvl, false);
+  const here = ZONES.filter(z => lvl >= z[1] && lvl <= leaveBy(z));
+  const next = ZONES.filter(z => z[1] > lvl && z[1] <= lvl + 4);
+  const dng = DUNGEONS.filter(d => lvl >= d[1] && lvl <= d[2]);
+  const nm = arr => arr.map(z => `${z[0]} (until ${leaveBy(z)})`).join(', ');
+  document.getElementById('lvlAdvice').innerHTML = `<div class="eyebrow">At level ${lvl}</div><strong>${here.length ? esc(here.map(z=>z[0]).join(', ')) : 'Move up to the next zones'}</strong>
+    <p class="muted">${here.length ? `Quest here: ${esc(nm(here))}.` : ''} ${next.length ? `Next: ${esc(next.map(z=>`${z[0]} from ${z[1]}`).join(', '))}.` : ''} ${dng.length ? `Dungeons at your level: ${esc(dng.map(d=>d[0]).join(', '))}.` : ''}</p>`;
+}
+function refreshAll(){ renderHeader(); renderTalents(); renderBars(); renderLegacy(); renderLeveling(); if (typeof renderSpellbook === 'function') renderSpellbook(); }
+
+/* ===== simulator, inline point controls, gains with comparison ===== */
+let simMode = false;
+try { simMode = localStorage.getItem('fdk-sim') === '1'; } catch(e){}
+function setMode(sim){
+  simMode = sim; try { localStorage.setItem('fdk-sim', sim ? '1' : '0'); } catch(e){}
+  closePop(); refreshAll();
+}
+document.getElementById('modeMine').addEventListener('click', () => setMode(false));
+document.getElementById('modeSim').addEventListener('click', () => setMode(true));
+
+/* saved builds for the simulator */
+function sims(){
+  if (!build.sims){ const first = {id:'b1', name:'Test build', goal:'', picks:{}}; if (build.sim) first.picks = build.sim; build.sims = {list:[first], active:'b1', lock:false}; delete build.sim; }
+  if (!build.sims.list.length) build.sims.list.push({id:'b'+Date.now().toString(36), name:'Test build', goal:'', picks:{}});
+  if (!build.sims.list.some(b => b.id === build.sims.active)) build.sims.active = build.sims.list[0].id;
+  return build.sims;
+}
+const activeSim = () => { const S = sims(); return S.list.find(b => b.id === S.active); };
+const realPts = (tr,n) => ((build.specs[spec]||{})[tr]||{})[n] || 0;
+const realAvail = () => Math.min(51, Math.max(0, (build.level||1) - 9 + talentedR()));
+const simBudget = () => sims().lock ? realAvail() : 51;
+
+/* play-style starting builds, built from Forever's druid talent data; order matters when the level is locked */
+/* the level from which a talent does anything, from the spells and forms it changes (Forever learn levels) */
+const TALENT_USE = {
+  'Ferocity':10,'Furor':10,'Feral Swiftness':20,'Feral Instinct':16,'Brutal Impact':14,'Thick Hide':10,'Shredding Attacks':20,'Savage Fury':10,'Feral Charge':10,'Sharpened Claws':10,
+  'Predatory Strikes':10,'Lacerate':10,'Predatory Discipline':24,'Blood Frenzy':10,'Leader of the Pack':10,'Natural Instinct':10,'Rend and Tear':20,'Natural Reaction':10,'Primal Bite':10,'Shifting Power':20,
+  "Nature's Focus":1,'Heart of the Wild':1,'Naturalist':1,'Reflection':1,'Natural Shapeshifter':10,'Subtlety':1,'Gift of Nature':1,'Bloom':4,'Tranquil Spirit':1,'Improved Rejuvenation':4,
+  'Swiftmend':4,"Nature's Swiftness":1,'Living Spirit':1,'Improved Tranquility':30,'Improved Regrowth':12,'Wild Growth':1,
+  'Improved Wrath':1,'Genesis':4,'Moonglow':1,'Improved Moonfire':4,"Nature's Majesty":1,"Nature's Reach":1,'Improved Entangling Roots':8,"Nature's Splendor":4,'Insect Swarm':1,'Vengeance':1,
+  'Improved Starfire':20,'Overgrowth':8,"Nature's Grace":1,'Eclipse':20,'Moonfury':1,'Moonkin Form':1
+};
+/* parts of a talent that only start later */
+const TALENT_LATER = {
+  'Brutal Impact':[36,'The Pounce part starts at 36, when you learn Pounce.'],
+  'Feral Instinct':[20,'The Prowl part starts at 20, with Cat Form.'],
+  'Blood Frenzy':[20,'The combo point part starts at 20, with Cat Form.'],
+  'Furor':[20,'The energy part starts at 20, with Cat Form.'],
+  'Ferocity':[24,'Claw counts from 20 and Rake from 24.'],
+  'Savage Fury':[24,'Claw and Shred count from 20, Rake from 24.'],
+  'Tranquil Spirit':[30,'The Tranquility part starts at 30.'],
+  'Natural Shapeshifter':[20,'Cat Form counts from 20, Shifting Power from 40.']
+};
+const useAt = n => TALENT_USE[n] ?? 10;
+const viewLevel = () => simMode && !sims().lock ? 60 : (build.level || 1);
+const targetLevel = t => t === '@cat' ? 20 : t === '@bear' ? 10 : t.startsWith('@') ? 1 : ((SPELLS[t] && SPELLS[t].lvl) || 1);
+
+const PRESETS = {
+  'lvl-cat':{label:'Leveling damage (cat)', why:'Fast solo leveling in cat. Shifting Power at 40, then sustain and dodge.', seq:[['feral','Ferocity',5],['feral','Thick Hide',3],['feral','Brutal Impact',2],['feral','Sharpened Claws',2],['feral','Savage Fury',2],['feral','Feral Charge',1],['feral','Feral Swiftness',2],['feral','Predatory Strikes',3],['feral','Leader of the Pack',1],['feral','Predatory Discipline',1],['feral','Shredding Attacks',3],['feral','Rend and Tear',5],['feral','Shifting Power',1],['feral','Furor',5],['feral','Blood Frenzy',2],['feral','Natural Instinct',2],['feral','Natural Reaction',3],['resto','Heart of the Wild',5],['resto','Natural Shapeshifter',3]]},
+  'lvl-hybrid':{label:'Leveling damage, can tank dungeons', why:'Your current plan: cat damage to Shifting Power, then Primal Bite and Lacerate for tanking.', seq:null},
+  'lvl-heal':{label:'Leveling healer', why:'Restoration with Naturalist for damage while questing, and Wrath talents for pulling.', seq:[['resto','Heart of the Wild',5],['resto','Naturalist',5],['resto','Gift of Nature',5],['resto','Improved Rejuvenation',3],['resto','Swiftmend',1],['resto','Reflection',1],["resto","Nature's Swiftness",1],['resto','Living Spirit',3],['resto','Bloom',1],['resto','Improved Regrowth',5],['resto','Wild Growth',1],['resto','Reflection',3],["resto","Nature's Focus",5],['resto','Tranquil Spirit',5],['balance','Improved Wrath',5],['balance','Genesis',3]]},
+  'dng-tank':{label:'Dungeon tank (bear)', why:'Threat with Primal Bite and Lacerate, armor, dodge and Stamina.', seq:[['feral','Ferocity',5],['feral','Thick Hide',3],['feral','Feral Instinct',2],['feral','Sharpened Claws',2],['feral','Savage Fury',2],['feral','Feral Charge',1],['feral','Brutal Impact',2],['feral','Predatory Strikes',3],['feral','Lacerate',1],['feral','Blood Frenzy',2],['feral','Leader of the Pack',1],['feral','Natural Instinct',2],['feral','Feral Instinct',3],['feral','Rend and Tear',5],['feral','Primal Bite',1],['feral','Natural Reaction',5],['feral','Furor',5],['feral','Feral Swiftness',2],['resto','Heart of the Wild',5],['resto','Natural Shapeshifter',1]]},
+  'raid-heal':{label:'Raid healer', why:'Every healing talent that matters in long fights, plus Genesis for stronger heals over time.', seq:[['resto','Heart of the Wild',5],['resto','Naturalist',5],['resto','Gift of Nature',5],['resto','Subtlety',3],['resto','Improved Rejuvenation',3],['resto','Swiftmend',1],['resto','Reflection',3],["resto","Nature's Swiftness",1],['resto','Living Spirit',3],['resto','Improved Tranquility',2],['resto','Bloom',1],['resto','Improved Regrowth',5],['resto','Wild Growth',1],['resto','Tranquil Spirit',5],['balance','Genesis',5],['balance','Moonglow',3]]},
+  'pvp-heal':{label:'PvP healer', why:'Casts that keep going when you are hit, cheap shifting to escape, and fast instant heals.', seq:[['resto','Heart of the Wild',5],["resto","Nature's Focus",5],['resto','Naturalist',5],['resto','Natural Shapeshifter',3],['resto','Gift of Nature',5],['resto','Improved Rejuvenation',3],['resto','Swiftmend',1],["resto","Nature's Swiftness",1],['resto','Living Spirit',3],['resto','Bloom',1],['resto','Improved Regrowth',5],['resto','Wild Growth',1],['resto','Reflection',3],['feral','Furor',5],['feral','Feral Swiftness',2],['resto','Tranquil Spirit',3]]},
+  'pvp-feral':{label:'PvP feral', why:'Cat burst with longer Pounce and Bash stuns, speed, dodge and cheap shifting.', seq:[['feral','Ferocity',5],['feral','Thick Hide',3],['feral','Brutal Impact',2],['feral','Sharpened Claws',2],['feral','Savage Fury',2],['feral','Feral Charge',1],['feral','Feral Swiftness',2],['feral','Predatory Strikes',3],['feral','Leader of the Pack',1],['feral','Predatory Discipline',1],['feral','Shredding Attacks',1],['feral','Blood Frenzy',2],['feral','Rend and Tear',5],['feral','Shifting Power',1],['feral','Furor',5],['feral','Natural Instinct',2],['feral','Natural Reaction',5],['resto','Heart of the Wild',5],['resto','Natural Shapeshifter',3]]}
+};
+PRESETS['dng-cat'] = {...PRESETS['lvl-cat'], label:'Dungeon damage (cat)', why:'Same as leveling cat: it already maxes cat damage.'};
+PRESETS['raid-cat'] = {...PRESETS['lvl-cat'], label:'Raid damage (cat)', why:'Full cat damage with Leader of the Pack for your group.'};
+PRESETS['raid-tank'] = {...PRESETS['dng-tank'], label:'Raid tank (bear)', why:'Same as the dungeon tank: threat, armor, dodge and Stamina.'};
+PRESETS['dng-heal'] = {...PRESETS['lvl-heal'], label:'Dungeon healer', why:'Leveling healer works for dungeons: strong heals with Wrath to help on trash.'};
+function presetSeq(id){ const p = PRESETS[id]; if (!p) return []; if (!p.seq) return (PLAN.feral||[]).map(([tr,n,to]) => [tr,n,to]); return p.seq; }
+/* fill a tree point by point in order, respecting rows and requirements, up to a budget */
+function fillOrdered(seq, budget){
+  const out = {}; let total = 0; const get = (tr,n) => (out[tr]||{})[n] || 0; const tt = tr => Object.values(out[tr]||{}).reduce((a,b)=>a+b,0);
+  const legal = t => tt(t.tree) >= 5*(t.row-1) && (!t.req || get(t.tree,t.req) >= T[t.tree+'|'+t.req].max);
+  const start = 10 - talentedR();
+  while (total < budget){
+    const level = start + total; // the level this point is trained at
+    const open = seq.filter(([tr,n,to]) => { const t = T[tr+'|'+n]; return t && get(tr,n) < to && legal(t); });
+    if (!open.length) break;
+    // take the first planned talent that already does something at this level; only if none does, take the next one to open a row
+    const [tr,n] = open.find(([,nm]) => useAt(nm) <= level) || open[0];
+    out[tr] ||= {}; out[tr][n] = get(tr,n) + 1; total++;
+  }
+  return out;
+}
+/* turn any build into a legal order: row by row, so it can be applied at a lower level */
+function orderOf(pk){ const seq = []; for (let row = 1; row <= 7; row++) TREE_ORDER.forEach(tr => TREES[tr].list.filter(x => x[1] === row).forEach(([n]) => { const v = ((pk||{})[tr]||{})[n]; if (v) seq.push([tr,n,v]); })); return seq; }
+
+function renderSimBox(){
+  const box = document.getElementById('simBox'); box.hidden = !simMode; if (!simMode) return;
+  const S = sims(), a = activeSim();
+  document.getElementById('buildTabs').innerHTML = S.list.map(b => b.id === S.active && renaming
+      ? `<input class="bname" id="bname" value="${esc(b.name)}" maxlength="24" aria-label="Build name">`
+      : `<button type="button" class="btab" role="tab" data-b="${b.id}" aria-selected="${b.id===S.active}">${esc(b.name)}${b.goal && PRESETS[b.goal] && PRESETS[b.goal].label.replace(/ \(.*\)/,'') !== b.name ? ` <small>${esc(PRESETS[b.goal].label)}</small>` : ''}</button>`).join('')
+    + `<button type="button" class="btab add" id="bNew">+ New build</button>`
+    + `<button type="button" class="bact" id="bRename">Rename</button>${S.list.length > 1 ? `<button type="button" class="bact" id="bDel">${delArmed ? 'Tap again to delete' : 'Delete'}</button>` : ''}`;
+  document.getElementById('simGoal').value = a.goal || '';
+  document.getElementById('simLock').checked = !!S.lock;
+  document.getElementById('simLockLabel').textContent = `Lock to my level (${build.level}, ${realAvail()} points)`;
+  const bn = document.getElementById('bname'); if (bn){ bn.focus(); bn.select(); }
+}
+let renaming = false, delArmed = false, applyArmed = false;
+document.getElementById('buildTabs').addEventListener('click', e => {
+  const t = e.target.closest('[data-b]'); if (t){ sims().active = t.dataset.b; renaming = false; delArmed = false; closePop(); changed(); return; }
+  if (e.target.id === 'bNew'){ const S = sims(); const id = 'b' + Date.now().toString(36); S.list.push({id, name:`Build ${S.list.length+1}`, goal:'', picks:{}}); S.active = id; renaming = true; changed(); return; }
+  if (e.target.id === 'bRename'){ renaming = true; renderSimBox(); return; }
+  if (e.target.id === 'bDel'){ if (!delArmed){ delArmed = true; renderSimBox(); setTimeout(()=>{ delArmed = false; if (simMode) renderSimBox(); }, 3000); return; } const S = sims(); S.list = S.list.filter(b => b.id !== S.active); delArmed = false; changed(); }
+});
+document.getElementById('buildTabs').addEventListener('keydown', e => { if (e.target.id === 'bname' && (e.key === 'Enter' || e.key === 'Escape')){ e.preventDefault(); e.target.blur(); } });
+document.getElementById('buildTabs').addEventListener('focusout', e => { if (e.target.id !== 'bname') return; const v = e.target.value.trim().slice(0,24); if (v) activeSim().name = v; renaming = false; changed(); });
+document.getElementById('simGoal').addEventListener('change', e => {
+  const id = e.target.value, a = activeSim(); if (!id) return;
+  a.goal = id; a.picks[spec] = fillOrdered(presetSeq(id), simBudget());
+  if (/^(Test build|Build \d+)$/.test(a.name)) a.name = PRESETS[id].label.replace(/ \(.*\)/,'');
+  closePop(); changed();
+});
+document.getElementById('simLock').addEventListener('change', e => {
+  sims().lock = e.target.checked; const a = activeSim();
+  if (e.target.checked){ const pk = a.picks[spec] || {}; const tot = TREE_ORDER.reduce((s,tr)=>s+Object.values(pk[tr]||{}).reduce((x,y)=>x+y,0),0); if (tot > realAvail()) a.picks[spec] = fillOrdered(a.goal ? presetSeq(a.goal) : orderOf(pk), realAvail()); }
+  changed();
+});
+document.getElementById('simCopy').addEventListener('click', () => { activeSim().picks[spec] = JSON.parse(JSON.stringify(build.specs[spec]||{})); changed(); });
+document.getElementById('simClear').addEventListener('click', () => { activeSim().picks[spec] = {}; activeSim().goal = ''; changed(); });
+document.getElementById('simApply').addEventListener('click', e => {
+  const b = e.currentTarget;
+  if (!applyArmed){ applyArmed = true; b.textContent = `Replace my talents? Tap again`; setTimeout(()=>{ applyArmed = false; b.textContent = 'Apply to my talents'; }, 3500); return; }
+  applyArmed = false; b.textContent = 'Apply to my talents';
+  const a = activeSim(); const seq = a.goal ? presetSeq(a.goal) : orderOf(a.picks[spec]);
+  const target = a.picks[spec] || {};
+  // follow the build's order, but never past what the simulated build holds or what your level allows
+  const capped = seq.map(([tr,n,to]) => [tr,n,Math.min(to, (target[tr]||{})[n] || 0)]).filter(x => x[2] > 0);
+  build.specs[spec] = fillOrdered(capped.length ? capped : orderOf(target), realAvail());
+  setMode(false); changed();
+});
+
+function effectsOf(pk){
+  const m = new Map();
+  TREE_ORDER.forEach(tr => Object.entries((pk||{})[tr]||{}).forEach(([name, r]) => {
+    if (!r || !FX[name]) return;
+    const has = n => TREE_ORDER.some(t2 => ((pk||{})[t2]||{})[n]);
+    FX[name](r).forEach(([targets, text], i) => targets.filter(t => !(SPELLS[t] && SPELLS[t].talent) || has(t)).forEach(t => m.set(`${t}|${name}|${i}`, {target:t, text, src:name})));
+  }));
+  return m;
+}
+function renderGains(){
+  const box = document.getElementById('gains'); if (!box) return;
+  const mine = effectsOf(build.specs[spec]);
+  const cur = simMode ? effectsOf(activeSim().picks[spec]) : mine;
+  const lines = new Map();
+  cur.forEach((v,k) => { const old = mine.get(k); v.state = !simMode ? '' : !old ? 'add' : (old.text !== v.text ? 'chg' : ''); v.was = old && old.text !== v.text ? old.text : ''; lines.set(k, v); });
+  if (simMode) mine.forEach((v,k) => { if (!cur.has(k)) lines.set(k, {...v, state:'lost'}); });
+  const vl = viewLevel();
+  lines.forEach(v => { const L = Math.max(targetLevel(v.target), useAt(v.src)); v.later = L > vl ? L : 0; });
+  const byTarget = new Map(); lines.forEach(v => { if (!byTarget.has(v.target)) byTarget.set(v.target, []); byTarget.get(v.target).push(v); });
+  const simPts = simMode ? spent() : 0;
+  let nG = 0, nL = 0, nC = 0; lines.forEach(v => { if (v.later && v.state !== 'lost') return; if (v.state==='add') nG++; else if (v.state==='lost') nL++; else if (v.state==='chg') nC++; });
+  const head = simMode
+    ? `<div class="gains-head"><h3>Compared with your talents${sims().lock ? ` at level ${build.level}` : ' at level 60'}</h3><div class="dsum"><span class="g">+${nG} gained</span><span class="c">${nC} changed</span><span class="m">−${nL} missing</span></div></div>`
+    : `<div class="gains-head"><h3>What your talents give you</h3><span>At level ${vl}. Bonuses for spells you have not learned yet are faded.</span></div>`;
+  if (!lines.size){ box.innerHTML = head + `<p class="muted" style="font-size:13.5px">${simMode ? 'Add points to the simulator, or copy your talents into it, to test a build.' : 'Nothing yet. Every point you add shows up here.'}</p>`; return; }
+  const line = l => `<div class="gi ${l.state} ${l.later?'later':''}">${esc(l.text)} <small>${esc(l.src)}</small>${l.state==='chg' ? ` <span class="was">was ${esc(l.was)}</span>` : ''}${l.later ? ` <span class="lt">from level ${l.later}</span>` : ''}</div>`;
+  const order = ['@new','@cat','@bear','@all','@heal','@caster'];
+  let h = '';
+  order.filter(g => byTarget.has(g)).forEach(g => {
+    h += g === '@new'
+      ? `<div class="gn"><div class="gl">${GROUP_LABEL[g]}</div><div class="gnew">${byTarget.get(g).map(l=>`<span class="${l.state} ${l.later?'later':''}">${esc(l.text)}${l.later?` · ${l.later}`:''}</span>`).join('')}</div></div>`
+      : `<div class="gn"><div class="gl">${GROUP_LABEL[g]}</div>${byTarget.get(g).map(line).join('')}</div>`;
+  });
+  const spells = [...byTarget.keys()].filter(k => !k.startsWith('@')).sort();
+  if (spells.length) h += `<div class="gn wide"><div class="gl">Your spells</div><div class="gspells">${spells.map(sp => `<div class="gs ${targetLevel(sp) > vl ? 'later' : ''}"><div class="gsn">${esc(sp)}${targetLevel(sp) > vl ? ` <small class="lt">learned at ${targetLevel(sp)}</small>` : ''}</div>${byTarget.get(sp).map(line).join('')}</div>`).join('')}</div></div>`;
+  box.innerHTML = head + `<div class="ggrid">${h}</div>`;
+}
+
+/* add or remove points right where you click */
+const pop = document.createElement('div'); pop.className = 'tpop'; pop.hidden = true; pop.id = 'tpop'; pop.setAttribute('role','dialog'); pop.setAttribute('aria-label','Talent points'); document.body.appendChild(pop);
+let popKey = null;
+function closePop(){ pop.hidden = true; popKey = null; document.querySelectorAll('.tc.sel').forEach(c => c.classList.remove('sel')); }
+function addPoint(t){ if (canAdd(t)) return; if (!simMode && spent() >= avail()) build.level = Math.min(60, spent() + 10 - talentedR()); setPts(t.tree, t.name, pts(t.tree,t.name) + 1); changed(); }
+function removePoint(t){ if (canRemove(t)) return; setPts(t.tree, t.name, pts(t.tree,t.name) - 1); changed(); }
+function renderDetail(){
+  if (!popKey) return;
+  const cell = document.querySelector(`.tc[data-t="${CSS.escape(popKey)}"]`); if (!cell){ closePop(); return; }
+  cell.classList.add('sel');
+  const t = T[popKey], p = pts(t.tree,t.name), addWhy = canAdd(t), remWhy = canRemove(t);
+  pop.innerHTML = `<div class="ph"><b>${esc(t.name)}</b><span>${p}/${t.max}</span></div>
+    ${p>0 ? `<p>${esc(talentText(t.name,p))}</p>` : ''}${p<t.max ? `<p class="nx">${p>0?'Next rank: ':''}${esc(talentText(t.name,p+1))}</p>` : ''}
+    ${addWhy && p<t.max ? `<p class="why">${esc(addWhy)}</p>` : ''}
+    <div class="pc"><button type="button" data-pa="-1" ${remWhy?'disabled':''} title="${esc(remWhy)}">− Remove</button><button type="button" class="plus" data-pa="1" ${addWhy?'disabled':''}>+ Add</button></div>`;
+  pop.hidden = false;
+  const r = cell.getBoundingClientRect(), w = pop.offsetWidth, h = pop.offsetHeight;
+  let x = Math.min(Math.max(8, r.left + r.width/2 - w/2), window.innerWidth - w - 8);
+  let y = r.bottom + 6; if (y + h > window.innerHeight - 8) y = Math.max(8, r.top - h - 6);
+  pop.style.left = x + 'px'; pop.style.top = y + 'px';
+  if (typeof linkify === 'function') linkify(pop);
+}
+pop.addEventListener('click', e => { const b = e.target.closest('[data-pa]'); if (!b || b.disabled || !popKey) return; const t = T[popKey]; (+b.dataset.pa > 0 ? addPoint : removePoint)(t); });
+document.getElementById('trees').addEventListener('click', e => { const b = e.target.closest('.tc'); if (!b) return; e.stopPropagation(); if (popKey === b.dataset.t){ closePop(); return; } closePop(); popKey = b.dataset.t; hideTip(); renderDetail(); });
+document.getElementById('trees').addEventListener('contextmenu', e => { const b = e.target.closest('.tc'); if (!b) return; e.preventDefault(); removePoint(T[b.dataset.t]); });
+document.addEventListener('click', e => { const path = e.composedPath(); if (!pop.hidden && !path.includes(pop) && !path.some(n => n.classList && n.classList.contains('tc'))) closePop(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !pop.hidden) closePop(); });
+window.addEventListener('scroll', () => { if (!pop.hidden) renderDetail(); }, {passive:true});
+window.addEventListener('resize', () => { if (!pop.hidden) renderDetail(); });
+
+/* character name grows with what you type */
+function sizeName(){
+  const n = document.getElementById('charName'); const c = sizeName.c ||= document.createElement('canvas').getContext('2d');
+  const cs = getComputedStyle(n); c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  n.style.width = Math.ceil(c.measureText(n.value || n.placeholder).width + 14) + 'px';
+}
+document.getElementById('charName').addEventListener('input', sizeName);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(sizeName);
+
+/* spellbook: every druid spell by learn level, with where you are now */
+Object.assign(SPELLS, {
+  'Hurricane':{form:'Caster',cd:'',lvl:40,d:'Channeled storm over an area. No cooldown in Forever.'},
+  'Teleport: Moonglade':{form:'Caster',cd:'',lvl:10,d:'Teleports you to Moonglade.'}
+});
+const SB_FORMS = [['all','All','var(--muted)'],['Cat','Cat','var(--cat)'],['Bear','Bear','var(--bear)'],['Caster','Caster','var(--caster)'],['Any','Any form','var(--gold)']];
+let sbFilter = 'all';
+const sbForm = f => /^Cat/.test(f) ? 'Cat' : /^Bear|Dire/.test(f) ? 'Bear' : /^Caster/.test(f) ? 'Caster' : 'Any';
+function renderSpellbook(){
+  const box = document.getElementById('sbook'); if (!box) return;
+  const lvl = build.level || 1;
+  const list = Object.entries(SPELLS).filter(([,s]) => !s.talent && s.lvl).map(([n,s]) => ({n, ...s, f: sbForm(s.form)}))
+    .filter(s => sbFilter === 'all' || s.f === sbFilter).sort((a,b) => a.lvl - b.lvl || a.n.localeCompare(b.n));
+  const known = list.filter(s => s.lvl <= lvl).length, next = list.find(s => s.lvl > lvl);
+  let h = `<div class="sb-head"><h3>Spellbook</h3><span class="muted" style="font-size:13px">${known} of ${list.length} learned at level ${lvl}${next ? ` · next: ${esc(next.n)} at ${next.lvl}` : ''}</span></div>
+    <div class="sb-filter" role="group" aria-label="Filter by form">${SB_FORMS.map(([k,l,c]) => `<button type="button" data-sbf="${k}" style="--fc:${c}" aria-pressed="${sbFilter===k}"><i></i>${l}</button>`).join('')}</div><div class="sb-list">`;
+  let lastL = 0, hereShown = false;
+  list.forEach(s => {
+    if (!hereShown && s.lvl > lvl){ h += `<div class="sb-here"><span>You are here · level ${lvl}</span></div>`; hereShown = true; }
+    if (s.lvl !== lastL){ h += `<div class="sb-lvl">Level ${s.lvl}</div>`; lastL = s.lvl; }
+    const cls = s.lvl <= lvl ? '' : s.lvl <= lvl + 6 ? 'soon' : 'later';
+    const fc = SB_FORMS.find(x => x[0] === s.f)[2];
+    h += `<div class="sb-sp ${cls}" style="--fc:${fc}"><b>${esc(s.n)}</b><em>${esc(s.form)}${s.cd ? ' · ' + esc(s.cd) : ''}</em><p>${esc(s.d)}</p></div>`;
+  });
+  if (!hereShown) h += `<div class="sb-here"><span>Every spell learned · level ${lvl}</span></div>`;
+  box.innerHTML = h + '</div>';
+  linkify(box);
+}
+document.getElementById('sbook').addEventListener('click', e => { const b = e.target.closest('[data-sbf]'); if (!b) return; sbFilter = b.dataset.sbf; renderSpellbook(); });
+
+// highlight spell names after every render
+[['renderTalents',['nextCard','planTable','gains']],['renderNews',['newsAnnounced','classChanges']],['renderMilestones',['milestones']],['renderChat',['chatLog']]].forEach(([fn, ids]) => {
+  const orig = window[fn]; if (typeof orig !== 'function') return;
+  window[fn] = function(...a){ const r = orig.apply(this, a); ids.forEach(id => linkify(document.getElementById(id))); return r; };
+});
+if (!PROFILE.personal){
+  document.querySelectorAll('.personal-only').forEach(el => el.hidden = true);
+  const fight = document.getElementById('mod-fight');
+  if (fight) fight.querySelector('p.muted').insertAdjacentHTML('afterend', '<p class="placeholder">The key names in these steps follow the reference layout. Your own keys are on the Keybinds tab, find the spell there.</p>');
+}
+if (PROFILE.race && PROFILE.race !== 'tauren') document.getElementById('routeNote').textContent = 'Tauren route for now, your race comes next';
+document.getElementById('copyLink').addEventListener('click', e => {
+  const payload = JSON.stringify({profile: PROFILE, build});
+  const b64 = btoa(String.fromCharCode(...new TextEncoder().encode(payload))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const url = location.origin + location.pathname + '#import=' + b64;
+  const note = document.getElementById('linkNote');
+  try { navigator.clipboard.writeText(url).then(() => { note.textContent = 'Copied. Open it on your other device. Keep it private, it holds your setup.'; }, () => { note.textContent = url; }); } catch(_){ note.textContent = url; }
+});
+renderAll();
+refreshAll();
+renderNews();
+showModule();
+['mod-fight','unbound'].forEach(id => linkify(document.getElementById(id)));
+document.querySelectorAll('.notes').forEach(n => linkify(n));
+</script>

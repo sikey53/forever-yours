@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Forever Companion Setup</title>
+<style>body{margin:0}</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
+<style>
+/* Layout: one question card at a time with a step rail, then the generated character page. Same dark game look as the druid page. */
+:root{
+  color-scheme: dark;
+  --bg:#14120e; --panel:#1e1a14; --panel-2:#26211a; --panel-3:#2f2920; --line:#3a3226;
+  --fg:#efe7d6; --muted:#a39780; --dim:#6b6150; --gold:#d4ad55; --ink:#17130c;
+  --cat:#f2c94c; --bear:#e5584a; --caster:#6ea8f5; --spam:#8fdc8a; --short:#d9d36a; --mid:#e8a04f; --long:#e66a5c;
+  --display:"Cinzel", "Trajan Pro", Georgia, serif;
+  --body:"Barlow", "Segoe UI", system-ui, sans-serif;
+  --cond:"Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:980px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:24px 60px;display:grid;gap:22px}
+h1,h2{font-family:var(--display);font-weight:700;margin:0;text-wrap:balance}
+h1{font-size:clamp(24px,4.5vw,34px)}
+h2{font-size:21px;color:var(--gold)}
+h3{font-family:var(--cond);font-weight:600;font-size:18px;margin:0}
+p{margin:0;max-width:68ch}
+.muted{color:var(--muted)}
+.eyebrow{font-family:var(--cond);text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--muted)}
+.testnote{font-size:13px;color:var(--ink);background:var(--gold);border-radius:6px;padding:6px 10px;justify-self:start}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.rail{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.rail button{background:none;border:0;padding:0;cursor:pointer;display:grid;gap:5px;text-align:left}
+.rail i{display:block;height:4px;border-radius:2px;background:var(--panel-3)}
+.rail span{font-family:var(--cond);font-size:12.5px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rail button.done i{background:var(--gold)} .rail button.done span{color:var(--muted)}
+.rail button.cur i{background:var(--cat)} .rail button.cur span{color:var(--fg)}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px 20px;display:grid;gap:18px}
+.q{display:grid;gap:8px}
+.q > label,.q > .ql{font-family:var(--cond);font-weight:600;font-size:17px}
+.q small{color:var(--muted);font-size:13px}
+.inp{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:9px 12px;font-size:15px;max-width:340px;width:100%}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 14px;cursor:pointer;display:grid;gap:2px;text-align:left;min-width:140px}
+.opt b{font-family:var(--cond);font-weight:600;font-size:16px}
+.opt span{font-size:12.5px;color:var(--muted)}
+.opt[aria-pressed="true"]{border-color:var(--gold);background:color-mix(in srgb, var(--gold) 14%, var(--panel-2))}
+.opt:disabled{opacity:.4;cursor:not-allowed}
+.kbd{--u:min(46px, calc((100vw - 80px) / 15));position:relative;width:calc(var(--u) * 15);height:calc(var(--u) * 6.25);margin-top:4px}
+.key{position:absolute;height:calc(var(--u) - 4px);border-radius:6px;border:1px solid var(--line);background:var(--panel-2);font-family:var(--cond);font-weight:700;font-size:clamp(9px, calc(var(--u) * .32), 15px);cursor:pointer;padding:0 2px;display:grid;place-items:center;white-space:nowrap;overflow:hidden;color:var(--fg)}
+.key.mid{border-color:color-mix(in srgb, var(--mid) 55%, var(--line))}
+.key.move{background:transparent;border-style:dashed;color:var(--dim);cursor:default}
+.key.sys{background:transparent;color:var(--dim);cursor:default;font-weight:500}
+.key.mod{color:var(--muted)}
+.key.mod[aria-pressed="true"]{background:color-mix(in srgb, var(--gold) 22%, var(--panel-2));border-color:var(--gold);color:var(--fg)}
+.key.off{background:color-mix(in srgb, var(--long) 30%, var(--panel-2));border-color:var(--long);color:color-mix(in srgb, var(--fg) 60%, transparent);text-decoration:line-through}
+.kleg{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.kleg span{display:flex;align-items:center;gap:6px}
+.kleg i{width:14px;height:14px;border-radius:4px;border:1px solid var(--line);background:var(--panel-2)}
+.kbtns{display:flex;flex-wrap:wrap;gap:8px}
+.kbtns button{font-size:13px;background:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;cursor:pointer;color:var(--muted)}
+.finish{font-size:14px;background:color-mix(in srgb, var(--gold) 12%, var(--panel));border:1px solid var(--gold);border-radius:10px;padding:12px 14px}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.btn{font-family:var(--cond);font-weight:600;font-size:15px;letter-spacing:.05em;text-transform:uppercase;background:var(--panel-2);border:1px solid var(--line);border-radius:7px;padding:9px 18px;cursor:pointer}
+.btn.primary{background:var(--gold);border-color:var(--gold);color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.why{font-size:13px;color:var(--muted);border-left:2px solid var(--line);padding-left:10px}
+/* result */
+.char{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}
+.char .nm{font-family:var(--display);font-weight:700;font-size:clamp(24px,4vw,32px)}
+.char .lv{font-family:var(--cond);font-weight:600;font-size:15px;border:1px solid var(--line);border-radius:999px;padding:2px 12px;color:var(--muted)}
+.char .cl{font-family:var(--cond);font-weight:600;font-size:17px;color:#FF7C0A}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.fact{background:var(--panel-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.fact b{font-family:var(--cond);font-weight:700;font-size:22px;font-variant-numeric:tabular-nums}
+.fact span{font-size:12.5px;color:var(--muted)}
+.ftabs{display:flex;gap:6px;flex-wrap:wrap}
+.ftab{font-family:var(--cond);font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.04em;background:var(--panel-2);border:1px solid var(--line);border-radius:6px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.ftab[aria-pressed="true"]{color:var(--ink);background:var(--fc);border-color:var(--fc)}
+.bar{display:grid;gap:6px}
+.bar-h{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:2px 12px}
+.bar-h b{font-family:var(--cond);font-weight:600;font-size:16px}
+.bar-h span{font-size:12.5px;color:var(--muted)}
+.slots{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px}
+.slot{position:relative;min-height:78px;background:var(--panel-2);border:1px solid var(--line);border-radius:7px;padding:6px 6px 9px;display:flex;flex-direction:column;justify-content:space-between;gap:3px;overflow:hidden}
+.slot::after{content:"";position:absolute;left:0;right:0;bottom:0;height:4px;background:var(--sc)}
+.slot .k{font-family:var(--cond);font-weight:700;font-size:14px;display:flex;justify-content:space-between;gap:4px}
+.slot .k em{font-style:normal;font-size:10.5px;font-weight:700;border:1px solid var(--line);border-radius:3px;padding:0 4px;color:var(--muted)}
+.slot .k .m{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+.slot .s{font-family:var(--cond);font-weight:600;font-size:13.5px;line-height:1.1}
+.slot .j{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.slot.later{opacity:.45}
+.slot.empty{background:transparent;border-style:dashed}
+.slot.empty .s{color:var(--dim);font-style:italic;font-weight:500}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:flex;align-items:center;gap:6px}
+.legend i{width:16px;height:4px;border-radius:2px}
+.notes{display:grid;gap:6px;font-size:13.5px}
+.notes p::before{content:"·";color:var(--gold);font-weight:700;margin-right:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12.5px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;padding:3px 10px;color:var(--muted)}
+.chip b{color:var(--fg);font-weight:600}
+@media (max-width:560px){ .rail span{display:none} .opt{min-width:0;flex:1 1 140px} }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:8px">
+    <div class="eyebrow">WoW Forever Companion · New player setup</div>
+    <h1>Set up your character</h1>
+    <p class="muted">Seven short steps. Your answers decide every key, so the layout fits your hands and how you play.</p>
+    <div class="testnote" id="haveSetup" hidden>You already have a setup in this browser. <a href="app.html#binds" style="color:inherit;font-weight:600">Open my page</a></div>
+  </header>
+  <nav class="rail" id="rail" aria-label="Steps"></nav>
+  <main id="stage"></main>
+</div>
+
+<script>
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const CLASSES = [['druid','Druid',true],['warrior','Warrior'],['paladin','Paladin'],['hunter','Hunter'],['rogue','Rogue'],['priest','Priest'],['shaman','Shaman'],['mage','Mage'],['warlock','Warlock']];
+const RACES = {druid:[['tauren','Tauren','Horde'],['nightelf','Night Elf','Alliance'],['skyborne','Skyborne','New in Forever']]};
+const ALL_RACES = [['orc','Orc','Horde'],['undead','Undead','Horde'],['tauren','Tauren','Horde'],['troll','Troll','Horde'],['human','Human','Alliance'],['dwarf','Dwarf','Alliance'],['nightelf','Night Elf','Alliance'],['gnome','Gnome','Alliance'],['skyborne','Skyborne','New in Forever']];
+const ROLES = [['cat','Cat damage','Melee damage in Cat Form'],['tank','Bear tank','Hold enemies in Bear Form'],['heal','Healer','Restoration heals'],['balance','Caster damage','Balance spells from range']];
+const ACTS = [['quest','Questing'],['dungeon','Dungeons'],['raid','Raids at 60'],['pvp','PvP']];
+/* full keyboard, positions in key widths. sys = used by the game, mod = modifier you can hold */
+const KB_ROWS = [
+  {y:0, keys:[['Esc',1,'sys'],1,['F1'],['F2'],['F3'],['F4'],.5,['F5'],['F6'],['F7'],['F8'],.5,['F9'],['F10'],['F11'],['F12']]},
+  {y:1.25, keys:[['`'],['1'],['2'],['3'],['4'],['5'],['6'],['7'],['8'],['9'],['0'],['-'],['='],['Backspace',2,'sys','⌫']]},
+  {y:2.25, keys:[['Tab',1.5],['Q'],['W'],['E'],['R'],['T'],['Y'],['U'],['I'],['O'],['P'],['['],[']'],['\\',1.5]]},
+  {y:3.25, keys:[['Caps',1.75],['A'],['S'],['D'],['F'],['G'],['H'],['J'],['K'],['L'],[';'],["'"],['Enter',2.25,'sys','Chat']]},
+  {y:4.25, keys:[['Shift',2.25,'mod'],['Z'],['X'],['C'],['V'],['B'],['N'],['M'],[','],['.'],['/'],['RShift',2.75,'sys','Shift']]},
+  {y:5.25, keys:[['Ctrl',1.25,'mod'],['Win',1.25,'sys'],['Alt',1.25,'mod'],['Space',6.25,'sys','Space · jump'],['RAlt',1.25,'sys','Alt'],['RWin',1.25,'sys','Win'],['Menu',1.25,'sys'],['RCtrl',1.25,'sys','Ctrl']]}
+];
+const KB = [];
+KB_ROWS.forEach(r => { let x = 0; r.keys.forEach(k => { if (typeof k === 'number'){ x += k; return; } const [id, w = 1, kind = 'bind', label = id] = k; KB.push({id, w, kind, label, x, y:r.y, cx:x + w/2, cy:r.y + .5}); x += w; }); });
+const KBI = Object.fromEntries(KB.map(k => [k.id, k]));
+const ANCHOR_KEYS = {wasd:['W','A','S','D'], esdf:['E','S','D','F'], mouse:['A','S','D','F']};
+function reach(id, move){ const a = ANCHOR_KEYS[move].map(k => KBI[k]); const ax = a.reduce((s,k) => s + k.cx, 0) / a.length, ay = a.reduce((s,k) => s + k.cy, 0) / a.length; const k = KBI[id]; return Math.hypot(k.cx - ax, (k.cy - ay) * 1.1); }
+const FAR = 3.3, MID = 2.75;
+const BINDABLE = KB.filter(k => k.kind === 'bind').map(k => k.id);
+const defaultHard = move => BINDABLE.filter(id => !MOVE[move].includes(id) && reach(id, move) > FAR);
+const MOVE = {wasd:['W','A','S','D'], esdf:['E','S','D','F'], mouse:[]};
+
+const STEPS = ['Character','How you play','Keyboard','Mouse','Key jobs','Extras','Your setup'];
+let step = 0;
+let A = {name:'', cls:'druid', race:'tauren', level:12, role:'cat', acts:['quest','dungeon'], dual:'heal', move:'wasd', hard:null, kbv:2,mods:['Shift'], side:2, middle:true, interrupt:'auto', defensive:'auto', heal:'auto', escape:'auto', macros:'useful', legacy:0, talented:0};
+try { const v = JSON.parse(localStorage.getItem('fst-answers')||'null'); if (v && v.kbv === 2) A = {...A, ...v}; else if (v) { const {hard, ...rest} = v; A = {...A, ...rest}; } } catch(e){}
+if (!Array.isArray(A.hard)) A.hard = defaultHard(A.move);
+const save = () => { try { localStorage.setItem('fst-answers', JSON.stringify(A)); } catch(e){} };
+
+/* ---------- the druid data the generator uses (Forever learn levels) ---------- */
+const LV = {'Healing Touch':1,'Wrath':1,'Mark of the Wild':1,'War Stomp':1,'Shadowmeld':1,'Rejuvenation':4,'Moonfire':4,'Thorns':6,'Entangling Roots':8,'Bear Form':10,'Maul':10,'Growl':10,'Demoralizing Roar':10,"Nature's Grasp":10,'Regrowth':12,'Enrage':12,'Bash':14,'Cure Poison':14,'Swipe':16,'Aquatic Form':16,'Faerie Fire':18,'Hibernate':18,'Cat Form':20,'Claw':20,'Shred':20,'Rip':20,'Prowl':20,'Rebirth':20,'Starfire':20,'Rake':24,'Ferocious Bite':24,'Remove Curse':24,'Dash':26,'Abolish Poison':26,'Cower':28,'Challenging Roar':28,'Tranquility':30,'Travel Form':30,'Ravage':32,'Pounce':36,'Frenzied Regeneration':36,'Innervate':40,'Hurricane':40,'Barkskin':44,'Gift of the Wild':50,
+  'Feral Charge':20,'Lacerate':25,'Primal Bite':40,'Shifting Power':40,'Swiftmend':25,"Nature's Swiftness":30,'Wild Growth':40,'Insect Swarm':25,'Moonkin Form':40,'Mount':10,'Trinket':1,'Healing Potion':1};
+const TALENT = new Set(['Feral Charge','Lacerate','Primal Bite','Shifting Power','Swiftmend',"Nature's Swiftness",'Wild Growth','Insect Swarm','Moonkin Form']);
+const TIER = {spam:'var(--spam)', rot:'var(--short)', short:'var(--short)', once:'var(--mid)', interrupt:'var(--mid)', defensive:'var(--mid)', long:'var(--long)'};
+const JOBNAME = {spam:'Spam', rot:'Rotation', short:'Short cooldown', once:'Once a fight', interrupt:'Interrupt', defensive:'Defensive', long:'Long cooldown'};
+/* what goes on Action Bar 1 in each form, by play style: same job, same key, in every form */
+const KITS = {
+  cat:{forms:['cat','bear','caster'],
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Shifting Power','Faerie Fire','Cower'], once:['Feral Charge','Prowl'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Feral Charge','Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    caster:{spam:['Healing Touch','Rejuvenation'], rot:['Wrath','Moonfire','Regrowth'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  tank:{forms:['bear','cat','caster'],
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Lacerate','Growl'], short:['Primal Bite','Enrage','Faerie Fire'], once:['Feral Charge','Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Shifting Power','Faerie Fire','Cower'], once:['Feral Charge','Prowl'], interrupt:'Bear Form', defensive:'Barkskin'},
+    caster:{spam:['Healing Touch','Rejuvenation'], rot:['Wrath','Moonfire','Regrowth'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  heal:{forms:['caster','bear','cat'],
+    caster:{spam:['Rejuvenation','Healing Touch'], rot:['Regrowth','Swiftmend','Wild Growth'], short:['Abolish Poison','Remove Curse',"Nature's Swiftness"], once:['Innervate','Entangling Roots'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Faerie Fire','Cower'], once:['Prowl','Dash'], interrupt:'Bear Form', defensive:'Barkskin'}},
+  balance:{forms:['caster','bear','cat'],
+    caster:{spam:['Wrath','Starfire'], rot:['Moonfire','Insect Swarm','Hurricane'], short:['Entangling Roots','Faerie Fire','Abolish Poison'], once:['Remove Curse','Innervate'], interrupt:'Bear Form', defensive:'Barkskin'},
+    bear:{spam:['Maul','Swipe'], rot:['Demoralizing Roar','Growl'], short:['Enrage','Faerie Fire'], once:['Frenzied Regeneration'], interrupt:'Bash', defensive:'Barkskin'},
+    cat:{spam:['Claw','Shred'], rot:['Rake','Rip','Ferocious Bite'], short:['Faerie Fire','Cower'], once:['Prowl','Dash'], interrupt:'Bear Form', defensive:'Barkskin'}}
+};
+const FORMLABEL = {cat:['Cat','var(--cat)'], bear:['Bear','var(--bear)'], caster:['Caster','var(--caster)']};
+/* where each job sits for each movement style, before removing the keys you find hard */
+const TEMPLATES = {
+  wasd:{spam:['Q','E'], rot:['1','2','3'], short:['R','F','4'], once:['5','V'], interrupt:['X'], defensive:['C'], spare:['Z','T','G','6','B']},
+  esdf:{spam:['W','R'], rot:['2','3','4'], short:['T','G','5'], once:['6','B'], interrupt:['C'], defensive:['V'], spare:['A','Q','Z','X','1']},
+  mouse:{spam:['1','2'], rot:['3','4','5'], short:['Q','W','E'], once:['R','T'], interrupt:['F'], defensive:['C'], spare:['A','S','D','Z','X','V']}
+};
+
+/* ---------- generator ---------- */
+function generate(){
+  const tpl = JSON.parse(JSON.stringify(TEMPLATES[A.move]));
+  const hard = new Set(A.hard);
+  const movement = new Set(MOVE[A.move]);
+  const usable = k => !hard.has(k) && !movement.has(k);
+  // drop hard keys, refill each job from the spare pool so every job keeps a key
+  const inTpl = new Set(Object.values(tpl).flat());
+  const extra = BINDABLE.filter(k => usable(k) && !inTpl.has(k)).sort((a,b) => reach(a, A.move) - reach(b, A.move));
+  const spare = [...tpl.spare.filter(usable), ...extra];
+  const used = new Set();
+  const jobs = {};
+  for (const j of ['interrupt','defensive','spam','rot','short','once']){
+    jobs[j] = [];
+    for (const k of tpl[j]){ if (usable(k) && !used.has(k)){ jobs[j].push(k); used.add(k); } }
+    while (jobs[j].length < tpl[j].length && spare.length){ const k = spare.shift(); if (!used.has(k)){ jobs[j].push(k); used.add(k); } }
+  }
+  // your chosen keys win over the template
+  const mouseJobs = {};
+  const choose = (job, pick) => {
+    if (pick === 'auto') return;
+    if (pick.startsWith('Mouse')){ mouseJobs[pick] = job; return; }
+    for (const j in jobs){ const i = jobs[j].indexOf(pick); if (i >= 0) jobs[j].splice(i,1); }
+    jobs[job] = [pick, ...(jobs[job]||[]).filter(k => k !== pick)].slice(0, Math.max(1, (jobs[job]||[]).length));
+  };
+  choose('interrupt', A.interrupt); choose('defensive', A.defensive);
+  const kit = KITS[A.role];
+  const mod = A.mods.includes('Shift') ? 'Shift' : A.mods.includes('Ctrl') ? 'Ctrl' : A.mods.includes('Alt') ? 'Alt' : null;
+  const modSym = mod === 'Shift' ? '⇧' : mod === 'Ctrl' ? 'Ctrl ' : mod === 'Alt' ? 'Alt ' : '';
+  const macros = A.macros;
+  const label = n => {
+    if (macros === 'useful' && n === 'Claw') return ['Claw · Pounce', true];
+    if (macros === 'useful' && n === 'Shred') return ['Shred · Ravage', true];
+    if (macros !== 'none' && n === 'Bash') return ['Enrage + Bash', true];
+    return [n, false];
+  };
+  // Action Bar 1, one page per form
+  const pages = {};
+  for (const f of kit.forms){
+    const k = kit[f]; const slots = [];
+    const put = (job, list) => (jobs[job]||[]).forEach((key, i) => { const n = list[i]; if (n){ const [nm, mac] = label(n); slots.push({key, n:nm, base:n, job, mac}); } else slots.push({key, job, empty:true}); });
+    put('spam', k.spam); put('rot', k.rot); put('short', k.short); put('once', k.once);
+    put('interrupt', [k.interrupt]); put('defensive', [k.defensive]);
+    pages[f] = slots.sort((a,b) => keyOrder(a.key) - keyOrder(b.key));
+  }
+  // forms on the stance bar, long cooldowns on the modifier layer
+  const race = A.race;
+  const racial = race === 'tauren' ? 'War Stomp' : race === 'nightelf' ? 'Shadowmeld' : null;
+  const stance = [{key:`${modSym}1`, n:'Bear Form', job:'short'}, {key:`${modSym}2`, n:'Cat Form', job:'short'}].concat(A.role === 'balance' ? [{key:`${modSym}3`, n:'Moonkin Form', job:'short'}] : []);
+  const longList = ['Mark of the Wild','Thorns','Tranquility','Rebirth', racial, 'Trinket','Hibernate',"Nature's Grasp",'Mount'].filter(Boolean);
+  const layerKeys = ['Q','E','R','F','X','C','V','Z','3','4'].filter(k => usable(k) || ['Q','E','R','F'].includes(k)).filter(k => !hard.has(k));
+  const layer = mod ? longList.map((n,i) => layerKeys[i] ? {key:`${modSym}${layerKeys[i]}`, n, job:'long'} : null).filter(Boolean) : longList.map(n => ({key:'Click', n, job:'long'}));
+  const travelKey = usable('Z') ? 'Z' : spare.find(k => !used.has(k)) || 'Click';
+  const fixed = [{key:travelKey, n: macros === 'none' ? 'Travel Form' : 'Travel · Aquatic', base:'Travel Form', job:'spam', mac: macros !== 'none'}].concat(layer);
+  // mouse
+  const mouse = [];
+  const mb = [];
+  if (A.side >= 2) mb.push(['Mouse 5','Front side'], ['Mouse 4','Back side']);
+  if (A.side >= 3) mb.push(['Mouse 6','Third side']);
+  if (A.middle) mb.push(['Mouse 3','Middle']);
+  const defaults = {'Mouse 5':'escape','Mouse 4':'potion','Mouse 3':'heal','Mouse 6':'instant'};
+  if (A.heal !== 'auto') { for (const k in defaults) if (defaults[k] === 'heal') delete defaults[k]; if (A.heal.startsWith('Mouse')) defaults[A.heal] = 'heal'; }
+  if (A.escape !== 'auto') { for (const k in defaults) if (defaults[k] === 'escape') delete defaults[k]; if (A.escape.startsWith('Mouse')) defaults[A.escape] = 'escape'; }
+  Object.assign(defaults, mouseJobs);
+  const MJ = {
+    escape:{n: macros === 'none' ? 'Dash' : 'Cat, then Dash', base:'Dash', job:'once', mac: macros !== 'none'},
+    potion:{n:'Healing Potion', base:'Healing Potion', job:'long'},
+    heal:{n: macros === 'none' ? 'Regrowth' : 'Emergency Regrowth', base:'Regrowth', job:'spam', mac: macros !== 'none'},
+    instant:{n: macros === 'none' ? 'Rejuvenation' : 'Instant Rejuvenation', base:'Rejuvenation', job:'spam', mac: macros !== 'none'},
+    interrupt:{n: racial === 'War Stomp' ? 'War Stomp' : 'Bash', base: racial === 'War Stomp' ? 'War Stomp' : 'Bash', job:'interrupt'},
+    defensive:{n:'Barkskin', base:'Barkskin', job:'defensive'}
+  };
+  mb.forEach(([k,lab]) => { const j = defaults[k]; if (j && MJ[j]) mouse.push({key:k, lab, ...MJ[j]}); });
+  if (A.middle && mod && macros !== 'none' && !mouse.some(m => m.base === 'Rejuvenation')) mouse.push({key:`${modSym}Mouse 3`, lab:`${mod} + middle`, ...MJ.instant});
+  // keyboard fallbacks for heal or escape chosen on a key
+  [['heal', A.heal], ['escape', A.escape]].forEach(([j, pick]) => { if (pick !== 'auto' && !pick.startsWith('Mouse')) fixed.push({key:pick, ...MJ[j]}); });
+  return {pages, forms:kit.forms, stance, fixed, mouse, mod, modSym, jobs};
+}
+function keyOrder(k){ const order = '1234567QWERTYASDFGHZXCVB'; const i = order.indexOf(k); return i < 0 ? 99 : i; }
+const pointsAt = (lvl, t) => Math.min(51, Math.max(0, lvl - 9 + t));
+function preset(){
+  const has = a => A.acts.includes(a);
+  if (A.role === 'cat') return has('dungeon') ? ['Leveling damage, can tank dungeons','Cat damage first, then Primal Bite and Lacerate so you can tank a dungeon when nobody else does.'] : ['Leveling damage (cat)','Pure cat damage for fast solo leveling.'];
+  if (A.role === 'tank') return ['Dungeon tank (bear)','Threat, armor, dodge and Stamina.'];
+  if (A.role === 'heal') return has('pvp') ? ['PvP healer','Casts that keep going when hit, cheap shifting and fast heals.'] : has('raid') ? ['Raid healer','Every healing talent for long fights.'] : ['Leveling healer','Restoration with extra damage for questing.'];
+  return ['Balance','Balance builds are coming next in the full tool.'];
+}
+
+/* ---------- steps ---------- */
+function opt(name, val, title, sub, multi, disabled){
+  const on = multi ? A[name].includes(val) : A[name] === val;
+  return `<button type="button" class="opt" data-n="${name}" data-v="${esc(val)}" ${multi?'data-multi="1"':''} aria-pressed="${on}" ${disabled?'disabled':''}><b>${esc(title)}</b>${sub?`<span>${esc(sub)}</span>`:''}</button>`;
+}
+function keyChoices(includeMouse){
+  const mv = new Set(MOVE[A.move]);
+  const keys = BINDABLE.filter(k => !mv.has(k) && !A.hard.includes(k)).sort((a,b) => reach(a, A.move) - reach(b, A.move));
+  const mouse = [];
+  if (includeMouse){ if (A.side >= 2) mouse.push('Mouse 5','Mouse 4'); if (A.side >= 3) mouse.push('Mouse 6'); if (A.middle) mouse.push('Mouse 3'); }
+  return ['auto', ...mouse, ...keys];
+}
+function sel(name, choices){
+  const labels = {auto:'Choose for me','Mouse 5':'Mouse front side','Mouse 4':'Mouse back side','Mouse 6':'Mouse third side','Mouse 3':'Mouse middle'};
+  return `<select class="inp" id="q-${name}" data-n="${name}">${choices.map(c => `<option value="${esc(c)}" ${A[name]===c?'selected':''}>${esc(labels[c] || 'Key ' + c)}</option>`).join('')}</select>`;
+}
+function renderStep(){
+  document.getElementById('rail').innerHTML = STEPS.map((s,i) => `<button type="button" data-step="${i}" class="${i<step?'done':''} ${i===step?'cur':''}" aria-current="${i===step?'step':'false'}"><i></i><span>${i+1}. ${esc(s)}</span></button>`).join('');
+  const st = document.getElementById('stage');
+  let h = '';
+  if (step === 0){
+    const races = (RACES[A.cls] || ALL_RACES);
+    h = `<div class="card"><h2>Your character</h2>
+      <div class="q"><label for="q-name">Character name</label><input class="inp" id="q-name" data-n="name" value="${esc(A.name)}" maxlength="24" placeholder="Name in game" autocomplete="off"></div>
+      <div class="q"><div class="ql">Class</div><div class="opts">${CLASSES.map(([v,l,ok]) => opt('cls', v, l, ok ? 'Ready' : 'Coming soon', false)).join('')}</div>${A.cls !== 'druid' ? '<small>Only Druid is fully built in this test. Other classes get the same questions, and their spells come next.</small>' : ''}</div>
+      <div class="q"><div class="ql">Race</div><div class="opts">${races.map(([v,l,f]) => opt('race', v, l, f, false)).join('')}</div></div>
+      <div class="q"><label for="q-level">Level right now</label><input class="inp" id="q-level" data-n="level" type="number" min="1" max="60" inputmode="numeric" value="${A.level}" style="max-width:120px"><small>Most people start using the tool mid-game. Your level decides which spells you already have and how many talent points you can spend.</small></div>
+    </div>`;
+  }
+  if (step === 1){
+    h = `<div class="card"><h2>How you play</h2>
+      <div class="q"><div class="ql">What do you mainly want to do?</div><div class="opts">${ROLES.map(([v,l,s]) => opt('role', v, l, s, false)).join('')}</div></div>
+      <div class="q"><div class="ql">Where do you spend your time? <small>Pick all that apply</small></div><div class="opts">${ACTS.map(([v,l]) => opt('acts', v, l, '', true)).join('')}</div></div>
+      <div class="q"><div class="ql">Second spec at level 40 <small>Dual spec lets you swap between two talent builds</small></div><div class="opts">${[['heal','Healer'],['tank','Tank'],['cat','Cat damage'],['pvp','PvP'],['none','Not sure yet']].map(([v,l]) => opt('dual', v, l, '', false)).join('')}</div></div>
+      <p class="why">This picks your starting talent build and which form gets the easiest keys.</p></div>`;
+  }
+  if (step === 2){
+    const mv = new Set(MOVE[A.move]);
+    h = `<div class="card"><h2>Your keyboard</h2>
+      <div class="q"><div class="ql">How do you move?</div><div class="opts">${opt('move','wasd','W A S D','Most players')}${opt('move','esdf','E S D F','Hand one key to the right')}${opt('move','mouse','Mouse','Click or both buttons to move')}</div></div>
+      <div class="q"><div class="ql">Which keys can you reach without looking? <small>Red keys stay empty. We marked the ones far from your hand; tap any key to switch it on or off.</small></div>
+        <div class="kbd">${KB.map(k => {
+          const pos = `left:calc(var(--u) * ${k.x});top:calc(var(--u) * ${k.y});width:calc(var(--u) * ${k.w} - 4px)`;
+          if (k.kind === 'sys') return `<span class="key sys" style="${pos}" aria-hidden="true">${esc(k.label)}</span>`;
+          if (k.kind === 'mod') return `<button type="button" class="key mod" style="${pos}" data-mod="${k.id}" aria-pressed="${A.mods.includes(k.id)}" aria-label="${k.id}, modifier">${k.id}</button>`;
+          if (mv.has(k.id)) return `<span class="key move" style="${pos}" aria-hidden="true">${esc(k.label)}</span>`;
+          const off = A.hard.includes(k.id), mid = !off && reach(k.id, A.move) > MID;
+          return `<button type="button" class="key ${off ? 'off' : ''} ${mid ? 'mid' : ''}" style="${pos}" data-hard="${esc(k.id)}" aria-pressed="${off}" aria-label="Key ${esc(k.label)}${off ? ', left empty' : ''}">${esc(k.label)}</button>`;
+        }).join('')}</div>
+        <div class="kleg"><span><i></i>Used</span><span><i style="border-color:var(--mid)"></i>A stretch, still used</span><span><i style="background:color-mix(in srgb, var(--long) 30%, var(--panel-2));border-color:var(--long)"></i>Left empty</span><span><i style="border-style:dashed;background:none"></i>Movement</span><span><i style="background:color-mix(in srgb, var(--gold) 22%, var(--panel-2));border-color:var(--gold)"></i>Modifier you hold</span><span>Gray keys belong to the game</span></div>
+        <div class="kbtns"><button type="button" id="kb-reset">Back to suggested</button><button type="button" id="kb-strict">Only the closest keys</button></div></div>
+      <div class="q"><div class="ql">Modifiers you are comfortable holding <small>The first one holds your long cooldowns and forms</small></div><div class="opts">${['Shift','Ctrl','Alt'].map(m => opt('mods', m, m, '', true)).join('')}</div></div>
+    </div>`;
+  }
+  if (step === 3){
+    h = `<div class="card"><h2>Your mouse</h2>
+      <div class="q"><div class="ql">Extra buttons on the side</div><div class="opts">${opt('side',0,'None','')}${opt('side',2,'Two','Front and back')}${opt('side',3,'Three or more','')}</div></div>
+      <div class="q"><div class="ql">Can you use the middle button (wheel click) in fights?</div><div class="opts">${opt('middle',true,'Yes','')}${opt('middle',false,'No','')}</div></div>
+      <p class="why">Mouse buttons are best for things you need in a panic: an emergency heal, a potion, an escape. You never have to look for them.</p></div>`;
+  }
+  if (step === 4){
+    h = `<div class="card"><h2>Your important keys</h2><p class="muted">These stay the same in every form, so your hand learns them once. Leave "Choose for me" if you have no habit yet.</p>
+      <div class="q"><label for="q-interrupt">Interrupt</label>${sel('interrupt', keyChoices(true))}</div>
+      <div class="q"><label for="q-defensive">Defensive</label>${sel('defensive', keyChoices(true))}</div>
+      <div class="q"><label for="q-heal">Emergency heal</label>${sel('heal', keyChoices(true))}</div>
+      <div class="q"><label for="q-escape">Escape or speed</label>${sel('escape', keyChoices(true))}</div></div>`;
+  }
+  if (step === 5){
+    h = `<div class="card"><h2>Extras</h2>
+      <div class="q"><div class="ql">Macros</div><div class="opts">${opt('macros','none','None','Plain spells only')}${opt('macros','few','A few','Heals and cleanses on mouseover')}${opt('macros','useful','Every useful one','One key does two related things')}</div></div>
+      <div class="q"><label for="q-legacy">Legacy points on your account <small>0 if you are new. They come from challenges like reaching level 25.</small></label><input class="inp" id="q-legacy" data-n="legacy" type="number" min="0" max="16" value="${A.legacy}" style="max-width:120px"></div>
+      <div class="q"><label for="q-talented">Ranks in the Talented perk <small>Each rank gives your talent points one level earlier</small></label><input class="inp" id="q-talented" data-n="talented" type="number" min="0" max="5" value="${A.talented}" style="max-width:120px"></div></div>`;
+  }
+  if (step === 6) h = renderResult();
+  h += `<div class="nav"><button class="btn" id="back" type="button" ${step===0?'disabled':''}>Back</button>${step < 6 ? `<button class="btn primary" id="next" type="button">${step===5?'Build my setup':'Next'}</button>` : `<span style="display:flex;gap:10px"><button class="btn" id="restart" type="button">Start over</button><button class="btn primary" id="finish" type="button">Finish setup</button></span>`}</div>`;
+  st.innerHTML = h;
+}
+let viewForm = null;
+function renderResult(){
+  if (A.cls !== 'druid') return `<div class="card"><h2>Almost there</h2><p>${esc(CLASSES.find(c=>c[0]===A.cls)[1])} is not built into this test yet. The full tool will use exactly these answers once its spells are researched. Pick Druid on step 1 to see a full result.</p></div>`;
+  const g = generate(); viewForm = viewForm && g.forms.includes(viewForm) ? viewForm : g.forms[0];
+  const lvl = Math.min(60, Math.max(1, +A.level || 1)), t = Math.min(5, Math.max(0, +A.talented || 0));
+  const allSpells = Object.keys(LV).filter(n => !['Mount','Trinket','Healing Potion','Shadowmeld','War Stomp'].includes(n) && !TALENT.has(n));
+  const known = allSpells.filter(n => LV[n] <= lvl).length;
+  const next = allSpells.filter(n => LV[n] > lvl).sort((a,b) => LV[a]-LV[b])[0];
+  const [pName, pWhy] = preset();
+  const slot = s => s.empty ? `<div class="slot empty" style="--sc:var(--line)"><div class="k">${esc(s.key)}</div><div class="s">${esc(JOBNAME[s.job])}</div><div class="j">Free</div></div>`
+    : `<div class="slot ${(LV[s.base||s.n]||1) > lvl ? 'later' : ''}" style="--sc:${TIER[s.job]}"><div class="k">${esc(s.key.replace('Mouse ','M'))}<span>${s.mac?'<em class="m">M</em>':''}${(LV[s.base||s.n]||1) > lvl ? `<em>${LV[s.base||s.n]}</em>` : ''}${TALENT.has(s.base||s.n)?'<em>T</em>':''}</span></div><div class="s">${esc(s.n)}</div><div class="j">${esc(s.lab || JOBNAME[s.job])}</div></div>`;
+  const race = (RACES.druid.find(r => r[0] === A.race) || ['','Druid'])[1];
+  return `<div class="card">
+    <div class="char"><span class="nm">${esc(A.name || 'Your character')}</span><span class="lv">Level ${lvl}</span><span class="cl">${esc(race)} Druid · ${esc(ROLES.find(r=>r[0]===A.role)[1])}</span></div>
+    <div class="facts">
+      <div class="fact"><b>${pointsAt(lvl,t)}</b><span>talent points at level ${lvl}${t?` with Talented ${t}`:''}</span></div>
+      <div class="fact"><b>${known}/${allSpells.length}</b><span>spells learned${next ? ` · next: ${esc(next)} at ${LV[next]}` : ''}</span></div>
+      <div class="fact"><b style="font-size:17px">${esc(pName)}</b><span>${esc(pWhy)}</span></div>
+      <div class="fact"><b style="font-size:17px">${A.legacy ? `${Math.min(16, A.legacy)} Legacy points` : 'No Legacy yet'}</b><span>${A.legacy ? 'Well Rested, then Talented for leveling.' : 'Your first comes at level 25.'}</span></div>
+    </div>
+    <div class="bar"><div class="bar-h"><b>Action Bar 1 · changes with your form</b><span>Your main bar at the bottom of the screen</span></div>
+      <div class="ftabs">${g.forms.map(f => `<button type="button" class="ftab" data-f="${f}" style="--fc:${FORMLABEL[f][1]}" aria-pressed="${f===viewForm}">${FORMLABEL[f][0]}</button>`).join('')}</div>
+      <div class="slots">${g.pages[viewForm].map(slot).join('')}</div></div>
+    <div class="bar"><div class="bar-h"><b>Stance bar</b><span>Press again to go back to caster form</span></div><div class="slots">${g.stance.map(slot).join('')}</div></div>
+    <div class="bar"><div class="bar-h"><b>Action Bar 2 · ${g.mod ? esc(g.mod) + ' keys' : 'click these'}</b><span>Same in every form · long cooldowns${g.mod ? '' : '. Pick a modifier on step 3 to bind them'}</span></div><div class="slots">${g.fixed.map(slot).join('')}</div></div>
+    ${g.mouse.length ? `<div class="bar"><div class="bar-h"><b>Action Bar 3 · mouse</b><span>Same in every form</span></div><div class="slots">${g.mouse.map(slot).join('')}</div></div>` : ''}
+    <div class="legend"><span><i style="background:var(--spam)"></i>Spam</span><span><i style="background:var(--short)"></i>Rotation and short cooldowns</span><span><i style="background:var(--mid)"></i>Once a fight</span><span><i style="background:var(--long)"></i>Long cooldown</span><span>Faded: not learned yet · T: talent · M: macro</span></div>
+    <div class="notes">
+      <p>Spam spells sit next to your movement keys, finishers and slower spells one row up, long cooldowns behind ${g.mod ? esc(g.mod) : 'a click'} so you never press them by accident.</p>
+      <p>${(() => { const close = A.hard.filter(k => reach(k, A.move) <= FAR); return close.length ? `You switched off ${esc(close.join(', '))}, so ${close.length > 1 ? 'they stay' : 'it stays'} empty along with the far keys.` : 'Only keys close to your hand are used.'; })()} Your interrupt is on ${esc((g.jobs.interrupt||[])[0] || 'the mouse')} and your defensive on ${esc((g.jobs.defensive||[])[0] || 'the mouse')} in every form.</p>
+      <p>Finish setup opens your own page: these bars with the macros to copy, your talent tree at level ${lvl}, Legacy perks, rotations, PvP help, news and where to level next. Everything stays in this browser.</p>
+    </div>
+    <div class="chips">${[['Name',A.name||'–'],['Class','Druid'],['Race',race],['Level',lvl],['Plays',ROLES.find(r=>r[0]===A.role)[1]],['Does',A.acts.map(a=>ACTS.find(x=>x[0]===a)[1]).join(', ')||'–'],['Moves with',A.move.toUpperCase()],['Modifier',A.mods.join(', ')||'none'],['Mouse buttons',A.side + (A.middle?' + middle':'')],['Macros',A.macros]].map(([k,v]) => `<span class="chip">${esc(k)} <b>${esc(v)}</b></span>`).join('')}</div>
+  </div>`;
+}
+
+/* ---------- events ---------- */
+document.getElementById('stage').addEventListener('click', e => {
+  const o = e.target.closest('.opt'); if (o && !o.disabled){ const n = o.dataset.n; let v = o.dataset.v; if (v === 'true') v = true; else if (v === 'false') v = false; else if (/^\d+$/.test(v) && n === 'side') v = +v;
+    if (o.dataset.multi){ A[n] = A[n].includes(v) ? A[n].filter(x => x !== v) : [...A[n], v]; } else { A[n] = v; if (n === 'cls'){ const r = RACES[v] || ALL_RACES; if (!r.some(x => x[0] === A.race)) A.race = r[0][0]; } if (n === 'move'){ A.hard = defaultHard(v); } }
+    save(); renderStep(); return; }
+  const k = e.target.closest('[data-hard]'); if (k){ const v = k.dataset.hard; A.hard = A.hard.includes(v) ? A.hard.filter(x => x !== v) : [...A.hard, v]; save(); renderStep(); return; }
+  const md = e.target.closest('[data-mod]'); if (md){ const v = md.dataset.mod; A.mods = A.mods.includes(v) ? A.mods.filter(x => x !== v) : [...A.mods, v]; save(); renderStep(); return; }
+  if (e.target.id === 'kb-reset'){ A.hard = defaultHard(A.move); save(); renderStep(); return; }
+  if (e.target.id === 'kb-strict'){ A.hard = BINDABLE.filter(id => !MOVE[A.move].includes(id) && reach(id, A.move) > MID); save(); renderStep(); return; }
+  if (e.target.id === 'finish'){ finishSetup(); return; }
+  const f = e.target.closest('[data-f]'); if (f){ viewForm = f.dataset.f; renderStep(); return; }
+  if (e.target.id === 'next'){ step = Math.min(6, step+1); renderStep(); window.scrollTo(0,0); }
+  if (e.target.id === 'back'){ step = Math.max(0, step-1); renderStep(); window.scrollTo(0,0); }
+  if (e.target.id === 'restart'){ step = 0; renderStep(); window.scrollTo(0,0); }
+});
+document.getElementById('stage').addEventListener('change', e => {
+  const n = e.target.dataset.n; if (!n) return;
+  let v = e.target.value; if (['level','legacy','talented'].includes(n)) v = Math.round(+v || 0);
+  if (n === 'level') v = Math.min(60, Math.max(1, v)); if (n === 'legacy') v = Math.min(65, Math.max(0, v)); if (n === 'talented') v = Math.min(5, Math.max(0, v));
+  A[n] = v; save();
+});
+document.getElementById('stage').addEventListener('input', e => { if (e.target.id === 'q-name'){ A.name = e.target.value.slice(0,24); save(); } });
+document.getElementById('rail').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; step = +b.dataset.step; renderStep(); });
+/* ---------- finish: turn the answers into a profile the app reads ---------- */
+const JOB_T = {spam:'spam', rot:'short', short:'short', once:'mid', interrupt:'mid', defensive:'mid', long:'long'};
+const MACRO_OF = {'Claw · Pounce':'clawpounce','Shred · Ravage':'shredravage','Enrage + Bash':'enragebash','Travel · Aquatic':'travel','Cat, then Dash':'dash','Emergency Regrowth':'heal','Instant Rejuvenation':'instant'};
+function toS(x, form){
+  if (!x || x.empty) return null;
+  const base = x.base || x.n;
+  let macro = MACRO_OF[x.n];
+  if (!macro && A.macros !== 'none' && base === 'Abolish Poison') macro = 'poison';
+  if (!macro && A.macros !== 'none' && base === 'Remove Curse') macro = 'curse';
+  const s = {n: x.n, base, t: JOB_T[x.job] || 'short'};
+  if (macro) s.macro = macro;
+  if (LV[base] > 1) s.lvl = LV[base];
+  if (base === 'Bear Form' && x.job === 'interrupt') { s.cd = 'Route'; s.role = `Goes to bear. Press ${x.key} again in bear to Bash.`; delete s.lvl; }
+  return s;
+}
+function finishSetup(){
+  if (A.cls !== 'druid') return;
+  const g = generate();
+  const main = {}, keys = new Set(), job = {};
+  g.forms.forEach(f => { main[f] = {}; g.pages[f].forEach(x => { keys.add(x.key); job[x.key] ||= JOBNAME[x.job]; const s = toS(x, f); if (s) main[f][x.key] = s; }); });
+  const raceRow = (RACES.druid.find(r => r[0] === A.race) || ['tauren','Tauren','Horde']);
+  const faction = A.race === 'nightelf' ? 'Alliance' : A.race === 'tauren' ? 'Horde' : 'Horde or Alliance';
+  const profile = {v:1, personal:false, cls:'druid', race:A.race, raceLabel:raceRow[1], faction, answers:A,
+    binds:{spec: A.role === 'heal' ? 'resto' : 'feral', specLabel: A.role === 'heal' ? 'Restoration' : A.role === 'balance' ? 'Balance' : A.role === 'tank' ? 'Feral (tank)' : 'Feral',
+      mainKeys: [...keys].sort((a,b) => keyOrder(a) - keyOrder(b)), job, main,
+      stance: g.stance.map(x => ({key:x.key, bind:'Stance bar', s:toS(x)})),
+      left: g.fixed.map(x => ({key:x.key, s:toS(x)})), leftTitle: g.mod ? `Action Bar 2 · ${g.mod} keys` : 'Action Bar 2 · click these',
+      alt: [], mouse: g.mouse.map(x => ({key:x.key, label:x.lab, s:toS(x)})),
+      unbound: [['Revive','12','Out of combat resurrection'],['Soothe Animal','22',"Shrinks a beast's aggro range"],['Teleport: Moonglade','10','Travel'],['Challenging Roar','28','Bear group taunt for a pull that runs at the healer'],['Hearthstone','','Keep it unbound so you never port by accident'],['Gift of the Wild','50','Group buff, swap it in for Mark of the Wild in groups']]}};
+  const t = Math.min(5, Math.max(0, +A.talented || 0));
+  const legacyPicks = t ? {'Well Rested':5, 'Talented':t} : {};
+  const build = {level: Math.min(60, Math.max(1, +A.level || 1)), name: A.name || '', legacy:{earned: Math.max(+A.legacy || 0, t ? 5 + t : 0), picks: legacyPicks}, specs:{feral:{}, resto:{}, pvp:{}}};
+  try {
+    localStorage.setItem('fc-profile', JSON.stringify(profile));
+    localStorage.setItem('fdk-build', JSON.stringify(build));
+    location.href = 'app.html#binds';
+  } catch(e){ alertBox('Your browser blocked saving. Allow site data for this page and try again.'); }
+}
+function alertBox(msg){ const st = document.getElementById('stage'); st.insertAdjacentHTML('beforeend', `<div class="finish">${esc(msg)}</div>`); }
+try { if (localStorage.getItem('fc-profile') && !/redo=1/.test(location.search)) document.getElementById('haveSetup').hidden = false; } catch(e){}
+renderStep();
+</script>
