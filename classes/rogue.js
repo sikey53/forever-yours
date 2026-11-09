@@ -94,10 +94,15 @@
         </ol>
       </div>
     </div>
-    <h3>Good to know in Forever</h3>
+    <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>New tools</summary><div class="dbody"><p>Shank is new at 24: an off-hand strike for 5 Energy. Mutilate is a talent at the bottom of Assassination, and Venom raises your poison damage when you Shank. Rogues can use one-handed axes now.</p></div></details>
-      <details class="pcard"><summary>Casters</summary><div class="dbody"><p>Kick every cast, it locks that school for a few seconds. Save Kidney Shot for when they try to cast through damage.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Vanish to reset, or Gouge and Sprint away. Evasion against melee, a Healing Potion between stuns.</p></div></details>
+      <details class="pcard"><summary>Another rogue</summary><div class="dbody"><p>Whoever opens first usually wins, so stay in Stealth until you see them. Gouge through their Evasion and Blind them when they are low.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Evasion against their swings, and keep them stunned with Cheap Shot then Kidney Shot. Gouge and step away when they try to Execute.</p></div></details>
+      <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Open with Cheap Shot, Kick the first cast, Kidney Shot before they Blink. If Frost Nova roots you, wait it out or Vanish.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Kick every Fear and heal. Sprint back to them after Psychic Scream, and keep Kidney Shot for when they try to heal.</p></div></details>
+      <details class="pcard"><summary>A hunter or an enemy druid</summary><div class="dbody"><p>Hunters want range: Sprint in and stun. Druids shift out of roots, so keep them stunned and Kick when they drop to caster form.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Sap one before you open, Blind the healer, Vanish if a third joins.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });

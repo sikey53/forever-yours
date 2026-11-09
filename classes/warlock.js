@@ -81,8 +81,13 @@
     </div>
     <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>Any fight</summary><div class="dbody"><p>Corruption and Bane of Agony first, Curse of Exhaustion or Tongues on top since banes and curses stack now. Fear and Howl of Terror keep melee off you, Death Coil is your panic button.</p></div></details>
-      <details class="pcard"><summary>Casters</summary><div class="dbody"><p>Felhunter's Spell Lock interrupts and silences. Drag it from the pet bar onto your interrupt key.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Death Coil, then Fear, then your Healthstone. Howl of Terror when two reach you.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Death Coil the moment the stun ends, then Fear. Keep Corruption on them so they cannot Stealth again.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Curse of Exhaustion with Corruption and a bane, then Fear and let the damage tick. Death Coil when they break free.</p></div></details>
+      <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Spell Lock their cast with your Felhunter and Curse of Tongues to slow the next ones. Stay at range against Frost Nova.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Spell Lock the fear or the heal, Curse of Tongues, and Devour Magic their buffs with the Felhunter.</p></div></details>
+      <details class="pcard"><summary>A hunter or an enemy druid</summary><div class="dbody"><p>Fear the hunter and let your demon handle the pet. Against druids, Curse of Tongues and Spell Lock their heals.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Howl of Terror, then damage over time on both. Banes and curses stack now, so put one of each on the main target.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });

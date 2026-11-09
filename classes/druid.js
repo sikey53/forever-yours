@@ -379,5 +379,6 @@ const WIZ = {
   notSpells: ['Mount','Trinket','Healing Potion','Shadowmeld','War Stomp'],
   unbound: [['Revive','12','Out of combat resurrection'],['Soothe Animal','22',"Shrinks a beast's aggro range"],['Teleport: Moonglade','10','Travel'],['Challenging Roar','28','Bear group taunt for a pull that runs at the healer'],['Hearthstone','','Keep it unbound so you never port by accident'],['Gift of the Wild','50','Group buff, swap it in for Mark of the Wild in groups']]
 };
-return {WIZ, CLASS_PROFILE, SPECS, MACROS, TREES, TREE_ORDER, PLAN, TT, SPELLS, FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER, targetLevel, PRESETS, SB_FORMS, sbForm, FIGHT_HTML, NOTES_HTML, PLAN_NOTE, GOALS_HTML};
+const KEY_TALENT = {feral: ['feral', 'Shifting Power', 40]};
+return {KEY_TALENT, WIZ, CLASS_PROFILE, SPECS, MACROS, TREES, TREE_ORDER, PLAN, TT, SPELLS, FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER, targetLevel, PRESETS, SB_FORMS, sbForm, FIGHT_HTML, NOTES_HTML, PLAN_NOTE, GOALS_HTML};
 })();

@@ -10,7 +10,28 @@ window.FY_makeClass = function(cls, H){
   /* racials of this class's races, so they can go on a key too */
   (D.races || []).forEach(r => r.abilities.forEach(([n, d]) => { if (!SPELLS[n] && /Instant|cooldown/i.test(d)) SPELLS[n] = {form: 'Racial · ' + r.race, cd: (d.match(/(\d+ (?:sec|min)) cooldown/) || [,''])[1], lvl: 1, d}; }));
   Object.assign(SPELLS, H.extraSpells || {});
+  /* what each talent gives, worked out from its own rank text: talents that name your spells are listed under those spells */
+  const spellNames = Object.keys(SPELLS).filter(n => n.length > 3).sort((x, y) => y.length - x.length);
+  const mentions = text => { const found = []; let t = ' ' + (text || '') + ' '; spellNames.forEach(n => { const re = new RegExp('(^|[^A-Za-z])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])'); if (re.test(t)){ found.push(n); t = t.replace(re, '$1#'); } }); return found; };
+  const short = t => (t || '').split(/(?<=\.)\s/)[0].replace(/\.$/, '');
+  const FX = {}, TALENT_USE = {};
+  Object.entries(D.ranks || {}).forEach(([name, ranks]) => {
+    const own = D.spells[name] && D.spells[name].talent;
+    const named = mentions(ranks[ranks.length - 1]).filter(n => n !== name);
+    FX[name] = r => {
+      const text = short(ranks[Math.min(r, ranks.length) - 1]);
+      if (own) return [[['@new'], `${name}: ${short(D.spells[name].d)}`]];
+      return [[named.length ? named : ['@all'], text]];
+    };
+    const lv = named.map(n => (SPELLS[n] && SPELLS[n].lvl) || 1);
+    TALENT_USE[name] = lv.length ? Math.min(...lv) : 10;
+  });
+  Object.assign(TALENT_USE, H.TALENT_USE || {});
+  const G = {all: '@all', neu: '@new'};
+  const GROUP_LABEL = {'@new': 'New abilities', '@all': 'Always'};
   const stateOf = f => Object.values(states).find(st => st.match && st.match.test(f || ''));
+  const notes = (D.notes || []).map(([n, t]) => `<p><b style="font-family:var(--cond);font-weight:600">${n}</b>. ${t}</p>`).join('');
+  const NOTES_HTML = notes ? `<details><summary>Good to know in Forever</summary><div class="dbody notes">${notes}<p class="muted" style="font-size:13px">From talentsforever.com's notes on the Forever ${D.class}.</p></div></details>` : '';
   const SB_FORMS = [['all', 'All', 'var(--muted)']].concat(Object.values(states).filter(st => st.match).map(st => [st.label, st.label, st.c]), [['Any', 'Any', 'var(--gold)']]);
   const sbForm = f => (stateOf(f) || {label: 'Any'}).label;
   const FORM_COLOR = f => (stateOf(f) || {c: 'var(--gold)'}).c;
@@ -18,6 +39,11 @@ window.FY_makeClass = function(cls, H){
   const PRESETS = Object.assign({}, D.presets || {}, H.PRESETS || {});
   /* the plan behind "Next point" for each spec: the community leveling order for its tree */
   const PLAN = Object.fromEntries(Object.entries(H.SPEC_PLAN || {}).map(([spec, id]) => [spec, ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, (((D.ranks || {})[n] || []).slice(-1)[0] || '').split('. ')[0].replace(/\.$/, '')])]));
+  /* the big talent at the bottom of each spec's plan, and when it should land */
+  const KEY_TALENT = Object.fromEntries(Object.entries(PLAN).map(([spec, seq]) => {
+    const deep = seq.map(([tr, n]) => [tr, n, (D.trees[tr].list.find(x => x[0] === n) || [])[1] || 0]).filter(x => x[2] === 7);
+    return deep.length ? [spec, [deep[0][0], deep[0][1], 40]] : null;
+  }).filter(Boolean));
   const groups = {lvl: 'Leveling', dng: 'Dungeons', raid: 'Dungeons and raids at 60', pvp: 'PvP'};
   const GOALS_HTML = Object.entries(groups).map(([g, label]) => {
     const opts = Object.entries(PRESETS).filter(([id]) => id.startsWith(g + '-')).map(([id, p]) => `<option value="${id}">${p.label}</option>`).join('');
@@ -35,8 +61,8 @@ window.FY_makeClass = function(cls, H){
   return {
     WIZ, CLASS_PROFILE: H.CLASS_PROFILE, SPECS: H.SPECS, MACROS: H.MACROS || {},
     TREES: D.trees, TREE_ORDER: D.order, PLAN, TT: {}, RANKS: D.ranks, SPELLS,
-    FORM_COLOR, G: {}, GROUP_LABEL: {}, FX: {}, TALENT_USE: H.TALENT_USE || {}, TALENT_LATER: {}, targetLevel,
-    PRESETS, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || '', PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
+    FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER: {}, targetLevel, KEY_TALENT,
+    PRESETS, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || NOTES_HTML, PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
     CLASS_NOTES: D.notes || [], DATA_SOURCE: D.talentSource || ''
   };
 };

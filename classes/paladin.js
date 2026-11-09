@@ -85,8 +85,13 @@
     </div>
     <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>Any fight</summary><div class="dbody"><p>Hammer of Justice stops a cast or a burst. Blessing of Freedom breaks slows and roots. Divine Shield, then heal yourself, when it goes wrong.</p></div></details>
-      <details class="pcard"><summary>Healers</summary><div class="dbody"><p>Repentance with the talent takes a healer out of the fight. Judgement of Justice keeps runners from escaping.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Divine Shield, then Flash of Light or Holy Light on yourself. Lay on Hands when nothing else is left.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Divine Protection after the stun, Hammer of Justice when their Evasion ends. Cleanse their poisons.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Blessing of Freedom against Hamstring, Hammer of Justice to stop a burst. Judgement on every cooldown, it no longer eats your seal.</p></div></details>
+      <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Blessing of Freedom breaks Frost Nova, Hammer of Justice stops their cast. Cleanse the slow from Frostbolt.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Cleanse their curses, banes and magic. Hammer of Justice the fear and stay in melee.</p></div></details>
+      <details class="pcard"><summary>A hunter or an enemy druid</summary><div class="dbody"><p>Blessing of Freedom against slows, Hammer of Justice the druid when they drop to caster form.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Repentance with the talent on one, then Consecration and Holy Shield, or Divine Shield if it goes wrong.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });

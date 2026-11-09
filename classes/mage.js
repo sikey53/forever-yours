@@ -85,8 +85,13 @@
     </div>
     <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>Melee on you</summary><div class="dbody"><p>Frost Nova, Blink away, then Frostbolt or Cone of Cold. Ice Block when it goes wrong, Cold Snap resets your Frost cooldowns.</p></div></details>
-      <details class="pcard"><summary>Healers and casters</summary><div class="dbody"><p>Polymorph the healer, Counterspell the big cast, it locks that school of magic for a few seconds.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Frost Nova, Blink, then Ice Block. Cold Snap resets your Frost cooldowns for a second Nova or Ice Block.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Frost Nova as soon as the stun ends, Blink away and Frostbolt. Arcane Explosion pulls them out of Stealth.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Keep distance with Frost Nova, Blink and Cone of Cold. Polymorph them when you need to drink or bandage.</p></div></details>
+      <details class="pcard"><summary>Another mage</summary><div class="dbody"><p>Counterspell their Polymorph or big cast and stay out of their Frost Nova range. Ice Lance hits frozen targets for 300% more.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Counterspell the Fear or the heal. Polymorph a priest to stop the healing, Remove Lesser Curse the warlock curse.</p></div></details>
+      <details class="pcard"><summary>A hunter or an enemy druid</summary><div class="dbody"><p>Hunters need range too, so Frost Nova and Blink toward cover. Druids shift out of Polymorph and roots: Counterspell when they cast.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Polymorph one, Frost Nova and Cone of Cold the rest, Ice Block if both reach you.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });

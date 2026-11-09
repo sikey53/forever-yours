@@ -609,7 +609,7 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
       <summary>Not on a key, click from the spellbook</summary>
       <div class="dbody notes" id="unbound"></div>
     </details>
-    <div id="classNotes" class="personal-only"></div>
+    <div id="classNotes"></div>
     <details>
       <summary>Setting it up in game</summary>
       <div class="dbody">
@@ -898,8 +898,10 @@ function renderTalents(){
   else if (nx === 'done') nc = `<div class="eyebrow">Next point</div><strong>Plan complete</strong><p class="muted">Every planned talent is trained.</p>`;
   else {
     const pr = project();
-    const sp = pr.find(x => x.name === 'Shifting Power');
-    const spLine = spec === 'feral' && pts('feral','Shifting Power') === 0 ? (sp ? ` Shifting Power lands at level ${sp.level}${sp.level>40?', later than the ideal 40 because of points spent elsewhere':''}.` : '') : '';
+    const kt = (CD.KEY_TALENT || {})[spec];
+    const sp = kt && pr.find(x => x.name === kt[1]);
+    const ideal = kt ? kt[2] - talentedR() : 0;
+    const spLine = kt && pts(kt[0], kt[1]) === 0 ? (sp ? ` ${kt[1]} lands at level ${sp.level}${sp.level > ideal ? `, later than the ideal ${ideal} because of points spent elsewhere` : ''}.` : '') : '';
     if (left <= 0) nc = `<div class="eyebrow">Next point · level ${nx.level}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}. No point to spend until level ${nx.level}.${spLine}</p>`;
     else nc = `<div class="eyebrow">Next point · spend it now · ${esc(TREES[nx.tree].label)}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}.${left>1?` You have ${left} points to spend, follow the order below.`:''}${spLine}</p>`;
   }
@@ -1359,19 +1361,40 @@ document.getElementById('legacyLeveling').addEventListener('click', () => { cons
 document.getElementById('legacyReset').addEventListener('click', () => { lg().picks = {}; changed(); });
 
 /* Leveling: Tauren route (Outputlag, TopBuilds). [name, min, max, note, newInForever] */
-const ZONES = [
-  ['Mulgore',1,10,'Tauren starting zone'],['The Barrens',10,25,''],['Stonetalon Mountains',15,27,''],['Ashenvale',18,30,''],['Hillsbrad Foothills',20,30,'Start the City of Dalaran attunement in Tarren Mill before 28'],
-  ['Thousand Needles',25,35,''],['Desolace',30,40,'Forever adds quests here',true],['Arathi Highlands',30,40,''],['Stranglethorn Vale',30,45,''],['Riverglades',35,45,'New zone, over 150 quests',true],
+/* Leveling routes (Outputlag, TopBuilds, Scuf and Method Forever guides, Classic zone ranges). [name, min, max, note, newInForever] */
+const START_ZONES = {
+  tauren: [['Mulgore',1,10,'Tauren starting zone']],
+  orc: [['Durotar',1,10,'Orc and Troll starting zone']], troll: [['Durotar',1,10,'Orc and Troll starting zone']],
+  undead: [['Tirisfal Glades',1,10,'Undead starting zone'],['Silverpine Forest',10,20,'']],
+  human: [['Elwynn Forest',1,10,'Human starting zone'],['Westfall',10,20,'']],
+  dwarf: [['Dun Morogh',1,10,'Dwarf and Gnome starting zone'],['Loch Modan',10,20,'']], gnome: [['Dun Morogh',1,10,'Dwarf and Gnome starting zone'],['Loch Modan',10,20,'']],
+  nightelf: [['Teldrassil',1,10,'Night Elf starting zone'],['Darkshore',10,20,'']],
+  skybornewindshaper: [['Zephras Isle',1,12,'Skyborne starting zone. Take the Skycutter to the mainland around 12',true]],
+  skybornehighorder: [['Zephras Isle',1,12,'Skyborne starting zone. Take the Skycutter to the mainland around 12',true],['Westfall',13,20,'']]
+};
+const MID_ZONES = {
+  Horde: [['The Barrens',10,25,''],['Stonetalon Mountains',15,27,''],['Ashenvale',18,30,''],['Hillsbrad Foothills',20,30,'Start the City of Dalaran attunement in Tarren Mill before 28'],['Thousand Needles',25,35,'']],
+  Alliance: [['Redridge Mountains',15,25,''],['Duskwood',18,30,''],['Wetlands',20,30,''],['Ashenvale',18,30,''],['Hillsbrad Foothills',20,30,'The City of Dalaran dungeon opens at 28'],['Thousand Needles',25,35,'']]
+};
+const LATE_ZONES = [
+  ['Desolace',30,40,'Forever adds quests here',true],['Arathi Highlands',30,40,''],['Stranglethorn Vale',30,45,''],['Badlands',35,45,''],['Riverglades',35,45,'New zone, over 150 quests',true],
   ['Dustwallow Marsh',35,45,''],['Tanaris',40,50,''],['Feralas',40,50,''],['The Hinterlands',40,50,''],['Searing Gorge',43,50,''],['Azshara',45,55,'Forever adds quests here',true],
   ["Un'Goro Crater",48,55,'Gather power crystals here for Shaper\'s Terrace'],['Felwood',48,55,''],['Burning Steppes',50,58,''],['Western Plaguelands',51,58,''],['Eastern Plaguelands',53,60,''],['Winterspring',53,60,''],['Silithus',55,60,''],['Mount Hyjal',60,60,'New level 60 zone',true]
 ];
-const DUNGEONS = [
-  ['Ragefire Chasm',13,18,'Orgrimmar'],['Hall of Thanes',13,18,'',true],['Ruins of Lordaeron',15,20,'Horde home dungeon',true],['Wailing Caverns',17,24,'The Barrens'],['Shadowfang Keep',22,30,'Silverpine Forest'],
-  ['Excavation Site',24,29,'',true],['Blackfathom Deeps',24,32,'Ashenvale'],['City of Dalaran',28,33,'Needs the attunement from Tarren Mill',true],['Scarlet Monastery',28,45,'Tirisfal Glades'],['Razorfen Kraul',29,38,'The Barrens'],
-  ['The Drowned City',35,40,'',true],['Razorfen Downs',37,46,'The Barrens'],['Krol\'dok Stronghold',40,45,'',true],['Uldaman',41,51,'Badlands'],['Zul\'Farrak',44,54,'Tanaris'],['Maraudon',46,55,'Desolace'],
-  ['Alcaz Prison',48,53,'',true],['Sunken Temple',50,56,'Swamp of Sorrows'],['Blackrock Depths',52,60,'Blackrock Mountain'],['Blackmaw Hold',55,60,'',true],['Dire Maul',55,60,'Feralas'],['Lower Blackrock Spire',55,60,'Blackrock Mountain'],
+const ROUTE_RACE = (PROFILE && PROFILE.race) || 'tauren';
+const ROUTE_FACTION = /alliance/i.test(FACTION) ? 'Alliance' : /horde/i.test(FACTION) ? 'Horde' : (['human','dwarf','gnome','nightelf','skybornehighorder'].includes(ROUTE_RACE) ? 'Alliance' : 'Horde');
+const ZONES = (START_ZONES[ROUTE_RACE] || START_ZONES[ROUTE_FACTION === 'Alliance' ? 'human' : 'tauren']).concat(MID_ZONES[ROUTE_FACTION], LATE_ZONES)
+  .filter((z, i, arr) => arr.findIndex(y => y[0] === z[0]) === i);
+const SHARED_DUNGEONS = [
+  ['Shadowfang Keep',22,30,'Silverpine Forest'],['Excavation Site',24,29,'Wetlands',true],['Blackfathom Deeps',24,32,'Ashenvale'],['City of Dalaran',28,33,'Needs the attunement from Hillsbrad Foothills',true],['Scarlet Monastery',28,45,'Tirisfal Glades'],['Razorfen Kraul',29,38,'The Barrens'],
+  ['The Drowned City',35,40,'',true],['Razorfen Downs',37,46,'The Barrens'],['Krol\'dok Stronghold',40,45,'Inside the Riverglades',true],['Uldaman',41,51,'Badlands'],['Zul\'Farrak',44,54,'Tanaris'],['Maraudon',46,55,'Desolace'],
+  ['Alcaz Prison',48,53,'Off the coast of Dustwallow Marsh',true],['Sunken Temple',50,56,'Swamp of Sorrows'],['Blackrock Depths',52,60,'Blackrock Mountain'],['Blackmaw Hold',55,60,'Beyond Azshara\'s gate',true],['Dire Maul',55,60,'Feralas'],['Lower Blackrock Spire',55,60,'Blackrock Mountain'],
   ['Shaper\'s Terrace',58,60,'Needs power crystals from Un\'Goro',true],['Stratholme',58,60,'Eastern Plaguelands'],['Scholomance',58,60,'Western Plaguelands']
 ];
+const DUNGEONS = (ROUTE_FACTION === 'Alliance'
+  ? [['Hall of Thanes',13,18,'Beneath Ironforge',true],['The Deadmines',17,26,'Westfall'],['Wailing Caverns',17,24,'The Barrens'],['The Stockade',24,32,'Stormwind'],['Gnomeregan',29,38,'Dun Morogh']]
+  : [['Ragefire Chasm',13,18,'Orgrimmar'],['Hall of Thanes',13,18,'',true],['Ruins of Lordaeron',15,20,'Horde home dungeon',true],['Wailing Caverns',17,24,'The Barrens']]
+).concat(SHARED_DUNGEONS).sort((a, b) => a[1] - b[1]);
 const leaveBy = z => z[2] >= 60 ? 60 : z[2] - 2;
 function routeRows(list, color, lvl, isZone){
   const X = v => ((v - 1) / 59) * 100;
@@ -1517,7 +1540,7 @@ function renderGains(){
     : `<div class="gains-head"><h3>What your talents give you</h3><span>At level ${vl}. Bonuses for spells you have not learned yet are faded.</span></div>`;
   if (!lines.size){ box.innerHTML = head + `<p class="muted" style="font-size:13.5px">${simMode ? 'Add points to the simulator, or copy your talents into it, to test a build.' : 'Nothing yet. Every point you add shows up here.'}</p>`; return; }
   const line = l => `<div class="gi ${l.state} ${l.later?'later':''}">${esc(l.text)} <small>${esc(l.src)}</small>${l.state==='chg' ? ` <span class="was">was ${esc(l.was)}</span>` : ''}${l.later ? ` <span class="lt">from level ${l.later}</span>` : ''}</div>`;
-  const order = ['@new','@cat','@bear','@all','@heal','@caster'];
+  const order = ['@new','@cat','@bear','@all','@heal','@caster'].concat(Object.keys(GROUP_LABEL).filter(g => !['@new','@cat','@bear','@all','@heal','@caster'].includes(g)));
   let h = '';
   order.filter(g => byTarget.has(g)).forEach(g => {
     h += g === '@new'
@@ -1608,10 +1631,11 @@ document.getElementById('planNote').textContent = PLAN_NOTE || '';
 document.getElementById('simGoal').insertAdjacentHTML('beforeend', GOALS_HTML || '');
 if (!PROFILE.personal){
   document.querySelectorAll('.personal-only').forEach(el => el.hidden = true);
+  if (MY_CLASS === 'druid') document.getElementById('classNotes').hidden = true;
   const fight = document.getElementById('mod-fight');
-  if (fight) fight.querySelector('p.muted').insertAdjacentHTML('afterend', '<p class="placeholder">The key names in these steps follow the reference layout. Your own keys are on the Keybinds tab, find the spell there.</p>');
+  if (fight && MY_CLASS === 'druid') fight.querySelector('p.muted').insertAdjacentHTML('afterend', '<p class="placeholder">The key names in these steps follow the reference layout. Your own keys are on the Keybinds tab, find the spell there.</p>');
 }
-if (PROFILE.race && PROFILE.race !== 'tauren') document.getElementById('routeNote').textContent = 'Tauren route for now, your race comes next';
+document.getElementById('routeNote').textContent = `${RACE_LABEL} route, ${ROUTE_FACTION}`;
 document.getElementById('copyLink').addEventListener('click', e => {
   const payload = JSON.stringify({profile: PROFILE, build});
   const b64 = btoa(String.fromCharCode(...new TextEncoder().encode(payload))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');

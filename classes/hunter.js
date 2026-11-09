@@ -80,8 +80,13 @@
     </div>
     <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>Melee on you</summary><div class="dbody"><p>Concussive Shot or Wing Clip, then step out of range. Feign Death and drop a Freezing Trap, Scatter Shot to get room.</p></div></details>
-      <details class="pcard"><summary>Casters</summary><div class="dbody"><p>Viper Sting drains their mana, Scatter Shot and Intimidation stop a big cast.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Feign Death to drop your target, then Freezing Trap. Deterrence with the talent, a Healing Potion, then Disengage.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Wait out the stun, then Wing Clip and step away. Flare reveals Stealth, and a Freezing Trap at your feet stops them.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Concussive Shot and Wing Clip, Freezing Trap at your feet, Scatter Shot to get your range back.</p></div></details>
+      <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Viper Sting drains their mana, Scatter Shot or Intimidation stops the burst. Stay out of Frost Nova range.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Viper Sting and keep your pet on them to push back their casts. Scatter Shot the fear.</p></div></details>
+      <details class="pcard"><summary>Another hunter or an enemy druid</summary><div class="dbody"><p>Scare Beast or kill the other pet first. Against druids, Concussive Shot and Viper Sting, since they shift out of slows.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Frost Trap and Multi-Shot, Freezing Trap the healer, Scatter Shot whoever reaches you.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });

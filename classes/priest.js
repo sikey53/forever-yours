@@ -94,8 +94,13 @@
     </div>
     <h3>PvP</h3>
     <div class="rgrid">
-      <details class="pcard" open><summary>Any fight</summary><div class="dbody"><p>Shield yourself first, keep Shadow Word: Pain up, and save Psychic Scream for when melee reaches you. Dispel Magic strips enemy buffs too.</p></div></details>
-      <details class="pcard"><summary>Your race spell</summary><div class="dbody"><p>Each race gets its own priest spell, like Desperate Prayer for Dwarves or Starshards for Night Elves. It sits on your modifier bar.</p></div></details>
+      <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Power Word: Shield, Psychic Scream, then Flash Heal. Fade only works on monsters, not players.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Shield first, Psychic Scream when the stun ends. Shadow Word: Pain keeps them from going back into Stealth.</p></div></details>
+      <details class="pcard"><summary>A warrior or melee</summary><div class="dbody"><p>Shield and Psychic Scream, then damage from range with Shadow Word: Pain and Mind Blast. Renew yourself while they run back.</p></div></details>
+      <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Dispel Magic takes Frost Nova off you. Silence with the talent stops their burst, and Shadow Word: Pain keeps ticking after Ice Block.</p></div></details>
+      <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Fear Ward against warlocks. Dispel Magic their curses and banes off you, Silence the big cast.</p></div></details>
+      <details class="pcard"><summary>A hunter or an enemy druid</summary><div class="dbody"><p>Hunters slow you, so fight near cover. Against druids, Dispel Magic their heals over time and Mana Burn them.</p></div></details>
+      <details class="pcard"><summary>Two or more players</summary><div class="dbody"><p>Psychic Scream when they stack up, Holy Nova if you have it, and keep a shield on yourself.</p></div></details>
     </div>
     <p class="muted" style="font-size:13px">Built from Forever's own spell data, read by talentsforever.com from the game files, plus Blizzard's class notes. If something works differently in game, tell us.</p>`
 });
