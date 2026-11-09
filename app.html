@@ -2,7 +2,7 @@
 <html lang="en">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Forever Companion</title>
+<title>Forever Yours</title>
 <style>body{margin:0}</style>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -429,7 +429,7 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
 <div class="wrap" lang="en">
   <header class="char">
     <div class="char-main">
-      <div class="eyebrow" id="charFaction">WoW Forever</div>
+      <div class="eyebrow" id="charFaction">Forever Yours</div>
       <div class="char-row">
         <input id="charName" class="char-name" maxlength="24" placeholder="Character name" aria-label="Character name" autocomplete="off">
         <span class="lvl-badge"><label for="lvl">Level</label><input id="lvl" type="number" min="1" max="60" inputmode="numeric"></span>
@@ -1221,9 +1221,9 @@ function contextTurn(){
     rotationsAndPvpGuide: (document.getElementById('mod-fight') || {}).innerText || '',
     levelingAndXpRules: (document.getElementById('mod-leveling') || {}).innerText || ''
   };
-  return `The player pasted this from the Forever Companion site. You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell them to check the tooltip in game.
+  return `The player pasted this from the Forever Yours site. You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell them to check the tooltip in game.
 Layout logic to keep: the main bar keys ${MAIN_KEYS.join(' ')} change per form, and each key keeps the same job in every form (${Object.entries(JOB).map(([k,j]) => k + ' ' + j).join(', ')}). A spell usable in several forms sits on the same key in each. The modifier layer, stance bar and mouse bars are the same in every form and hold long cooldowns.${PROFILE.answers && PROFILE.answers.hard ? ' Keys the player cannot reach comfortably, never use them: ' + PROFILE.answers.hard.join(' ') + '.' : ''} Keep macros minimal, never two global cooldown spells in one macro. Talents: one point per level from 10, a new row every 5 points in a tree, and an arrow requirement means the talent above must be maxed.
-Answer the player's questions using this data first: their keybinds, macros, talents, level, Legacy perks, the Forever spellbook, the latest patch news and the rotation guide. Keep answers short and concrete, and name the exact key when you mention a spell. The player can change any key themselves on the Keybinds tab of the Forever Companion site (tap the button, pick a spell), so when a key change helps, say which spell to move to which key. The data was copied from https://sikey53.github.io/wow-forever-companion/ on ${new Date().toISOString().slice(0,10)}; for anything newer, say so.
+Answer the player's questions using this data first: their keybinds, macros, talents, level, Legacy perks, the Forever spellbook, the latest patch news and the rotation guide. Keep answers short and concrete, and name the exact key when you mention a spell. The player can change any key themselves on the Keybinds tab of the Forever Yours site (tap the button, pick a spell), so when a key change helps, say which spell to move to which key. The data was copied from https://sikey53.github.io/wow-forever-companion/ on ${new Date().toISOString().slice(0,10)}; for anything newer, say so.
 Current page data as JSON:
 ${JSON.stringify(data)}`;
 }
@@ -1669,7 +1669,7 @@ const autoLevel = () => spent() ? Math.min(60, spent() + 9 - talentedR()) : null
 function renderHeader(){
   const n = document.getElementById('charName'); if (document.activeElement !== n) n.value = build.name || ''; sizeName();
   document.getElementById('lvl').value = build.level;
-  document.getElementById('charSub').textContent = `${RACE_LABEL} Druid · ${SPECS[spec].label}`; document.getElementById('charFaction').textContent = `WoW Forever · ${FACTION}`;
+  document.getElementById('charSub').textContent = `${RACE_LABEL} Druid · ${SPECS[spec].label}`; document.getElementById('charFaction').textContent = `Forever Yours · ${FACTION}`;
   const wasSim = simMode; simMode = false;
   const a = autoLevel(), left = avail() - spent(), sp = spent();
   simMode = wasSim;

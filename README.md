@@ -1,4 +1,6 @@
-# WoW Forever Companion
+# Forever Yours
+
+Your WoW Forever sidekick.
 
 A free helper for World of Warcraft: Forever. Answer seven short questions and get a keybind layout built around your hands and your play style, plus your talent tree at your level, Legacy perks, rotations, PvP tips, patch news and where to level next.
 
