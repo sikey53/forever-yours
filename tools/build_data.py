@@ -72,10 +72,11 @@ def presets_for(cls, trees):
     except OSError: bd = ''
     bd = bd[bd.find('<body'):]
     cards = []
-    for m in re.finditer(r'<h3[^>]*>(.*?)</h3>(.*?)href="/%s/60/([0-9-]+?)-\d+"' % cls, bd, re.S):
-        name, body, code = text(m.group(1)), m.group(2), m.group(3)
+    for m in re.finditer(r'<h3[^>]*>(.*?)</h3>((?:(?!<h3).)*?)href="/%s/(\d+)/([0-9-]+?)-\d+"' % cls, bd, re.S):
+        name, body, blvl, code = text(m.group(1)), m.group(2), int(m.group(3)), m.group(4)
         tag = re.search(r'(\d+)\s*</?[^>]*>?\s*(Leveling|PvE|PvP) tags', body) or re.search(r'(\d+)\D{0,40}?(Leveling|PvE|PvP) tags', text(body))
         maxes = re.search(r'(Maxes .*?\.)( Takes .*?\.)?', text(body))
+        if blvl < 60 and not re.search(r'Leveling tags', text(body)): continue
         cards.append({'name': name, 'code': code, 'tag': tag.group(2) if tag else None, 'n': int(tag.group(1)) if tag else 0, 'why': (maxes.group(0) if maxes else '')})
     pick = {}
     for c in cards:

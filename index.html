@@ -7,6 +7,7 @@
 <script src="classes/druid.js"></script>
 <script src="classes/common.js"></script>
 <script src="classes/data/warrior.js"></script><script src="classes/warrior.js"></script>
+<script src="classes/data/rogue.js"></script><script src="classes/rogue.js"></script>
 <!-- each ready class: its game data, then its layout -->
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -235,7 +236,8 @@ function generate(){
   if (A.middle && mod && macros !== 'none' && MJ.instant && !mouse.some(m => m.base === MJ.instant.base)) mouse.push({key:`${modSym}Mouse 3`, lab:`${mod} + middle`, ...MJ.instant});
   // keyboard fallbacks for heal or escape chosen on a key
   [['heal', A.heal], ['escape', A.escape]].forEach(([j, pick]) => { if (pick !== 'auto' && !pick.startsWith('Mouse') && MJ[j]) fixed.push({key:pick, ...MJ[j]}); });
-  return {pages, forms:kit.forms, stance, fixed, mouse, mod, modSym, jobs};
+  const onMouse = new Set(mouse.map(m => m.base || m.n));
+  return {pages, forms:kit.forms, stance, fixed: fixed.filter(x => !onMouse.has(x.base || x.n)), mouse, mod, modSym, jobs};
 }
 function keyOrder(k){ const order = '1234567QWERTYASDFGHZXCVB'; const i = order.indexOf(k); return i < 0 ? 99 : i; }
 const pointsAt = (lvl, t) => Math.min(51, Math.max(0, lvl - 9 + t));
