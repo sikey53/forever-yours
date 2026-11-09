@@ -1,0 +1,206 @@
+{
+ "Spiritual Focus": {
+  "t": "{1}% chance to ignore pushback on heals",
+  "sig": "Gives your Flash of Light, Holy Light, and Light's Vigil spells a #% chance to not lose casting time when you take damage."
+ },
+ "Divine Strength": {
+  "t": "+{1}% Strength",
+  "sig": "Increases your Strength by #%."
+ },
+ "Healing Light": {
+  "t": "Holy Light, Flash of Light and Holy Shock heal {1}% more",
+  "sig": "Increases the amount healed by your Holy Light, Flash of Light, and Holy Shock spells by #%."
+ },
+ "Reverence": {
+  "t": "{1}% mana regen while casting",
+  "sig": "Allows #% of your Mana regeneration to continue while casting."
+ },
+ "Improved Seals": {
+  "t": "Seals and Judgements +{1}% damage",
+  "sig": "Increases the damage done by your Seals and Judgements by #%."
+ },
+ "Purifying Power": {
+  "t": "Cleanse and Purify {1}% cheaper, Exorcism and Holy Wrath cooldowns {2}% shorter",
+  "sig": "Reduces the mana cost of your Cleanse and Purify spells by #% and reduces the cooldown of your Exorcism and Holy Wrath spells by #%."
+ },
+ "Divine Favor": {
+  "t": "Next heal is a sure crit",
+  "sig": "When activated, gives your next Flash of Light, Holy Light, or Holy Shock spell a #% critical effect chance."
+ },
+ "Illumination": {
+  "t": "Heal crits refund {2}% of the base cost",
+  "sig": "After getting a critical effect from your Flash of Light, Holy Light, Light's Vigil, or Holy Shock heal spell you have a #% chance to gain Mana equal to #% of the base cost of the spell."
+ },
+ "Holy Conduit": {
+  "t": "Consecration, Holy Wrath, Exorcism and Hammer of Wrath {1}% cheaper",
+  "sig": "Reduces the mana cost of your Consecration, Holy Wrath, Exorcism, and Hammer of Wrath spells by #%."
+ },
+ "Divine Precision": {
+  "t": "+{1}% Holy hit, silences {2}% shorter",
+  "sig": "Improves your chance to hit with Holy spells by #%, and reduces the duration of Silence effects on you by #%."
+ },
+ "Infusion of Light": {
+  "t": "Holy Shock and Flash crits make the next Holy Light {2} sec faster",
+  "sig": "Your Holy Shock and Flash of Light critical hits reduce the cast time of your next Holy Light cast within # sec by # sec."
+ },
+ "Oath of Light": {
+  "t": "Your heals on one sworn ally get much stronger",
+  "sig": "Swear an Oath to protect target ally for # min, increasing the healing of your Holy Light on them by up to #, your Flash of Light by up to #, and your Holy Shock by up to #. Only one Oath of Light may be sworn by the Paladin at any one time."
+ },
+ "Consecrated Ground": {
+  "t": "+{1}% Holy damage to the first {2} enemies in Consecration",
+  "sig": "Gives your Holy spells #% increased damage against the first # enemies that enter your Consecration."
+ },
+ "Holy Shock": {
+  "t": "Instant Holy damage or heal",
+  "sig": "Blasts the target with Holy energy, causing # to # Holy damage to an enemy, or # to # healing to an ally."
+ },
+ "Boundless Light": {
+  "t": "+{1}% Holy Shock crit on allies without your Oath",
+  "sig": "Increases the critical strike chance of your Holy Shock spell by #% when cast on allies not affected by your Oath of Light."
+ },
+ "Holy Power": {
+  "t": "+{1}% Holy crit healing",
+  "sig": "Increases the critical strike healing bonus of your Holy spells by #%."
+ },
+ "Light's Vigil": {
+  "t": "Next Holy Shock on the target has no cooldown and heals their party",
+  "sig": "Applies Light's Vigil to a friendly target for # sec. The caster's next Holy Shock on the target incurs no cooldown and heals the target and their party for # to #. Only one Vigil per Paladin may be active in each party."
+ },
+ "Divine Intellect": {
+  "t": "+{1}% Intellect",
+  "sig": "Increases your total Intellect by #%."
+ },
+ "Redoubt": {
+  "t": "{1}% chance for +{2}% block when hit",
+  "sig": "Damaging melee attacks against you have a #% chance to increase your chance to block by #%. Lasts # sec or # blocks."
+ },
+ "Precision": {
+  "t": "+{1}% hit",
+  "sig": "Improves your chance to hit by #%."
+ },
+ "Guardian's Favor": {
+  "t": "Blessing of Protection cooldown {1} min shorter, Freedom {2} sec longer",
+  "sig": "Reduces the cooldown of your Blessing of Protection by # min and increases the duration of your Blessing of Freedom by # sec."
+ },
+ "Sacred Duty": {
+  "t": "Shield cooldowns {1} sec shorter, Forbearance {2} sec shorter",
+  "sig": "Reduces the cooldown of your Divine Shield, Divine Protection, and Templar's Bulwark spells by # sec, and reduces the duration of Forbearance by # sec."
+ },
+ "Templar's Bulwark": {
+  "t": "Absorb shield worth {1}% of your health for {2} sec",
+  "sig": "When activated, this ability grants you an absorb shield equal to #% of your maximum health for # sec. Applies Forbearance for # min. Cannot be cast while Forbearance is active."
+ },
+ "Improved Hammer of Justice": {
+  "t": "Hammer of Justice cooldown {1} sec shorter",
+  "sig": "Decreases the cooldown of your Hammer of Justice spell by # sec."
+ },
+ "Shield Specialization": {
+  "t": "Shield absorbs {1}% more, blocks restore {3}% mana",
+  "sig": "Increases the amount of damage absorbed by your shield by #%, and gives your blocks a #% chance to restore #% of your maximum Mana. May only occur once every # sec."
+ },
+ "Toughness": {
+  "t": "+{1}% armor from items",
+  "sig": "Increases your armor value from items by #%."
+ },
+ "Swift Judgement": {
+  "t": "A second Judgement on its own cooldown",
+  "sig": "Unleash the energy of a Seal spell upon an enemy. Does not consume the Seal. Refer to individual Seals for Judgement effect. Does not share a cooldown with your Judgement ability."
+ },
+ "Improved Righteous Fury": {
+  "t": "{1}% less damage taken with Righteous Fury",
+  "sig": "While Righteous Fury is active, all damage taken is reduced by #%."
+ },
+ "Anticipation": {
+  "t": "+{1} Defense",
+  "sig": "Increases your Defense Skill by #."
+ },
+ "Stoicism": {
+  "t": "Stuns and charms {1}% shorter",
+  "sig": "Reduces the duration of Stun and Charm effects on you by #%."
+ },
+ "Holy Shield": {
+  "t": "+{1}% block for {2} sec, blocks deal Holy damage",
+  "sig": "Increases chance to block by #% for # sec, and deals # Holy damage for each attack blocked while active. Damage caused by Holy Shield causes #% additional threat. Each block expends a charge. # charges."
+ },
+ "Reckoning": {
+  "t": "Extra attacks after blocks and crits, stores up to {3}",
+  "sig": "Gives you a #% chance after Blocking and a #% chance after receiving a non-periodic critical strike to gain an extra attack. Stores up to # extra attacks. Cannot occur from Blocks more than once every # sec."
+ },
+ "Iron Creed": {
+  "t": "Holy Strike +{1}% threat, {2}% less damage taken with Righteous Fury",
+  "sig": "Increases the threat generated by your Holy Strike ability by #%. While Righteous Fury is active, Holy Strike also reduces your damage taken by #% for # sec."
+ },
+ "Shieldsworn": {
+  "t": "Holy Strike cooldown {1} sec shorter, strikes with your shield",
+  "sig": "Reduces the cooldown of your Holy Strike ability by # sec. Additionally, Holy Strike now strikes with your shield, triggering your active Holy Shield and Shield Specialization talents without consuming their charges or triggering their cooldowns, and allowing you to Block spells for # sec."
+ },
+ "Deflection": {
+  "t": "+{1}% parry",
+  "sig": "Increases your Parry chance by #%."
+ },
+ "Benediction": {
+  "t": "Instant spells {1}% cheaper",
+  "sig": "Reduces the Mana cost of all instant cast spells and abilities by #%."
+ },
+ "Improved Judgement": {
+  "t": "Judgement cooldown {1} sec shorter",
+  "sig": "Decreases the cooldown of your Judgement ability by # sec."
+ },
+ "Conviction": {
+  "t": "+{1}% crit",
+  "sig": "Improves your chance to get a critical strike with all spells and attacks by #%."
+ },
+ "Sanctified Judgement": {
+  "t": "Judgement refunds {2}% of the seal's cost",
+  "sig": "Gives your Judgement ability a #% chance to return #% of the Mana cost of the judged seal."
+ },
+ "Vindication": {
+  "t": "Hits can lower the target's attack power by {1}",
+  "sig": "Gives your damaging melee attacks a chance to reduce the target's Attack Power by # for # sec."
+ },
+ "Unyielding Faith": {
+  "t": "Fears and disorients {1}% shorter",
+  "sig": "Reduces the duration of Fear and Disorient effects on you by #%."
+ },
+ "Seal of Command": {
+  "t": "Seal that adds Holy hits of {1}% weapon damage",
+  "sig": "Gives the Paladin a chance to deal additional Holy damage equal to #% of normal weapon damage. Only one Seal can be active on the Paladin at any one time. Lasts # sec. Unleashing this Seal's energy will judge an enemy, instantly causing # to # Holy damage, # to # if the target is stunned or incapacitated."
+ },
+ "Pursuit of Justice": {
+  "t": "+{1}% run and mount speed",
+  "sig": "Increases movement speed and mounted movement speed by #%. This does not stack with other movement speed increasing effects."
+ },
+ "Eye for an Eye": {
+  "t": "Crits against you reflect {1}% of the damage",
+  "sig": "All critical strikes against you cause #% of the damage taken to the attacker as well. The damage caused by Eye for an Eye will not exceed #% of the Paladin's total health."
+ },
+ "Sacred Arbiter": {
+  "t": "Holy Strike +{1}% and refreshes your Judgements",
+  "sig": "Increases the damage of your Holy Strike ability by #% and causes it to refresh all Judgement effects on the target."
+ },
+ "Two-Handed Weapon Specialization": {
+  "t": "+{1}% damage and {2}% less threat with a two-hander",
+  "sig": "Increases the Physical and Holy damage you deal by #%, and reduces all threat you generate by #% while a two-handed melee weapon is equipped."
+ },
+ "Turn Evil": {
+  "t": "Turn Undead {1} sec faster, works on Demons",
+  "sig": "Reduces the cast time of your Turn Undead spell by # sec, its cooldown by # sec, and allows it to affect Demons."
+ },
+ "Repentance": {
+  "t": "Incapacitate a humanoid for {1} sec",
+  "sig": "Puts the enemy target in a state of meditation, incapacitating them for up to # sec. Any damage caused will awaken the target. Only works against Humanoids."
+ },
+ "Vengeance": {
+  "t": "Crits give +{1}% damage for {2} sec, stacking {3} times",
+  "sig": "Increases your Physical and Holy damage dealt by #% for # sec after landing a non-periodic critical strike. Stacks up to # times."
+ },
+ "Champion of the Light": {
+  "t": "Spell damage from {1}% of Intellect, Hammer of Wrath {2} sec faster",
+  "sig": "Increases your spell damage by up to #% of your Intellect, and reduces the cast time of your Hammer of Wrath by # sec."
+ },
+ "Unsealed Wrath": {
+  "t": "Hits store your seal, up to {2} stacks, released by switching seals",
+  "sig": "Your melee attacks store a copy of your active Seal for # sec, stacking up to # times. Landing an attack with a different Seal consumes all stacks, giving the stored Seal its normal chance to activate once per stack."
+ }
+}

@@ -1,0 +1,202 @@
+{
+ "Convection": {
+  "t": "Shocks and Lightning {1}% cheaper",
+  "sig": "Reduces the mana cost of your Shock, Lightning Bolt, and Chain Lightning spells by #%."
+ },
+ "Concussion": {
+  "t": "Lightning and Earth Shock +{1}%",
+  "sig": "Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by #%."
+ },
+ "Elemental Devastation": {
+  "t": "Spell crits give +{1}% melee crit for {2} sec",
+  "sig": "Your Critical Strikes with direct damage spells increase your chance to get a Critical Strike with melee attacks by #% for # sec."
+ },
+ "Reverberation": {
+  "t": "Shock cooldowns {1} sec shorter",
+  "sig": "Reduces the cooldown of your Shock spells by # sec."
+ },
+ "Elemental Alacrity": {
+  "t": "Lightning Bolt and Chain Lightning {1} sec faster",
+  "sig": "Reduces the cast time of your Lightning Bolt and Chain Lightning spells by # sec."
+ },
+ "Call of Flame": {
+  "t": "Fire totems, Flame Shock and Fire Nova +{1}%, Flame Shock {2} sec longer",
+  "sig": "Increases the damage done by your Fire Totems and by your Flame Shock and Fire Nova spells by #%, as well as increases the duration of your Flame Shock spell by # sec."
+ },
+ "Elemental Focus": {
+  "t": "{1}% chance your next damage spell is cheaper",
+  "sig": "Gives you a #% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell. The Clearcasting state reduces the mana cost of your next damage spell by #%."
+ },
+ "Elemental Warding": {
+  "t": "{1}% less Fire, Frost and Nature damage taken",
+  "sig": "Reduces damage taken from Fire, Frost, and Nature effects by #%."
+ },
+ "Trial by Fire": {
+  "t": "Fire Nova +{1}% and {2} sec shorter cooldown, Magma Totem lasts longer",
+  "sig": "Increases the damage done by your Fire Nova spell by #% and reduces its cooldown by # sec, and increases the duration of your Magma Totem by # sec."
+ },
+ "Eye of the Storm": {
+  "t": "{1}% chance to ignore pushback on Lightning",
+  "sig": "Gives your Lightning Bolt and Chain Lightning spells a #% chance to not lose casting time when you take damage."
+ },
+ "Earthbound": {
+  "t": "Earthbind Totem roots for {1} sec when placed",
+  "sig": "Your Earthbind Totem Immobilizes nearby targets for # sec when cast."
+ },
+ "Elemental Reach": {
+  "t": "Lightning and Fire Nova reach {1} yards farther",
+  "sig": "Increases the range of your Lightning Bolt, Chain Lightning, and Fire Nova spells by # yards."
+ },
+ "Call of Thunder": {
+  "t": "+{1}% Lightning crit",
+  "sig": "Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by #%."
+ },
+ "Lightning Overload": {
+  "t": "{1}% chance Lightning casts a free half-damage copy",
+  "sig": "Gives your Lightning Bolt and Chain Lightning spells a #% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat."
+ },
+ "Elemental Fury": {
+  "t": "+{1}% crit damage on spells and fire totems",
+  "sig": "Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by #%."
+ },
+ "Lightning Mastery": {
+  "t": "Faster Lightning Bolt and no Chain Lightning cooldown for {2} sec",
+  "sig": "Gain mastery over Lightning, reducing the cast time of your Lightning Bolt spell by # sec, and removing the cooldown from your Chain Lightning spell. Lasts # sec."
+ },
+ "Earth's Grasp": {
+  "t": "Stoneclaw +{1}% health, Earthbind +{2}% radius",
+  "sig": "Increases the health of your Stoneclaw Totem by #% and the radius of your Earthbind Totem by #%."
+ },
+ "Thundering Strikes": {
+  "t": "+{1}% crit",
+  "sig": "Improves your chance to get a critical strike with all spells and attacks by #%."
+ },
+ "Ancestral Knowledge": {
+  "t": "+{1}% Intellect",
+  "sig": "Increases your Intellect by #%."
+ },
+ "Guardian Totems": {
+  "t": "Stoneskin and Windwall +{1}%, Grounding cooldown {2} sec shorter",
+  "sig": "Increases the amount of damage reduced by your Stoneskin Totem and Windwall Totem by #% and reduces the cooldown of your Grounding Totem by # sec."
+ },
+ "Mental Dexterity": {
+  "t": "Attack power from {1}% of Intellect",
+  "sig": "Increases your Attack Power by an amount equal to #% of your Intellect."
+ },
+ "Improved Lightning Shield": {
+  "t": "Lightning Shield +{1}%",
+  "sig": "Increases the damage done by your Lightning Shield orbs by #%."
+ },
+ "Elemental Weapons": {
+  "t": "Weapon imbues stronger",
+  "sig": "Increases the melee attack power bonus of your Rockbiter Weapon by #%, your Windfury Weapon effect by #% and increases the damage caused by your Flametongue Weapon and Frostbrand Weapon by #%."
+ },
+ "Shamanistic Focus": {
+  "t": "Shocks and Lightning Shield {1}% cheaper",
+  "sig": "Reduces the mana cost of your Shock and Lightning Shield spells by #%."
+ },
+ "Anticipation": {
+  "t": "+{1}% dodge",
+  "sig": "Increases your chance to dodge by an additional #%."
+ },
+ "Toughness": {
+  "t": "+{1}% Stamina",
+  "sig": "Increases your Stamina by #%."
+ },
+ "Flurry": {
+  "t": "+{1}% attack speed for {2} swings after a crit",
+  "sig": "Increases your attack speed by #% for your next # swings after dealing a melee critical strike."
+ },
+ "Stormstrike": {
+  "t": "{1}% weapon hit, next Lightning or Earth Shock +{2}%",
+  "sig": "Instantly strike for #% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by #% for # sec."
+ },
+ "Improved Ghost Wolf": {
+  "t": "Ghost Wolf {1} sec faster and works indoors",
+  "sig": "Reduces the cast time of your Ghost Wolf spell by # sec, and Ghost Wolf may be used indoors."
+ },
+ "Spirit Weapons": {
+  "t": "Can parry, threat changes with Rockbiter",
+  "sig": "Gives a chance to parry enemy melee attacks, reduces all threat generated by your attacks by #% while Rockbiter Weapon is not active, and increases all threat generated by #% while Rockbiter Weapon is active."
+ },
+ "Mental Quickness": {
+  "t": "Spell power from {1}% of Intellect",
+  "sig": "Increases your spell damage and healing by up to #% of your Intellect."
+ },
+ "Improved Stormstrike": {
+  "t": "Stormstrike gives mana regen while casting and can reset",
+  "sig": "When you Stormstrike, you have a #% chance to gain #% mana regeneration while casting spells for # sec, and Stormstrike's cooldown has a #% chance to reset each time you Dodge or Parry."
+ },
+ "Maelstrom Weapon": {
+  "t": "Hits make your next Lightning Bolt faster and cheaper, up to {2} stacks",
+  "sig": "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by #%. Stacks up to # times. Lasts # sec."
+ },
+ "Rage of the Farseer": {
+  "t": "+{1}% attack speed for {2} sec",
+  "sig": "Increases your attack speed by #% for # sec."
+ },
+ "Improved Healing Wave": {
+  "t": "Healing Wave {1} sec faster",
+  "sig": "Reduces the casting time of your Healing Wave spell by # sec."
+ },
+ "Tidal Focus": {
+  "t": "Heals {1}% cheaper, +{2}% hit",
+  "sig": "Reduces the Mana cost of your healing spells by #% and improves your chance to hit by #%."
+ },
+ "Mindfulness": {
+  "t": "{1}% mana regen while casting",
+  "sig": "Allows #% of your Mana regeneration to continue while casting."
+ },
+ "Natural Grace": {
+  "t": "{1}% less spell threat",
+  "sig": "Reduces the threat generated by your spells by #%."
+ },
+ "Totemic Focus": {
+  "t": "Totems {1}% cheaper",
+  "sig": "Reduces the Mana cost of your totems and any spells that summon or move them by #%."
+ },
+ "Improved Reincarnation": {
+  "t": "Reincarnation cooldown {1} min shorter, +{2}% health",
+  "sig": "Reduces the cooldown of your Reincarnation spell by # min, increases your maximum health by #%, and increases the amount of health and Mana you reincarnate with by an additional #%."
+ },
+ "Ancestral Healing": {
+  "t": "Heal crits give +{1}% armor for {2} sec",
+  "sig": "Increases your target's armor value by #% for # sec after getting a critical effect from one of your healing spells."
+ },
+ "Healing Focus": {
+  "t": "{1}% chance to ignore pushback on heals",
+  "sig": "Gives your healing spells a #% chance to not lose casting time when you take damage."
+ },
+ "Water Shield": {
+  "t": "Water globes restore {2}% mana when hit",
+  "sig": "The caster is surrounded by # globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster's spells gets a critical result, #% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts # min. Only one Elemental Shield can be active on the Shaman at any one time."
+ },
+ "Tidal Mastery": {
+  "t": "+{1}% heal crit",
+  "sig": "Increases the critical effect chance of your healing spells by #%."
+ },
+ "Restorative Totems": {
+  "t": "Mana Spring +{1}%, Healing Stream +{2}%",
+  "sig": "Increases the effect of your Mana Spring Totem by #% and increases the effect of your Healing Stream Totem by #%."
+ },
+ "Mana Tide Totem": {
+  "t": "Totem that restores mana to your group",
+  "sig": "Summons a Mana Tide Totem with # health at the feet of the caster for # sec that restores # mana every # seconds to group members within # yards."
+ },
+ "Healing Way": {
+  "t": "Healing Wave heals {1}% more",
+  "sig": "Increases the amount healed by your Healing Wave spell by #%."
+ },
+ "Nature's Swiftness": {
+  "t": "Next Nature spell is instant",
+  "sig": "When activated, your next Nature spell with a casting time less than # sec. becomes an instant cast spell."
+ },
+ "Purification": {
+  "t": "Heals {1}% stronger",
+  "sig": "Increases the effectiveness of your healing spells by #%."
+ },
+ "Riptide": {
+  "t": "Heal over time, next Chain Heal on the target +{3}%",
+  "sig": "Heals a friendly target for # over # sec, and increases the effectiveness of your Chain Heal casts directly on that target by #%."
+ }
+}

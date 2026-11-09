@@ -20,7 +20,7 @@
   try { var pr = JSON.parse(localStorage.getItem('fc-profile') || 'null'); if (pr && /^[a-z]+$/.test(pr.cls || '')) c = pr.cls; } catch(e){}
   window.FY_CLASS = c;
   if (c === 'druid') document.write('<script src="classes/druid.js"><\/script>');
-  else document.write('<script src="classes/data/' + c + '.js"><\/script><script src="classes/common.js"><\/script><script src="classes/' + c + '.js"><\/script>');
+  else document.write('<script src="classes/data/' + c + '.js"><\/script><script src="classes/summaries/' + c + '.js"><\/script><script src="classes/common.js"><\/script><script src="classes/' + c + '.js"><\/script>');
 })();
 </script>
 

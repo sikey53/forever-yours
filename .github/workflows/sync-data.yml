@@ -32,13 +32,17 @@ jobs:
             sleep 2
           done
           ls -la data/talentsforever
-      - name: Convert for the site
-        run: python3 tools/build_data.py
+      - name: Convert for the site, find what changed, refresh summaries
+        run: |
+          mkdir -p /tmp/old-data && cp classes/data/*.js /tmp/old-data/ 2>/dev/null || true
+          python3 tools/build_data.py
+          python3 tools/diff_data.py /tmp/old-data classes/data
+          python3 tools/build_summaries.py
       - name: Commit if changed
         run: |
           git config user.name "forever-yours-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/talentsforever classes/data
+          git add data classes/data classes/summaries tools/summaries
           if git diff --cached --quiet; then echo "No changes"; exit 0; fi
           git commit -m "Sync game data from talentsforever.com $(date -u +%Y-%m-%d)"
           git push

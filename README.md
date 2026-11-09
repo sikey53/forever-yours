@@ -22,6 +22,9 @@ All nine classes are ready. Each class has a hand-written layout in `classes/<cl
 
 ## Data
 
+The pipeline, every day: the Sync game data workflow downloads talentsforever.com's data, `tools/build_data.py` converts it to `classes/data/`, `tools/diff_data.py` writes what changed to `data/changes/<date>.json`, and `tools/build_summaries.py` rebuilds the short talent summaries in `classes/summaries/` from `tools/summaries/<class>.json`. Summaries are templates filled with the live numbers, so balance changes need no rewrite; when a talent's wording changes, it is listed in `data/changes/pending-summaries.json` and the page shows the game text until the nightly check rewrites it.
+
+
 Every day the Sync game data workflow downloads the talentsforever.com exports and build pages, and `tools/build_data.py` turns them into `classes/data/`. That covers spells, learn levels, ranks, talents and the community leveling orders and builds used for talent plans. News and rotations are kept current by a daily automated check of Blizzard news and Forever guides. Talent data comes from [talentsforever.com](https://talentsforever.com) under CC BY 4.0. Leveling routes come from Warcraft Tavern, Outputlag and TopBuilds guides.
 
 Spot something wrong in game? Open an issue.

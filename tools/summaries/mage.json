@@ -1,0 +1,214 @@
+{
+ "Wand Specialization": {
+  "t": "+{1}% wand damage",
+  "sig": "Increases your damage with Wands by #%."
+ },
+ "Improved Channeling": {
+  "t": "No pushback on Arcane Missiles, {2}% chance on Arcane Blast and Wrath",
+  "sig": "Gives your Arcane Missiles spell a #% chance and your Arcane Blast and Arcane Wrath spells a #% chance to not lose casting time when you take damage."
+ },
+ "Arcane Resilience": {
+  "t": "Armor equal to {1}% of Intellect",
+  "sig": "Increases your Armor by an amount equal to #% of your Intellect."
+ },
+ "Arcane Subtlety": {
+  "t": "Targets resist {1} less, {2}% less Arcane threat",
+  "sig": "Reduces your target's resistance to all your spells by # and reduces the threat caused by your Arcane spells by #%."
+ },
+ "Magic Absorption": {
+  "t": "+{1} resistances, resists refund {2}% mana",
+  "sig": "Increases all your resistances by # and causes all spells you fully resist to restore #% of your total mana. Cannot trigger more often than # time per sec."
+ },
+ "Arcane Concentration": {
+  "t": "{1}% chance your next spell is free",
+  "sig": "Gives you a #% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by #%."
+ },
+ "Missile Barrage": {
+  "t": "Spells can make your next Arcane Missiles {3}% faster",
+  "sig": "Gives your Arcane Blast spell a #% chance, and your Arcane Wrath, Fireball, Frostbolt, and Frostfire Bolt spells a #% chance to reduce the channeled duration of your next Arcane Missiles spell by #%, reduce the Mana cost by #%, and missiles fire every # sec."
+ },
+ "Arcane Geometry": {
+  "t": "Arcane spells reach {1} yards farther",
+  "sig": "Increases the range of your Arcane spells by # yards."
+ },
+ "Arcane Impact": {
+  "t": "+{1}% crit with Arcane spells",
+  "sig": "Increases the critical strike chance of your Arcane spells by #%."
+ },
+ "Arcane Blast": {
+  "t": "Stacking Arcane nuke, each cast stronger and more expensive",
+  "sig": "Blasts the target with energy, dealing # to # Arcane damage. Each time you cast Arcane Blast, you gain #% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by #%. Effect stacks up to # times and lasts # sec from time of initial application."
+ },
+ "Arcane Shielding": {
+  "t": "Mana Shield costs {1}% less mana, Mage Armor {2}% stronger",
+  "sig": "Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by #% and increases the resistances granted by your Mage Armor spell by #%."
+ },
+ "Improved Counterspell": {
+  "t": "Counterspell silences for {1} sec",
+  "sig": "Your Counterspell also Silences the target for # sec."
+ },
+ "Arcane Meditation": {
+  "t": "{1}% mana regen while casting",
+  "sig": "Allows #% of your Mana regeneration to continue while casting."
+ },
+ "Arcane Wrath": {
+  "t": "Arcane bolt that scales with your max mana",
+  "sig": "Launches a projectile of pure Arcane energy at the enemy target, causing # to # Arcane damage. This spell gains additional Spell Damage equal to #% of your maximum Mana."
+ },
+ "Presence of Mind": {
+  "t": "Next spell is instant",
+  "sig": "When activated, your next Mage spell with a casting time less than # sec becomes an instant cast spell."
+ },
+ "Arcane Mind": {
+  "t": "+{1}% Intellect, +{2}% Arcane crit damage",
+  "sig": "Increases your Intellect by #% and increases the critical strike damage bonus of your Arcane spells by #%."
+ },
+ "Arcane Instability": {
+  "t": "+{1}% spell damage and crit",
+  "sig": "Increases the damage done by your spells by #% and your critical strike chance by #%."
+ },
+ "Arcane Power": {
+  "t": "+{2}% spell damage for {1} sec, spells cost {3}% more",
+  "sig": "For the next # sec, your spells deal #% more damage while costing #% more mana to cast."
+ },
+ "Incineration": {
+  "t": "+{1}% crit on Fire Blast, Ice Lance, Arcane Blast and Scorch",
+  "sig": "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by #%."
+ },
+ "Accelerant": {
+  "t": "Fireball, Frostfire Bolt and Arcane Wrath {1} sec faster",
+  "sig": "Reduces the casting time of your Fireball, Frostfire Bolt, and Arcane Wrath spells by # sec."
+ },
+ "Ignite": {
+  "t": "Fire crits burn for {1}% more over {2} sec",
+  "sig": "Your critical strikes from Fire damage spells cause the target to burn for an additional #% of your spell's damage over # sec."
+ },
+ "Flame Throwing": {
+  "t": "Fire spells reach {1} yards farther",
+  "sig": "Increases the range of your Fire spells by # yards."
+ },
+ "Impact": {
+  "t": "{1}% chance Fire spells stun for {2} sec",
+  "sig": "Gives your Fire spells a #% chance to stun the target for # sec."
+ },
+ "Burning Soul": {
+  "t": "{1}% chance to ignore pushback, {2}% less Fire threat",
+  "sig": "Gives your Fire spells a #% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by #%."
+ },
+ "Improved Flamestrike": {
+  "t": "+{1}% crit on Flamestrike",
+  "sig": "Increases the critical strike chance of your Flamestrike spell by #%."
+ },
+ "Pyroblast": {
+  "t": "Huge fireball with a burn over {4} sec",
+  "sig": "Hurls an immense fiery boulder that causes # to # Fire damage and an additional # Fire damage over # sec."
+ },
+ "Improved Fire Blast": {
+  "t": "Fire Blast cooldown {1} sec shorter, {2} yards more range",
+  "sig": "Reduces the cooldown of your Fire Blast spell by # sec and increases its range by # yards."
+ },
+ "Improved Scorch": {
+  "t": "Scorch stacks +{2}% Fire damage taken, up to {4} times",
+  "sig": "Your Scorch spell has a #% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by #% and lasts # sec, stacking up to # times."
+ },
+ "Improved Fire Ward": {
+  "t": "Fire Ward {1}% chance to reflect",
+  "sig": "Causes your Fire Ward to have a #% chance to reflect Fire spells while active."
+ },
+ "Heating Up": {
+  "t": "Fire crits make your next Pyroblast {2}% faster, up to {3} times",
+  "sig": "Non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch reduce the cast time of your next Pyroblast cast within # sec by #%, stacking up to # times. Fire Blast grants an additional stack every time it deals damage."
+ },
+ "Master of Elements": {
+  "t": "Fire and Frost crits refund {1}% mana",
+  "sig": "Your Fire and Frost critical strikes will refund #% of their base mana cost."
+ },
+ "Critical Mass": {
+  "t": "+{1}% crit with Fire spells",
+  "sig": "Increases the critical strike chance of your Fire spells by #%."
+ },
+ "Blast Wave": {
+  "t": "Fire nova that dazes by {3}% for {4} sec",
+  "sig": "A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for # to # Fire damage, and Dazing them for #% reduced movement speed for # sec."
+ },
+ "Fire Power": {
+  "t": "+{1}% Fire damage per Fire effect, up to {2}%",
+  "sig": "Increases the damage done by your Fire spells by #% per your Fire effects on the target, up to a maximum increase of #%. Effects which mix multiple schools of magic do not qualify."
+ },
+ "Combustion": {
+  "t": "Each Fire hit adds +{1}% Fire crit until {2} crits",
+  "sig": "When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by #%. This effect lasts until you have caused # non-periodic critical strikes with Fire spells."
+ },
+ "Frost Warding": {
+  "t": "Frost and Ice Armor {1}% stronger, Frost Ward can negate spells",
+  "sig": "Increases the Armor and resistances granted by your Frost Armor and Ice Armor spells by #%, gives your Frost Ward a #% chance to negate the warded damage spell, and increases the amount absorbed by your Ice Barrier and Frost Ward by #%."
+ },
+ "Improved Frostbolt": {
+  "t": "Frostbolt {1} sec faster",
+  "sig": "Reduces the casting time of your Frostbolt spell by # sec."
+ },
+ "Precision": {
+  "t": "+{1}% spell hit",
+  "sig": "Improves your chance to hit with all spells by #%."
+ },
+ "Ice Shards": {
+  "t": "+{1}% Frost crit damage",
+  "sig": "Increases the critical strike damage bonus of your Frost spells by #%."
+ },
+ "Frostbite": {
+  "t": "{1}% chance chills freeze for {2} sec",
+  "sig": "Gives your Chill effects a #% chance to Freeze the target for # sec."
+ },
+ "Improved Frost Nova": {
+  "t": "Frost Nova cooldown {1} sec shorter",
+  "sig": "Reduces the cooldown of your Frost Nova spell by # sec."
+ },
+ "Permafrost": {
+  "t": "Chills last {1}% longer and slow {2}% more",
+  "sig": "Increases the duration of your Chill effects by #% and reduces the target's speed by an additional #%."
+ },
+ "Frost Channeling": {
+  "t": "Frost spells {1}% cheaper, {2}% less threat",
+  "sig": "Reduces the mana cost of your Frost spells by #% and reduces the threat caused by your Frost spells by #%."
+ },
+ "Improved Blizzard": {
+  "t": "Blizzard slows by {1}%",
+  "sig": "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by #% for # sec."
+ },
+ "Ice Lance": {
+  "t": "Instant frost hit, {3}% more against frozen targets",
+  "sig": "Deals # to # Frost damage to an enemy target. Deals #% increased damage to Frozen targets."
+ },
+ "Arctic Reach": {
+  "t": "Frost spells reach {1}% farther",
+  "sig": "Increases the range of your Frostbolt, Ice Lance, and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by #%."
+ },
+ "Ice Block": {
+  "t": "Immune to everything for {1} sec",
+  "sig": "You become encased in a block of ice, protecting you from all physical attacks and spells for # sec, but during that time you cannot attack, move, or cast spells."
+ },
+ "Shatter": {
+  "t": "+{1}% crit against frozen targets",
+  "sig": "Increases the critical strike chance of all your spells against Frozen targets by #%."
+ },
+ "Improved Cone of Cold": {
+  "t": "Cone of Cold {1}% stronger",
+  "sig": "Increases the damage dealt by your Cone of Cold spell by #%."
+ },
+ "Cold Snap": {
+  "t": "Resets your Frost cooldowns",
+  "sig": "Finishes the remaining cooldown on all your other Frost spells."
+ },
+ "Fingers of Frost": {
+  "t": "{1}% chance your next {2} spells treat the target as frozen",
+  "sig": "Gives your Chill effects a #% chance to grant you the Fingers of Frost effect, which treats your next # spells cast as if the target were Frozen. Lasts # sec."
+ },
+ "Winter's Chill": {
+  "t": "Frostbolt and empowered Ice Lance make Cone of Cold {2}% stronger",
+  "sig": "Gives your Frostbolt and Fingers of Frost empowered Ice Lance spells a #% chance to apply Winter's Chill, increasing the target's damage taken from your next Cone of Cold by #% and it gains an additional #% of your spell damage, stacking up to # times."
+ },
+ "Ice Barrier": {
+  "t": "Absorb shield, +{2}% Frost damage while it lasts",
+  "sig": "Shield yourself, absorbing # damage and increasing your Frost damage by #% for # min. While shielded, your Frost damage is increased by an additional #% and you do not lose casting time when you take damage."
+ }
+}

@@ -14,13 +14,19 @@ window.FY_makeClass = function(cls, H){
   const spellNames = Object.keys(SPELLS).filter(n => n.length > 3).sort((x, y) => y.length - x.length);
   const mentions = text => { const found = []; let t = ' ' + (text || '') + ' '; spellNames.forEach(n => { const re = new RegExp('(^|[^A-Za-z])' + n.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z])'); if (re.test(t)){ found.push(n); t = t.replace(re, '$1#'); } }); return found; };
   const short = t => (t || '').split(/(?<=\.)\s/)[0].replace(/\.$/, '');
+  /* short summaries written for the site (classes/summaries), filled with this rank's numbers from the game text */
+  const SUM = ((window.FY_SUM || {})[cls] || {}).talents || {};
+  const NUM = /\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?/g;
+  const summary = (name, text) => { const t = SUM[name]; if (!t) return null; const nums = (text || '').match(NUM) || []; let ok = true; const out = t.replace(/\{(\d+)\}/g, (m, i) => { const v = nums[+i - 1]; if (v === undefined) ok = false; return v; }); return ok ? out : null; };
   const FX = {}, TALENT_USE = {};
   Object.entries(D.ranks || {}).forEach(([name, ranks]) => {
     const own = D.spells[name] && D.spells[name].talent;
     const named = mentions(ranks[ranks.length - 1]).filter(n => n !== name);
     FX[name] = r => {
-      const text = short(ranks[Math.min(r, ranks.length) - 1]);
-      if (own) return [[['@new'], `${name}: ${short(D.spells[name].d)}`]];
+      const raw = ranks[Math.min(r, ranks.length) - 1];
+      const sum = summary(name, raw);
+      const text = sum || short(raw);
+      if (own) return [[['@new'], `${name}: ${sum || short(D.spells[name].d)}`]];
       return [[named.length ? named : ['@all'], text]];
     };
     const lv = named.map(n => (SPELLS[n] && SPELLS[n].lvl) || 1);

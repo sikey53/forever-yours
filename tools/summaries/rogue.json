@@ -1,0 +1,218 @@
+{
+ "Improved Gouge": {
+  "t": "Gouge lasts {1} sec longer",
+  "sig": "Increases the duration of your Gouge ability by # sec."
+ },
+ "Remorseless Attacks": {
+  "t": "+{1}% crit on your next builder after a kill",
+  "sig": "After killing a non-trivial enemy, gives you a #% increased critical strike chance on your next Sinister Strike, Backstab, Ambush, Mutilate, or Ghostly Strike. Lasts # sec."
+ },
+ "Malice": {
+  "t": "+{1}% crit",
+  "sig": "Increases your critical strike chance with all attacks and Poisons by #%."
+ },
+ "Ruthlessness": {
+  "t": "{1}% chance finishers add a combo point",
+  "sig": "Gives your finishing moves a #% chance to add a Combo Point to your target."
+ },
+ "Improved Expose Armor": {
+  "t": "Expose Armor {1} Energy cheaper, refunds {2} combo points at 5",
+  "sig": "Reduces the Energy cost of your Expose Armor ability by #, and refunds # Combo Points when cast with # Combo Points."
+ },
+ "Improved Slice and Dice": {
+  "t": "Slice and Dice lasts {1}% longer",
+  "sig": "Increases the duration of your Slice and Dice ability by #%."
+ },
+ "Vigor": {
+  "t": "+{1} max Energy",
+  "sig": "Increases your maximum Energy by #."
+ },
+ "Blood Splatter": {
+  "t": "Rupture {1} sec and Garrote {2} sec longer",
+  "sig": "Increases the duration of your Rupture ability by # sec and your Garrote ability by # sec."
+ },
+ "Lethality": {
+  "t": "+{1}% crit damage on builders",
+  "sig": "Increases the critical strike damage bonus of your Sinister Strike, Gouge, Backstab, Mutilate, Ghostly Strike, and Hemorrhage abilities by #%."
+ },
+ "Vile Poisons": {
+  "t": "Poisons hit {1}% harder, {2}% harder to dispel",
+  "sig": "Increases the damage dealt by your poisons by #% and gives your poisons an additional #% chance to resist dispel effects."
+ },
+ "Cold Blood": {
+  "t": "Next big attack is a sure crit",
+  "sig": "When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, Eviscerate, or Mutilate by #%."
+ },
+ "Improved Poisons": {
+  "t": "+{1}% poison chance, {2}% chance to keep a charge",
+  "sig": "Increases the chance to apply Poisons to your target by #%, and gives Poison applications a #% chance to not consume a charge."
+ },
+ "Relentless Strikes": {
+  "t": "Finishers can refund {2} Energy, {1}% per combo point",
+  "sig": "Your finishing moves have a #% chance per Combo Point to restore # Energy."
+ },
+ "Venom": {
+  "t": "Shank raises poison damage {1}% and poison chance {2}% for {3} sec",
+  "sig": "Causes your Shank ability to increase your Poison damage by #% and your chance to apply Poisons by #% for # sec."
+ },
+ "Improved Kidney Shot": {
+  "t": "Targets in Kidney Shot take {1}% more damage",
+  "sig": "Enemies Stunned by your Kidney Shot ability take #% increased damage from your poisons and attacks."
+ },
+ "Seal Fate": {
+  "t": "Builder crits add an extra combo point",
+  "sig": "Your critical strikes from abilities that add Combo Points have a #% chance to add an additional Combo Point."
+ },
+ "Mutilate": {
+  "t": "Hit with both weapons for 2 combo points, {3}% more on poisoned targets",
+  "sig": "Instantly attacks with both weapons for #% weapon damage plus an additional # with each weapon. Damage increased by #% against Poisoned targets. Awards # Combo Points."
+ },
+ "Coup de Grace": {
+  "t": "Eviscerate {1}% stronger, Death Mark {2}% stronger",
+  "sig": "Increases the damage done by your Eviscerate ability by #%, and the damage and storage rate of your Death Mark ability by #%."
+ },
+ "Efficient Strikes": {
+  "t": "Sinister Strike and Hemorrhage {1} Energy cheaper",
+  "sig": "Reduces the Energy cost of your Sinister Strike and Hemorrhage abilities by #."
+ },
+ "Lightning Reflexes": {
+  "t": "+{1}% dodge",
+  "sig": "Increases your Dodge chance by #%."
+ },
+ "Puncturing Wounds": {
+  "t": "Backstab +{1}% crit, Mutilate +{2}% crit, Backstab can add a combo point",
+  "sig": "Increases the critical strike chance of your Backstab by #% and your Mutilate by #%, and gives Backstab a #% chance to add an additional Combo Point."
+ },
+ "Deflection": {
+  "t": "+{1}% parry",
+  "sig": "Increases your Parry chance by #%."
+ },
+ "Precision": {
+  "t": "+{1}% hit",
+  "sig": "Improves your chance to hit by #%."
+ },
+ "Improved Sprint": {
+  "t": "Sprint frees you from slows",
+  "sig": "Gives a #% chance to remove all movement impairing effects when you activate your Sprint ability."
+ },
+ "Endurance": {
+  "t": "Sprint and Evasion cooldowns {1}% shorter",
+  "sig": "Reduces the cooldown of your Sprint and Evasion abilities by #%."
+ },
+ "Riposte": {
+  "t": "After a parry: {1}% weapon hit and a {2} sec disarm",
+  "sig": "A strike that becomes active after parrying an opponent's attack. This attack deals #% weapon damage and disarms the target for # sec."
+ },
+ "Composure": {
+  "t": "Poised saves {1} more Energy",
+  "sig": "Increases the Energy cost reduction of your Poised ability by #."
+ },
+ "Improved Kick": {
+  "t": "Kick silences for {2} sec",
+  "sig": "Gives your Kick ability a #% chance to Silence the target for # sec."
+ },
+ "Flawless Execution": {
+  "t": "Eviscerate {1} Energy cheaper",
+  "sig": "Reduces the Energy cost of your Eviscerate ability by #."
+ },
+ "Weapon Expertise": {
+  "t": "{1}% less dodged or parried",
+  "sig": "Reduces the chance for your attacks to be Dodged or Parried by #%."
+ },
+ "Aggression": {
+  "t": "Sinister Strike and Eviscerate {1}% stronger",
+  "sig": "Increases the damage of your Sinister Strike and Eviscerate abilities by #%."
+ },
+ "Dual Wield Specialization": {
+  "t": "+{1}% off-hand damage",
+  "sig": "Increases the damage done by your off-hand weapon by #%."
+ },
+ "Blade Flurry": {
+  "t": "+{1}% attack speed and a second target for {2} sec",
+  "sig": "Increases your melee attack speed by #% and your melee attacks strike an additional nearby opponent. Lasts # sec."
+ },
+ "Hack and Slash": {
+  "t": "Weapon bonus: extra attacks with axes and swords, more crit with daggers and fists",
+  "sig": "Gives your melee weapon attacks a benefit depending on the weapon. Axe/Sword: Your successful melee attacks have a #% chance to trigger an extra attack on the target. Dagger/Fist: Increases your critical strike chance by #%. Mace: Your attacks ignore #% of your target's armor."
+ },
+ "Flash of Steel": {
+  "t": "Shank gives {1} Energy and its cooldown is {2} sec shorter",
+  "sig": "Increases the Energy generated by your Shank ability by # and reduces its cooldown by # sec."
+ },
+ "Adrenaline Rush": {
+  "t": "Double Energy regen for {2} sec",
+  "sig": "Increases your Energy regeneration rate by #% for # sec."
+ },
+ "Setup": {
+  "t": "{1}% chance for a combo point when you dodge or resist",
+  "sig": "Gives you a #% chance to add a Combo Point to your target after Dodging their attack or fully resisting one of their spells."
+ },
+ "Master of Deception": {
+  "t": "Harder to spot in Stealth",
+  "sig": "Reduces the chance enemies have to detect you while in Stealth mode as if you were # levels higher."
+ },
+ "Opportunity": {
+  "t": "Backstab, Garrote, Ambush and Mutilate {1}% stronger",
+  "sig": "Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by #%."
+ },
+ "Dirty Deeds": {
+  "t": "Cheap Shot and Garrote {1} Energy cheaper, Garrote from any side",
+  "sig": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by #, and your Garrote ability no longer requires you to be behind your target."
+ },
+ "Camouflage": {
+  "t": "Stealth {1}% faster, cooldown {2} sec shorter",
+  "sig": "Reduces your speed penalty from your Stealth ability by #% and reduces its cooldown by # sec."
+ },
+ "Improved Ambush": {
+  "t": "+{1}% crit on Ambush",
+  "sig": "Increases the critical strike chance of your Ambush ability by #%."
+ },
+ "Dirty Tricks": {
+  "t": "Sap and Blind {1}% cheaper",
+  "sig": "Reduces the Energy cost of your Sap and Blind abilities by #%."
+ },
+ "Initiative": {
+  "t": "Openers add an extra combo point",
+  "sig": "Gives you a #% chance to add an additional combo point to your target when using your Ambush, Garrote, or Cheap Shot ability."
+ },
+ "Premeditation": {
+  "t": "Add 2 combo points before you open",
+  "sig": "Adds # Combo Points to your target. You must add to or use those combo points within # sec or the combo points are lost."
+ },
+ "Serrated Blades": {
+  "t": "Ignore {1}% armor, Rupture {2}% stronger",
+  "sig": "Causes your attacks to ignore #% of your target's Armor and increases the damage dealt by your Rupture ability by #%."
+ },
+ "Elusiveness": {
+  "t": "Vanish and Blind cooldowns {1} sec shorter",
+  "sig": "Reduces the cooldown of your Vanish and Blind abilities by # sec."
+ },
+ "Ghostly Strike": {
+  "t": "Weapon hit plus {3}% dodge for {4} sec",
+  "sig": "A strike that deals #% (#% if a Dagger is equipped in your Main Hand) weapon damage, increases your chance to dodge by #% for # sec, and causes your next Ambush or Garrote cast within # sec to not require Stealth. Awards # combo point."
+ },
+ "Quick Getaway": {
+  "t": "Sap one more target, +{2}% speed after a Sap",
+  "sig": "Increases the maximum number of targets you may have Sapped by #, and increases your movement speed by #% for # sec after Sapping a target."
+ },
+ "Heightened Senses": {
+  "t": "See Stealth better, {2}% less hit by spells and ranged",
+  "sig": "Increases your Stealth detection as if you were # levels higher and reduces your chance to be hit by spells and ranged attacks by #%."
+ },
+ "Preparation": {
+  "t": "Resets your rogue cooldowns",
+  "sig": "When activated, this ability immediately finishes the cooldown on your other Rogue abilities."
+ },
+ "Hemorrhage": {
+  "t": "Weapon hit that makes Rupture and Garrote {3}% stronger",
+  "sig": "An instant strike that deals #% weapon damage (#% if a Dagger is equipped) and causes the target to take #% increased Rupture and Garrote damage from the Rogue. Lasts # sec. Awards # Combo Point."
+ },
+ "Boot Knife": {
+  "t": "Shank adds 2 combo points",
+  "sig": "Grants your Shank ability a #% chance to add # Combo Points to the target."
+ },
+ "Death Mark": {
+  "t": "Finisher that stores your damage and releases it after {1} sec",
+  "sig": "Finishing move that marks the target, storing a portion of the damage dealt by your attacks per Combo Point. Garrote and Rupture damage is stored at twice the rate. After # sec, the stored damage is dealt, up to a maximum increased by Attack Power and Critical Strike chance: # point : #% stored, # damage cap # points: #% stored, # damage cap # points: #% stored, # damage cap # points: #% stored, # damage cap # points: #% stored, # damage cap"
+ }
+}

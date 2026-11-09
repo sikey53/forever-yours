@@ -1,0 +1,202 @@
+{
+ "Deadly Aspects": {
+  "t": "Aspects add a chance for bonus attack speed",
+  "sig": "While Aspect of the Hawk is active, Auto Shot has a #% chance of increasing ranged attack speed by #% for # sec. While Aspect of the Beast is active, all melee auto attacks have a #% chance of increasing melee attack speed by #% for # sec."
+ },
+ "Endurance Training": {
+  "t": "Pet +{1}% health and armor",
+  "sig": "Increases the Health and Armor of your pets by #%."
+ },
+ "Focused Fire": {
+  "t": "+{1}% damage for you and your pet",
+  "sig": "Increases all damage you and your pet deal by #% while your pet is active."
+ },
+ "Improved Aspect of the Monkey": {
+  "t": "Aspect of the Monkey +{1}% dodge, half for your pet",
+  "sig": "Increases the Dodge bonus of your Aspect of the Monkey by #%. Additionally, your pet gains #% of the effect of your Aspect of the Monkey ability."
+ },
+ "Improved Revive Pet": {
+  "t": "Revive Pet {1} sec faster, {2}% cheaper",
+  "sig": "Revive Pet's casting time is reduced by # sec, mana cost is reduced by #%, and increases the health your pet returns with by an additional #%."
+ },
+ "Pathfinding": {
+  "t": "Cheetah and Pack {1}% faster",
+  "sig": "Increases the speed bonus of your Aspect of the Cheetah and Aspect of the Pack by #%."
+ },
+ "Bestial Swiftness": {
+  "t": "Pet {1}% faster",
+  "sig": "Increases the movement speed of your pets by #%."
+ },
+ "Unleashed Fury": {
+  "t": "Pet and hawk damage +{1}%",
+  "sig": "Increases the damage done by your pets and hawks by #%."
+ },
+ "Improved Mend Pet": {
+  "t": "Mend Pet can cleanse, {3}% cheaper",
+  "sig": "Gives your Mend Pet spell a #% chance of cleansing # Curse, Disease, Magic, or Poison effect from your pet each time it heals and reduces the Mana cost by #%."
+ },
+ "Ferocity": {
+  "t": "Pet and hawk crit +{1}%",
+  "sig": "Increases the critical strike chance of your pets and hawks by #%."
+ },
+ "Summon Hawk": {
+  "t": "A hawk dive-bombs your target for {3} sec",
+  "sig": "Command a hawk to dive-bomb your targeted enemy, dealing # plus #% of your Ranged Attack Power Physical damage and continuing its assault for # sec. Only # hawks can be active at once. Summon Hawk shares its cooldown with Arcane Shot."
+ },
+ "Spirit Bond": {
+  "t": "You and your pet regen {1}% health every {2} sec",
+  "sig": "While your pet is active, you and your pet will regenerate #% of total health every # sec."
+ },
+ "Intimidation": {
+  "t": "Pet stuns the target for {1} sec",
+  "sig": "Command your pet to Stun the target for # sec on its next successful attack, which also gains #% increased critical strike chance. Generates high threat."
+ },
+ "Bestial Discipline": {
+  "t": "Pet focus regen +{1}%, {2}% mana regen while casting",
+  "sig": "Increases the Focus regeneration of your pets by #% and allows #% of your Mana regeneration to continue while casting."
+ },
+ "Frenzy": {
+  "t": "Pet crits give +{2}% attack speed for {3} sec",
+  "sig": "Gives your pet a #% chance to gain a #% attack speed increase for # sec after dealing a critical strike."
+ },
+ "Bestial Wrath": {
+  "t": "Pet deals {1}% more damage for {2} sec and can't be stopped",
+  "sig": "Send your pet into a rage causing #% additional damage for # sec. While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed."
+ },
+ "Hawk Eye": {
+  "t": "Ranged weapons reach {1} yards farther",
+  "sig": "Increases the range of your ranged weapons by # yards."
+ },
+ "Improved Concussive Shot": {
+  "t": "{1}% chance Concussive Shot stuns for {2} sec",
+  "sig": "Gives your Concussive Shot a #% chance to stun the target for # sec."
+ },
+ "Lethal Attacks": {
+  "t": "+{1}% crit",
+  "sig": "Increases your critical strike chance with all attacks by #%."
+ },
+ "Improved Stings": {
+  "t": "Serpent Sting +{1}%, Viper Sting cooldown {2} sec shorter",
+  "sig": "Increases the damage of your Serpent Sting ability by #%, reduces the cooldown of your Viper Sting ability by # sec, and increases the duration of your Scorpid Sting ability by # sec."
+ },
+ "Efficiency": {
+  "t": "Shots, stings and melee {1}% cheaper",
+  "sig": "Reduces the Mana cost of your Shots, Stings, and melee abilities by #%."
+ },
+ "Careful Aim": {
+  "t": "Attack power from {1}% of Intellect",
+  "sig": "Increases your Attack Power by #% of your Intellect."
+ },
+ "Rapid Killing": {
+  "t": "Rapid Fire cooldown {1} min shorter, kills boost your next shot",
+  "sig": "Reduces the cooldown on your Rapid Fire ability by # min. In addition, when you kill a non-trivial enemy or it dies while afflicted by your Serpent Sting, you gain Rapid Killing, increasing the damage of your next Shot ability within # sec by #%."
+ },
+ "Improved Arcane Shot": {
+  "t": "Arcane Shot cooldown {1} sec shorter",
+  "sig": "Reduces the cooldown of your Arcane Shot by # sec. Does not affect the cooldown of abilities which share a cooldown with Arcane Shot."
+ },
+ "Lone Wolf": {
+  "t": "+{1}% damage without a pet",
+  "sig": "You deal #% increased damage with all attacks while you do not have an active pet."
+ },
+ "Trueshot Aura": {
+  "t": "Group ranged attack power +{2}",
+  "sig": "Increases the Ranged Attack Power of party or raid members within # yds by #."
+ },
+ "Mortal Shots": {
+  "t": "+{1}% ranged crit damage",
+  "sig": "Increases the critical strike damage bonus on all ranged abilities by #%."
+ },
+ "Rapid Recuperation": {
+  "t": "Serpent Sting lets {1}% mana regen continue while casting",
+  "sig": "Afflicting a target with Serpent Sting allows #% of your Mana Regeneration to continue while casting for # sec, increased to #% when Rapid Killing is consumed."
+ },
+ "Barrage": {
+  "t": "Multi-Shot, Aimed Shot and Volley +{1}%",
+  "sig": "Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by #%."
+ },
+ "Scatter Shot": {
+  "t": "Short-range shot that disorients for {2} sec",
+  "sig": "A short-range shot that deals #% weapon damage and disorients the target for # sec. Any damage caused will remove the effect. Turns off your attack when used."
+ },
+ "Ranged Weapon Specialization": {
+  "t": "+{1}% ranged damage",
+  "sig": "Increases the damage you deal with ranged weapons by #%."
+ },
+ "Sniper Shot": {
+  "t": "Long-range shot, next {2} shots reach {3} yards farther",
+  "sig": "A long-range shot that deals ranged damage plus # and increases the range of your next # Shots by # yards for # sec."
+ },
+ "Improved Tracking": {
+  "t": "+{1}% damage to the tracked creature type",
+  "sig": "While tracking Beasts, Demons, Dragonkin, Elementals, Giants, Humanoids, or Undead, all damage you deal to the tracked creature type is increased by #%."
+ },
+ "Deflection": {
+  "t": "+{1}% parry",
+  "sig": "Increases your Parry chance by #%."
+ },
+ "Entrapment": {
+  "t": "Traps root everything they catch for {1} sec",
+  "sig": "When your traps are triggered, all affected targets are Entrapped, preventing them from moving for # sec."
+ },
+ "Savage Strikes": {
+  "t": "+{1}% crit on melee abilities",
+  "sig": "Increases the critical strike chance of all your melee abilities by #%."
+ },
+ "Survivalist": {
+  "t": "+{1}% health",
+  "sig": "Increases your total Health by #%."
+ },
+ "Improved Wing Clip": {
+  "t": "{1}% chance Wing Clip roots for {2} sec",
+  "sig": "Gives your Wing Clip ability a #% chance to immobilize the target for # sec."
+ },
+ "Clever Traps": {
+  "t": "Freezing and Frost traps last {1}% longer, fire traps {2}% stronger",
+  "sig": "Increases the duration of Freezing and Frost trap effects by #% and the damage of Immolation and Explosive trap effects by #%."
+ },
+ "Surefooted": {
+  "t": "+{1}% hit, slows {2}% shorter",
+  "sig": "Increases your hit chance by #% and reduces the duration of movement impairing effects on you by #%."
+ },
+ "Deterrence": {
+  "t": "+{1}% dodge and parry for {2} sec",
+  "sig": "When activated, increases your Dodge and Parry chance by #% for # sec."
+ },
+ "Survival Tactics": {
+  "t": "Traps and Feign Death {1}% more reliable",
+  "sig": "Increases your chance to hit with your Trap and Feign Death abilities by #%."
+ },
+ "Predator's Edge": {
+  "t": "+{1}% melee crit damage, +{2}% off-hand damage",
+  "sig": "Increases your melee ability critical strike damage by #% and your Off Hand weapon damage by #%."
+ },
+ "Counterattack": {
+  "t": "After a parry: hit and root for {3} sec",
+  "sig": "A strike that becomes active after parrying an opponent's attack. This attack deals #% weapon damage plus # and immobilizes the target for # sec. Counterattack cannot be blocked, dodged, or parried."
+ },
+ "Resourcefulness": {
+  "t": "Traps and melee {1}% cheaper",
+  "sig": "Reduces the Mana cost of your Trap and melee abilities by #%, and grants your melee and ranged ability Critical Strikes a #% chance to allow #% of your Mana Regeneration to continue while casting for # sec."
+ },
+ "Expose Prey": {
+  "t": "{1}% chance for Mongoose Bite on marked targets",
+  "sig": "Grants your melee and ranged attacks against enemies afflicted by Hunter's Mark a #% chance to allow an activation of Mongoose Bite. Lasts # sec."
+ },
+ "Survivalist's Discipline": {
+  "t": "Traps and Deterrence cooldowns {1}% shorter",
+  "sig": "Reduces the cooldown of your Trap and Deterrence abilities by #%."
+ },
+ "Strider Kick": {
+  "t": "Weapon kick, +{2}% speed for {3} sec",
+  "sig": "A powerful kick that deals #% melee weapon damage and increases movement speed by #% for # sec."
+ },
+ "Lightning Reflexes": {
+  "t": "+{1}% Agility",
+  "sig": "Increases your Agility by #%."
+ },
+ "Lacerating Strikes": {
+  "t": "Mongoose Bite bleeds for {1}% more over {2} sec",
+  "sig": "Your Mongoose Bite also causes the target to Bleed for damage equal to #% of the damage done by Mongoose Bite over # sec"
+ }
+}
