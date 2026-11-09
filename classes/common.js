@@ -15,8 +15,10 @@ window.FY_makeClass = function(cls, H){
   const sbForm = f => (stateOf(f) || {label: 'Any'}).label;
   const FORM_COLOR = f => (stateOf(f) || {c: 'var(--gold)'}).c;
   const targetLevel = t => t.startsWith('@') ? 1 : ((SPELLS[t] && SPELLS[t].lvl) || 1);
-  const PRESETS = H.PRESETS || {};
-  const groups = {lvl: 'Leveling', dng: 'Dungeons', raid: 'Raids at 60', pvp: 'PvP'};
+  const PRESETS = Object.assign({}, D.presets || {}, H.PRESETS || {});
+  /* the plan behind "Next point" for each spec: the community leveling order for its tree */
+  const PLAN = Object.fromEntries(Object.entries(H.SPEC_PLAN || {}).map(([spec, id]) => [spec, ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, (((D.ranks || {})[n] || []).slice(-1)[0] || '').split('. ')[0].replace(/\.$/, '')])]));
+  const groups = {lvl: 'Leveling', dng: 'Dungeons', raid: 'Dungeons and raids at 60', pvp: 'PvP'};
   const GOALS_HTML = Object.entries(groups).map(([g, label]) => {
     const opts = Object.entries(PRESETS).filter(([id]) => id.startsWith(g + '-')).map(([id, p]) => `<option value="${id}">${p.label}</option>`).join('');
     return opts ? `<optgroup label="${label}">${opts}</optgroup>` : '';
@@ -32,7 +34,7 @@ window.FY_makeClass = function(cls, H){
   WIZ.lv = Object.assign({Mount: 10, Trinket: 1, 'Healing Potion': 1, Bandage: 1}, WIZ.lv);
   return {
     WIZ, CLASS_PROFILE: H.CLASS_PROFILE, SPECS: H.SPECS, MACROS: H.MACROS || {},
-    TREES: D.trees, TREE_ORDER: D.order, PLAN: H.PLAN || {}, TT: {}, RANKS: D.ranks, SPELLS,
+    TREES: D.trees, TREE_ORDER: D.order, PLAN, TT: {}, RANKS: D.ranks, SPELLS,
     FORM_COLOR, G: {}, GROUP_LABEL: {}, FX: {}, TALENT_USE: H.TALENT_USE || {}, TALENT_LATER: {}, targetLevel,
     PRESETS, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || '', PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
     CLASS_NOTES: D.notes || [], DATA_SOURCE: D.talentSource || ''

@@ -11,6 +11,7 @@
       berserker: {label: 'Berserker', c: 'var(--cat)', match: /^Berserker Stance/}
     }
   },
+  SPEC_PLAN: {arms: 'lvl-arms', fury: 'lvl-fury', prot: 'lvl-protection'},
   SPECS: {arms: {label: 'Arms', ready: true}, fury: {label: 'Fury', ready: false}, prot: {label: 'Protection', ready: false}},
   MACROS: {
     chargeintercept: {name: 'Charge or Intercept', code: '#showtooltip\n/cast [stance:1] Charge; [stance:3] Intercept; Battle Stance', note: 'Charge in Battle Stance, Intercept in Berserker Stance. In Defensive Stance it switches you to Battle, press again to Charge. Charge only works out of combat.'},
@@ -23,7 +24,7 @@
     'Trinket': {form: 'Item', cd: 'Varies', lvl: 1, d: 'Your on-use trinket.'},
     'Mount': {form: 'Item', cd: '', lvl: 10, d: 'Your mount.'}
   },
-  PLAN_NOTE: 'Pick a play style in the Simulator to get a full talent order for your level.',
+  PLAN_NOTE: 'The order most players of your spec follow on talentsforever.com while leveling, then a popular level 60 build. Recalculated from what you have trained.',
   WIZ: {
     name: 'Warrior', color: '#C69B6D',
     roles: [['arms', 'Two-hander', 'Big hits with a two-handed weapon (Arms)'], ['fury', 'Dual wield', 'Two weapons, nonstop attacks (Fury)'], ['tank', 'Tank', 'Shield and threat (Protection)']],
