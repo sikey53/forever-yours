@@ -1,0 +1,1 @@
+Talent, spell and tooltip data for World of Warcraft: Forever, downloaded daily from [talentsforever.com](https://talentsforever.com) by the Sync game data workflow. Licensed CC BY 4.0 by Talents Forever.

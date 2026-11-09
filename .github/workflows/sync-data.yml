@@ -1,0 +1,39 @@
+# Downloads the latest WoW Forever talent and spell data from talentsforever.com (CC BY 4.0)
+# every day, and commits it to data/talentsforever when something changed.
+name: Sync game data
+
+on:
+  schedule:
+    - cron: "17 20 * * *"   # every day at 20:17 UTC, before the nightly site update
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/sync-data.yml
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download data
+        run: |
+          set -e
+          mkdir -p data/talentsforever
+          curl -fsSL --retry 3 -A "ForeverYours-sync (github.com/sikey53/forever-yours)" https://talentsforever.com/data.json -o data/talentsforever/all.json
+          for c in warrior paladin hunter rogue priest shaman mage warlock druid; do
+            curl -fsSL --retry 3 -A "ForeverYours-sync (github.com/sikey53/forever-yours)" "https://talentsforever.com/export/$c.json" -o "data/talentsforever/$c.json"
+            python3 -m json.tool "data/talentsforever/$c.json" > /dev/null
+            sleep 2
+          done
+          ls -la data/talentsforever
+      - name: Commit if changed
+        run: |
+          git config user.name "forever-yours-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/talentsforever
+          if git diff --cached --quiet; then echo "No changes"; exit 0; fi
+          git commit -m "Sync talentsforever.com data $(date -u +%Y-%m-%d)"
+          git push
