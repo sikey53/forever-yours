@@ -167,8 +167,13 @@ def build(cls):
         for r in lst:
             if title in r.get('classes', []):
                 races.append({'race': r['race'], 'faction': faction, 'abilities': [[a[0], a[1]] for a in r.get('abilities', [])]})
+    class_racials = {}
+    for race, lst in ((d.get('class_racials') or {}).get('races') or {}).items():
+        class_racials[race] = [x[0] for x in lst]
+        for n in class_racials[race]:
+            if n in spells: spells[n]['form'] = 'Racial · ' + race; spells[n]['race'] = race
     out = {
-        'class': title, 'generated': d.get('generated'), 'source': 'talentsforever.com (CC BY 4.0)',
+        'class': title, 'classRacials': class_racials, 'generated': d.get('generated'), 'source': 'talentsforever.com (CC BY 4.0)',
         'talentSource': d['talents'].get('source', ''),
         'trees': trees, 'order': order, 'ranks': ranks, 'spells': spells, 'races': races,
         'notes': [[a[0], a[1]] for a in d.get('class_abilities', [])],

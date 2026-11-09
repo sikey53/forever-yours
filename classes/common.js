@@ -26,11 +26,11 @@ window.FY_makeClass = function(cls, H){
   const WIZ = Object.assign({
     lv: Object.fromEntries(Object.entries(SPELLS).map(([n, s]) => [n, s.lvl || 1])),
     talents: Object.keys(D.spells).filter(n => D.spells[n].talent),
-    notSpells: ['Mount', 'Trinket', 'Healing Potion', 'Bandage'],
+    notSpells: ['Mount', 'Trinket', 'Healing Potion', 'Mana Potion', 'Bandage', 'Shoot'].concat(Object.values(D.classRacials || {}).flat()),
   }, H.WIZ);
   const slug = r => r.toLowerCase().replace(/[^a-z]+/g, '');
   if (!H.WIZ.races) WIZ.races = (D.races || []).map(r => [slug(r.race), r.race, r.faction]);
-  WIZ.racials = Object.fromEntries((D.races || []).map(r => [slug(r.race), r.abilities.filter(([n, d]) => /Instant|cooldown/i.test(d)).map(([n]) => n)]));
+  WIZ.racials = Object.fromEntries((D.races || []).map(r => [slug(r.race), ((D.classRacials || {})[r.race] || []).concat(r.abilities.filter(([n, d]) => /Instant|cooldown/i.test(d)).map(([n]) => n))]));
   WIZ.lv = Object.assign({Mount: 10, Trinket: 1, 'Healing Potion': 1, Bandage: 1}, WIZ.lv);
   return {
     WIZ, CLASS_PROFILE: H.CLASS_PROFILE, SPECS: H.SPECS, MACROS: H.MACROS || {},
