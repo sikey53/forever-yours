@@ -402,6 +402,10 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
 .sb-sp em{font-style:normal;font-family:var(--cond);font-size:12px;color:var(--muted);text-align:right}
 .sb-sp p{grid-column:1/-1;font-size:12.5px;color:var(--muted);line-height:1.35}
 
+.rebind{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:12px}
+.rebind label{font-family:var(--cond);font-weight:600;font-size:16px}
+.rebind-sel{background:var(--panel-2);border:1px solid var(--line);border-radius:7px;color:var(--fg);padding:9px 10px;font:inherit;font-size:15px;max-width:100%}
+.bindtoast{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;background:var(--panel-2);border:1px solid var(--gold);border-radius:8px;padding:8px 12px;font-size:14px;margin-bottom:10px}
 .setupbar{display:flex;flex-wrap:wrap;gap:8px 10px;align-items:center}
 .setupbar a.btn{text-decoration:none;color:inherit}
 /* chat */
@@ -463,8 +467,9 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
       <h2 id="h-binds">Keybinds</h2>
       <div class="tabs" role="group" aria-label="Form" id="formTabs"></div>
     </div>
-    <p class="muted">Tap any button to see what it does. Buttons marked <span class="b-mac" style="font-size:12px">M</span> are macros, and tapping them shows the macro to copy. A number badge is the level you learn it.</p>
+    <p class="muted">Tap any button to see what it does or to put another spell on it. Buttons marked <span class="b-mac" style="font-size:12px">M</span> are macros, and tapping them shows the macro to copy. A number badge is the level you learn it.</p>
     <div id="specNote"></div>
+    <div id="bindToast" class="bindtoast" role="status" hidden></div>
     <div class="bars" id="bars"></div>
     <div class="legend">
       <span><i style="background:var(--spam)"></i>Spam</span>
@@ -941,6 +946,62 @@ function renderBars(){
     <div class="slots ${b.cls}">${b.items.map((it,i)=>slotHTML(it,b.id,i,b.main)).join('')}</div></div>`).join('');
 }
 const dlg = document.getElementById('slotDlg');
+/* ===== rebinding: pick any spell for any button ===== */
+const MACRO_BASE = {clawpounce:'Claw', shredravage:'Shred', enragebash:'Bash', travel:'Travel Form', dash:'Dash', heal:'Regrowth', instant:'Rejuvenation', poison:'Abolish Poison', curse:'Remove Curse'};
+const JOB_TIER = {'Spam':'spam', 'Rotation':'short', 'Short cooldown':'short', 'Once a fight':'mid', 'Interrupt':'mid', 'Defensive':'mid'};
+const ITEMS = ['Healing Potion','Mana Potion','Trinket','Mount','Bandage','Hearthstone'];
+const sameSpell = (a, b) => !!(a && b && ((a.macro && a.macro === b.macro) || (!a.macro && !b.macro && (a.base || a.n) === (b.base || b.n))));
+const spellValue = x => !x ? '' : x.macro ? 'm:' + x.macro : 's:' + (x.base || x.n);
+function spellSelect(barId, cur){
+  const fl = barId === 'main' ? FORMS[form].label.toLowerCase() : null;
+  const fits = n => { const f = (SPELLS[n].form || 'any').toLowerCase(); return !fl || f.includes(fl) || f.includes('any'); };
+  const lv = n => SPELLS[n].lvl > (build.level || 1) ? ` · level ${SPELLS[n].lvl}` : '';
+  const tag = n => SPELLS[n].talent ? ' · talent' : '';
+  const names = Object.keys(SPELLS).sort((a, b) => (SPELLS[a].lvl || 1) - (SPELLS[b].lvl || 1) || a.localeCompare(b));
+  const cv = spellValue(cur);
+  const o = (v, label) => `<option value="${esc(v)}" ${v === cv ? 'selected' : ''}>${esc(label)}</option>`;
+  const fit = names.filter(fits), other = names.filter(n => !fits(n));
+  return `<select id="rebindSel" class="rebind-sel">
+    ${o('', 'Leave this key empty')}
+    <optgroup label="${fl ? 'Works in ' + esc(FORMS[form].label) + ' form' : 'Spells'}">${fit.map(n => o('s:' + n, n + lv(n) + tag(n))).join('')}</optgroup>
+    <optgroup label="Macros">${Object.entries(MACROS).map(([id, m]) => o('m:' + id, m.name)).join('')}</optgroup>
+    ${other.length ? `<optgroup label="Other forms">${other.map(n => o('s:' + n, n + ' (' + SPELLS[n].form + ')' + lv(n))).join('')}</optgroup>` : ''}
+    <optgroup label="Items">${ITEMS.filter(n => !SPELLS[n]).map(n => o('s:' + n, n)).join('')}</optgroup>
+  </select>`;
+}
+function saveProfile(){ try { localStorage.setItem(PROFILE_KEY, JSON.stringify(PROFILE)); } catch(e){} }
+let undoBinds = null;
+function assignSpell(barId, i, val){
+  const bar = currentBars.find(b => b.id === barId); if (!bar) return;
+  const it = bar.items[i];
+  const before = JSON.stringify(B);
+  let ns = null;
+  if (val.startsWith('m:')){ const id = val.slice(2); ns = {n: MACROS[id].name, base: MACRO_BASE[id] || MACROS[id].name, macro: id}; }
+  else if (val.startsWith('s:')) ns = {n: val.slice(2)};
+  if (ns) ns.t = barId === 'main' ? (JOB_TIER[JOB[it.key]] || 'short') : barId === 'left' ? 'long' : barId === 'stance' ? 'short' : ((it.s && it.s.t) || 'spam');
+  const freed = [];
+  const shared = ['stance', 'left', 'alt', 'mouse'];
+  if (ns){
+    const forms = barId === 'main' ? [form] : Object.keys(FORMS);
+    forms.forEach(f => { const page = (B.main ||= {})[f] ||= {}; Object.keys(page).forEach(k => { if (!(barId === 'main' && k === it.key) && sameSpell(page[k], ns)){ delete page[k]; freed.push(k + (barId === 'main' ? '' : ' in ' + FORMS[f].label)); } }); });
+    shared.forEach(id => (B[id] || []).forEach((x, j) => { if (!(id === barId && j === i) && sameSpell(x.s, ns)){ x.s = null; freed.push(x.key); } }));
+  }
+  if (barId === 'main'){ const page = (B.main ||= {})[form] ||= {}; if (ns) page[it.key] = ns; else delete page[it.key]; }
+  else B[barId][i].s = ns;
+  undoBinds = before;
+  saveProfile(); renderBars();
+  const msg = ns ? `${esc(ns.n)} is now on ${esc(it.key)}.${freed.length ? ' Removed from ' + esc([...new Set(freed)].join(', ')) + '.' : ''}` : `${esc(it.key)} is now empty.`;
+  showBindToast(msg);
+}
+function showBindToast(msg){
+  const t = document.getElementById('bindToast');
+  t.innerHTML = `<span>${msg}</span><button class="btn" type="button" id="undoBind">Undo</button>`; t.hidden = false;
+}
+document.addEventListener('click', e => {
+  if (e.target.id !== 'undoBind' || !undoBinds) return;
+  const prev = JSON.parse(undoBinds); Object.keys(B).forEach(k => delete B[k]); Object.assign(B, prev);
+  undoBinds = null; saveProfile(); renderBars(); document.getElementById('bindToast').hidden = true;
+});
 function openSlot(barId, i){
   const bar = currentBars.find(b=>b.id===barId); if (!bar) return;
   const it = bar.items[i]; const s = it.s;
@@ -953,8 +1014,12 @@ function openSlot(barId, i){
     h += `<div class="eyebrow">Macro · ${esc(m.name)}</div><pre id="macroCode">${esc(m.code)}</pre><p class="muted" style="font-size:13.5px">${esc(m.note)}</p>
       <div><button class="btn primary" type="button" id="copyMacro">Copy macro</button></div>`;
   }
+  const canBind = barId !== 'main' || SPECS[spec].ready;
+  if (canBind) h += `<div class="rebind"><label for="rebindSel">Put a different spell on ${esc(it.key)}</label>${spellSelect(barId, s)}<p class="muted" style="font-size:13px">If that spell is already on another key${barId === 'main' ? ' in ' + esc(FORMS[form].label) + ' form' : ''}, it moves here and the other key is freed.</p></div>`;
   document.getElementById('dlgBody').innerHTML = h;
   linkify(document.getElementById('dlgBody'));
+  const rs = document.getElementById('rebindSel');
+  if (rs) rs.addEventListener('change', () => { assignSpell(barId, i, rs.value); dlg.close(); });
   dlg.showModal();
   const cb = document.getElementById('copyMacro');
   if (cb) cb.addEventListener('click', () => {
@@ -1150,11 +1215,15 @@ function contextTurn(){
     trainedTalents: build.specs, nextPlannedPoint: nx==='done'?'plan complete':nx, remainingOrderFromCurrentBuild: project(),
     feralLevelingPlanInOrder: PLAN.feral.map(([tr,n,to,why])=>({tree:tr,talent:n,rankTo:to,why})),
     talentTrees: Object.fromEntries(TREE_ORDER.map(tr=>[tr, TREES[tr].list.map(([n,r,c,m,q,d])=>({n,row:r,col:c,max:m,req:q,d}))])),
-    feralKeybinds: bars, macros: MACROS, unboundSpells: UNBOUND
+    keybinds: bars, macros: MACROS, unboundSpells: UNBOUND,
+    spellbook: SPELLS, legacyPerkTable: LEGACY, legacyRules: {pointsSpendablePerCharacter: LEG_CAP, suggestedOrder: LEGACY_PLAN},
+    news: NEWS,
+    rotationsAndPvpGuide: (document.getElementById('mod-fight') || {}).innerText || '',
+    levelingAndXpRules: (document.getElementById('mod-leveling') || {}).innerText || ''
   };
-  return `You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell him to check the tooltip in game.
+  return `The player pasted this from the Forever Companion site. You are coaching ${build.name || 'this player'}, a ${FACTION} ${RACE_LABEL} druid in World of Warcraft: Forever, Blizzard's Classic+ game launched November 4, 2026. Forever is not Classic Era, vanilla or retail, so trust only the data below for spells and talents. When something is not in the data, say you are not sure and tell them to check the tooltip in game.
 Layout logic to keep: the main bar keys ${MAIN_KEYS.join(' ')} change per form, and each key keeps the same job in every form (${Object.entries(JOB).map(([k,j]) => k + ' ' + j).join(', ')}). A spell usable in several forms sits on the same key in each. The modifier layer, stance bar and mouse bars are the same in every form and hold long cooldowns.${PROFILE.answers && PROFILE.answers.hard ? ' Keys the player cannot reach comfortably, never use them: ' + PROFILE.answers.hard.join(' ') + '.' : ''} Keep macros minimal, never two global cooldown spells in one macro. Talents: one point per level from 10, a new row every 5 points in a tree, and an arrow requirement means the talent above must be maxed.
-Write in plain prose only, with no bullet points, numbered lists, dashes as list markers, bold, headers or symbols. Keep answers short and concrete. You cannot edit this page. If the player wants a different layout, tell them to use Redo my setup on the Keybinds tab, or to move spells in game and keep notes.
+Answer the player's questions using this data first: their keybinds, macros, talents, level, Legacy perks, the Forever spellbook, the latest patch news and the rotation guide. Keep answers short and concrete, and name the exact key when you mention a spell. The player can change any key themselves on the Keybinds tab of the Forever Companion site (tap the button, pick a spell), so when a key change helps, say which spell to move to which key. The data was copied from https://sikey53.github.io/wow-forever-companion/ on ${new Date().toISOString().slice(0,10)}; for anything newer, say so.
 Current page data as JSON:
 ${JSON.stringify(data)}`;
 }
