@@ -853,12 +853,22 @@ function project(){
   const get = (tr,n) => (p[tr]?.[n]) || 0;
   const tt = tr => Object.values(p[tr]||{}).reduce((a,b)=>a+b,0);
   const legal = t => get(t.tree,t.name) < t.max && tt(t.tree) >= 5*(t.row-1) && (!t.req || get(t.tree,t.req) >= T[t.tree+'|'+t.req].max);
-  const out = []; let level = spent() + 10 - talentedR();
+  const out = []; let level = spent() + 10 - talentedR(); const held = new Set();
   while (level <= 60 && spent() + out.length < 51){
     // when behind schedule, early row-opening fillers wait if a more useful planned point is already possible
     const ok = x => get(x.tree,x.name) < x.rank && legal(T[x.tree+'|'+x.name]);
     const useful = x => useAt(x.name) <= level;
-    const c = seq.find(x => ok(x) && useful(x) && !(x.filler && x.level < level)) || seq.find(x => ok(x) && useful(x)) || seq.find(ok);
+    // the key talent's prerequisite waits until its points would complete the key talent's row; useful talents go first
+    const waits = x => seq.some(d => d.name === ((CD.KEY_TALENT || {})[spec] || [])[1] && d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name && get(d.tree,d.name) < d.rank
+      && tt(x.tree) + (T[x.tree+'|'+x.name].max - get(x.tree,x.name)) < 5*(T[d.tree+'|'+d.name].row-1));
+    seq.forEach(x => { if (ok(x) && waits(x)) held.add(x.tree+'|'+x.name); });
+    // a held talent goes first the moment it can open its row, and the talent it opens right after
+    const deep = x => Math.max(0, ...seq.filter(d => d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name).map(d => T[d.tree+'|'+d.name].row + (d.name === ((CD.KEY_TALENT || {})[spec] || [])[1] ? 0.5 : 0)));
+    const keyN = ((CD.KEY_TALENT || {})[spec] || [])[1];
+    const byRow = list => list.sort((a, b) => (T[b.tree+'|'+b.name].row + (b.name === keyN ? 0.5 : 0)) - (T[a.tree+'|'+a.name].row + (a.name === keyN ? 0.5 : 0)))[0];
+    const byDeep = list => list.sort((a, b) => deep(b) - deep(a))[0];
+    const c = byRow(seq.filter(x => ok(x) && useful(x) && held.has(x.tree+'|'+T[x.tree+'|'+x.name]?.req))) || byDeep(seq.filter(x => ok(x) && useful(x) && held.has(x.tree+'|'+x.name) && !waits(x)))
+      || seq.find(x => ok(x) && useful(x) && !waits(x) && !(x.filler && x.level < level)) || seq.find(x => ok(x) && useful(x) && !waits(x)) || seq.find(x => ok(x) && useful(x)) || seq.find(ok);
     if (!c) break;
     p[c.tree] ||= {}; p[c.tree][c.name] = get(c.tree,c.name) + 1;
     out.push({tree:c.tree, name:c.name, rank:p[c.tree][c.name], level, why:c.why});
@@ -1453,13 +1463,21 @@ function presetSeq(id){ const p = PRESETS[id]; if (!p) return []; if (!p.seq) re
 function fillOrdered(seq, budget){
   const out = {}; let total = 0; const get = (tr,n) => (out[tr]||{})[n] || 0; const tt = tr => Object.values(out[tr]||{}).reduce((a,b)=>a+b,0);
   const legal = t => tt(t.tree) >= 5*(t.row-1) && (!t.req || get(t.tree,t.req) >= T[t.tree+'|'+t.req].max);
-  const start = 10 - talentedR();
+  const start = 10 - talentedR(); const held = new Set();
   while (total < budget){
     const level = start + total; // the level this point is trained at
     const open = seq.filter(([tr,n,to]) => { const t = T[tr+'|'+n]; return t && get(tr,n) < to && legal(t); });
     if (!open.length) break;
     // take the first planned talent that already does something at this level; only if none does, take the next one to open a row
-    const [tr,n] = open.find(([,nm]) => useAt(nm) <= level) || open[0];
+    // the key talent's prerequisite waits until its points would complete the key talent's row
+    const waits = ([tr,n]) => seq.some(([dtr,dn,dto]) => dn === ((CD.KEY_TALENT || {})[spec] || [])[1] && dtr === tr && T[dtr+'|'+dn]?.req === n && get(dtr,dn) < dto
+      && tt(tr) + (T[tr+'|'+n].max - get(tr,n)) < 5*(T[dtr+'|'+dn].row-1));
+    open.forEach(x => { if (waits(x)) held.add(x[0]+'|'+x[1]); });
+    const use = x => useAt(x[1]) <= level;
+    const deep = ([tr,n]) => Math.max(0, ...seq.filter(([dtr,dn]) => dtr === tr && T[dtr+'|'+dn]?.req === n).map(([dtr,dn]) => T[dtr+'|'+dn].row + (dn === ((CD.KEY_TALENT || {})[spec] || [])[1] ? 0.5 : 0)));
+    const [tr,n] = open.filter(x => use(x) && held.has(x[0]+'|'+T[x[0]+'|'+x[1]]?.req)).sort((a, b) => T[b[0]+'|'+b[1]].row - T[a[0]+'|'+a[1]].row)[0]
+      || open.filter(x => use(x) && held.has(x[0]+'|'+x[1]) && !waits(x)).sort((a, b) => deep(b) - deep(a))[0]
+      || open.find(x => use(x) && !waits(x)) || open.find(use) || open[0];
     out[tr] ||= {}; out[tr][n] = get(tr,n) + 1; total++;
   }
   return out;
