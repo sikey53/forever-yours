@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&display=swap">
 <style>
-/* Layout: one question card at a time with a step rail, then the generated character page. Same dark game look as the druid page. */
+/* Layout: one question card at a time with a step rail, then the generated character page. Same dark game look as the player page. */
 :root{
   color-scheme: dark;
   --bg:#14120e; --panel:#1e1a14; --panel-2:#26211a; --panel-3:#2f2920; --line:#3a3226;
@@ -165,7 +165,7 @@ function fitClass(){ if (!W().races.some(r => r[0] === A.race)) A.race = W().rac
 fitClass();
 const save = () => { try { localStorage.setItem('fst-answers', JSON.stringify(A)); } catch(e){} };
 
-/* ---------- the druid data the generator uses (Forever learn levels) ---------- */
+/* ---------- each class's data comes from classes/<class>.js ---------- */
 const TIER = {spam:'var(--spam)', rot:'var(--short)', short:'var(--short)', once:'var(--mid)', interrupt:'var(--mid)', defensive:'var(--mid)', long:'var(--long)'};
 const JOBNAME = {spam:'Spam', rot:'Rotation', short:'Short cooldown', once:'Once a fight', interrupt:'Interrupt', defensive:'Defensive', long:'Long cooldown'};
 /* where each job sits for each movement style, before removing the keys you find hard */
@@ -310,7 +310,7 @@ function renderStep(){
       <p class="why">Mouse buttons are best for things you need in a panic: an emergency heal, a potion, an escape. You never have to look for them.</p></div>`;
   }
   if (step === 4){
-    h = `<div class="card"><h2>Your important keys</h2><p class="muted">These stay the same in every form, so your hand learns them once. Leave "Choose for me" if you have no habit yet.</p>
+    h = `<div class="card"><h2>Your important keys</h2><p class="muted">These stay on the same key whatever form or stance you are in, so your hand learns them once. Leave "Choose for me" if you have no habit yet.</p>
       <div class="q"><label for="q-interrupt">Interrupt</label>${sel('interrupt', keyChoices(true))}</div>
       <div class="q"><label for="q-defensive">Defensive</label>${sel('defensive', keyChoices(true))}</div>
       <div class="q"><label for="q-heal">Emergency heal</label>${sel('heal', keyChoices(true))}</div>
@@ -328,8 +328,8 @@ function renderStep(){
 }
 let viewForm = null;
 function renderResult(){
-  if (A.cls !== 'druid') return `<div class="card"><h2>Almost there</h2><p>${esc(CLASSES.find(c=>c[0]===A.cls)[1])} is not built into this test yet. The full tool will use exactly these answers once its spells are researched. Pick Druid on step 1 to see a full result.</p></div>`;
   const g = generate(); viewForm = viewForm && g.forms.includes(viewForm) ? viewForm : g.forms[0];
+  const stateWord = ((FYC[A.cls].CLASS_PROFILE || {}).stateLabel || 'form').toLowerCase().replace('bar', 'form');
   const lvl = Math.min(60, Math.max(1, +A.level || 1)), t = Math.min(5, Math.max(0, +A.talented || 0));
   const w = W(), LV = w.lv, TALENT = new Set(w.talents), FORMLABEL = w.states;
   const allSpells = Object.keys(LV).filter(n => !w.notSpells.includes(n) && !TALENT.has(n));
@@ -347,16 +347,16 @@ function renderResult(){
       <div class="fact"><b style="font-size:17px">${esc(pName)}</b><span>${esc(pWhy)}</span></div>
       <div class="fact"><b style="font-size:17px">${A.legacy ? `${Math.min(16, A.legacy)} Legacy points` : 'No Legacy yet'}</b><span>${A.legacy ? 'Well Rested, then Talented for leveling.' : 'Your first comes at level 25.'}</span></div>
     </div>
-    <div class="bar"><div class="bar-h"><b>Action Bar 1 · changes with your form</b><span>Your main bar at the bottom of the screen</span></div>
+    <div class="bar"><div class="bar-h"><b>Action Bar 1${g.forms.length > 1 ? ` · changes with your ${esc(stateWord)}` : ''}</b><span>Your main bar at the bottom of the screen</span></div>
       <div class="ftabs">${g.forms.map(f => `<button type="button" class="ftab" data-f="${f}" style="--fc:${FORMLABEL[f][1]}" aria-pressed="${f===viewForm}">${FORMLABEL[f][0]}</button>`).join('')}</div>
       <div class="slots">${g.pages[viewForm].map(slot).join('')}</div></div>
-    <div class="bar"><div class="bar-h"><b>Stance bar</b><span>Press again to go back to caster form</span></div><div class="slots">${g.stance.map(slot).join('')}</div></div>
-    <div class="bar"><div class="bar-h"><b>Action Bar 2 · ${g.mod ? esc(g.mod) + ' keys' : 'click these'}</b><span>Same in every form · long cooldowns${g.mod ? '' : '. Pick a modifier on step 3 to bind them'}</span></div><div class="slots">${g.fixed.map(slot).join('')}</div></div>
-    ${g.mouse.length ? `<div class="bar"><div class="bar-h"><b>Action Bar 3 · mouse</b><span>Same in every form</span></div><div class="slots">${g.mouse.map(slot).join('')}</div></div>` : ''}
+    ${g.stance.length ? `<div class="bar"><div class="bar-h"><b>Stance bar</b><span>The icons just above Action Bar 1</span></div><div class="slots">${g.stance.map(slot).join('')}</div></div>` : ''}
+    <div class="bar"><div class="bar-h"><b>Action Bar 2 · ${g.mod ? esc(g.mod) + ' keys' : 'click these'}</b><span>${g.forms.length > 1 ? `Same in every ${esc(stateWord)} · ` : ''}long cooldowns${g.mod ? '' : '. Pick a modifier on step 3 to bind them'}</span></div><div class="slots">${g.fixed.map(slot).join('')}</div></div>
+    ${g.mouse.length ? `<div class="bar"><div class="bar-h"><b>Action Bar 3 · mouse</b><span>${g.forms.length > 1 ? `Same in every ${esc(stateWord)}` : 'Your mouse buttons'}</span></div><div class="slots">${g.mouse.map(slot).join('')}</div></div>` : ''}
     <div class="legend"><span><i style="background:var(--spam)"></i>Spam</span><span><i style="background:var(--short)"></i>Rotation and short cooldowns</span><span><i style="background:var(--mid)"></i>Once a fight</span><span><i style="background:var(--long)"></i>Long cooldown</span><span>Faded: not learned yet · T: talent · M: macro</span></div>
     <div class="notes">
       <p>Spam spells sit next to your movement keys, finishers and slower spells one row up, long cooldowns behind ${g.mod ? esc(g.mod) : 'a click'} so you never press them by accident.</p>
-      <p>${(() => { const close = A.hard.filter(k => reach(k, A.move) <= FAR); return close.length ? `You switched off ${esc(close.join(', '))}, so ${close.length > 1 ? 'they stay' : 'it stays'} empty along with the far keys.` : 'Only keys close to your hand are used.'; })()} Your interrupt is on ${esc((g.jobs.interrupt||[])[0] || 'the mouse')} and your defensive on ${esc((g.jobs.defensive||[])[0] || 'the mouse')} in every form.</p>
+      <p>${(() => { const close = A.hard.filter(k => reach(k, A.move) <= FAR); return close.length ? `You switched off ${esc(close.join(', '))}, so ${close.length > 1 ? 'they stay' : 'it stays'} empty along with the far keys.` : 'Only keys close to your hand are used.'; })()} Your interrupt is on ${esc((g.jobs.interrupt||[])[0] || 'the mouse')} and your defensive on ${esc((g.jobs.defensive||[])[0] || 'the mouse')} everywhere.</p>
       <p>Finish setup opens your own page: these bars with the macros to copy, your talent tree at level ${lvl}, Legacy perks, rotations, PvP help, news and where to level next. Everything stays in this browser.</p>
     </div>
     <div class="chips">${[['Name',A.name||'–'],['Class',w.name],['Race',race],['Level',lvl],['Plays',w.roles.find(r=>r[0]===A.role)[1]],['Does',A.acts.map(a=>ACTS.find(x=>x[0]===a)[1]).join(', ')||'–'],['Moves with',A.move.toUpperCase()],['Modifier',A.mods.join(', ')||'none'],['Mouse buttons',A.side + (A.middle?' + middle':'')],['Macros',A.macros]].map(([k,v]) => `<span class="chip">${esc(k)} <b>${esc(v)}</b></span>`).join('')}</div>

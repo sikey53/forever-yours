@@ -65,9 +65,9 @@
     routeNote: (n, key) => n === 'Berserker Stance' ? `Goes to Berserker Stance. Press ${key} again there to Pummel (level 38).` : null,
     spec: role => role === 'tank' ? ['prot', 'Protection'] : role === 'fury' ? ['fury', 'Fury'] : ['arms', 'Arms'],
     preset(role, acts) {
-      if (role === 'tank') return ['Protection', 'Shield Slam, Concussion Blow and Last Stand for threat and safety. Plan the points in the Simulator.'];
-      if (role === 'fury') return ['Fury', 'Bloodthirst and Death Wish for dual wielding. Plan the points in the Simulator.'];
-      return ['Arms', 'Mortal Strike, Sweeping Strikes and Spearing Strike for two-handers. Plan the points in the Simulator.'];
+      if (role === 'tank') return ['Protection', 'Shield Slam, Concussion Blow and Last Stand for threat and safety.'];
+      if (role === 'fury') return ['Fury', 'Bloodthirst and Death Wish for dual wielding.'];
+      return ['Arms', 'Mortal Strike, Sweeping Strikes and Spearing Strike for two-handers.'];
     },
     unbound: [['Hearthstone', '', 'Keep it unbound so you never port by accident'], ['Tactical Mastery', '14', 'Passive in Forever: keep 10 Rage when you change stance'], ['Shield Wall', '28', 'If it is not on a key in your main stance, click it from the spellbook']]
   },
