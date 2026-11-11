@@ -128,8 +128,8 @@
   "sig": "When you Stormstrike, you have a #% chance to gain #% mana regeneration while casting spells for # sec, and Stormstrike's cooldown has a #% chance to reset each time you Dodge or Parry."
  },
  "Maelstrom Weapon": {
-  "t": "Hits make your next Lightning Bolt faster and cheaper, up to {2} stacks",
-  "sig": "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by #%. Stacks up to # times. Lasts # sec."
+  "t": "Hits make your next Lightning Bolt {1}% faster and cheaper per stack, up to {2} stacks",
+  "sig": "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by #%. Stacks up to # times. Lasts # sec. Activates about # times per minute."
  },
  "Rage of the Farseer": {
   "t": "+{1}% attack speed for {2} sec",

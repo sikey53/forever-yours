@@ -121,7 +121,7 @@
  },
  "Gore Drinker": {
   "t": "Rage cooldowns make your next {1} hits heal {2}% health",
-  "sig": "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next # melee attacks to restore #% of your maximum Health."
+  "sig": "Your Enrage, Berserker Rage, Bloodrage, Death Wish, Reckless Swings, and Bloodthirst abilities cause your next # melee attacks to restore #% of your maximum Health."
  },
  "Improved Intercept": {
   "t": "Intercept cooldown {1} sec shorter",

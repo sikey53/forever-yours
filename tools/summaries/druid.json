@@ -604,7 +604,7 @@
     ]
    }
   ],
-  "sig": "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of the consumed spell."
+  "sig": "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect."
  },
  "Nature's Swiftness": {
   "lines": [
