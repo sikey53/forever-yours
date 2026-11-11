@@ -1,0 +1,195 @@
+{
+ "date": "2026-11-11",
+ "changes": [
+  {
+   "class": "druid",
+   "kind": "spell",
+   "name": "Ravage",
+   "what": "changed",
+   "field": "d",
+   "old": "Ravage the target, causing 435% damage plus 147 to the target. Must be prowling and behind the target. Awards 1 combo point.",
+   "new": "Ravage the target, causing 435% damage plus 183 to the target. Must be prowling and behind the target. Awards 1 combo point."
+  },
+  {
+   "class": "druid",
+   "kind": "spell",
+   "name": "Swiftmend",
+   "what": "changed",
+   "field": "d",
+   "old": "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of the consumed spell.",
+   "new": "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect."
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Swiftmend",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of the consumed spell."
+   ],
+   "new": [
+    "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect."
+   ]
+  },
+  {
+   "class": "hunter",
+   "kind": "spell",
+   "name": "Great Stamina",
+   "what": "changed",
+   "field": "d",
+   "old": "Stamina increased by 3.",
+   "new": "Health increased by 30."
+  },
+  {
+   "class": "hunter",
+   "kind": "spell",
+   "name": "Arcane Shot",
+   "what": "changed",
+   "field": "cost",
+   "old": "25 Mana",
+   "new": "11% of base mana"
+  },
+  {
+   "class": "hunter",
+   "kind": "spell",
+   "name": "Summon Hawk",
+   "what": "changed",
+   "field": "cost",
+   "old": "80 Mana",
+   "new": "11% of base mana"
+  },
+  {
+   "class": "shaman",
+   "kind": "spell",
+   "name": "Stormstrike",
+   "what": "changed",
+   "field": "cd",
+   "old": "6 sec",
+   "new": "8 sec"
+  },
+  {
+   "class": "shaman",
+   "kind": "spell",
+   "name": "Stormstrike",
+   "what": "changed",
+   "field": "d",
+   "old": "Instantly strike for 150% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by 20% for 12 sec.",
+   "new": "Instantly strike for 100% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by 20% for 12 sec."
+  },
+  {
+   "class": "shaman",
+   "kind": "talent",
+   "name": "Mental Dexterity",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Increases your Attack Power by an amount equal to 50% of your Intellect.",
+    "Increases your Attack Power by an amount equal to 100% of your Intellect.",
+    "Increases your Attack Power by an amount equal to 150% of your Intellect."
+   ],
+   "new": [
+    "Increases your Attack Power by an amount equal to 33% of your Intellect.",
+    "Increases your Attack Power by an amount equal to 66% of your Intellect.",
+    "Increases your Attack Power by an amount equal to 100% of your Intellect."
+   ]
+  },
+  {
+   "class": "shaman",
+   "kind": "talent",
+   "name": "Stormstrike",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Instantly strike for 150% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by 20% for 12 sec."
+   ],
+   "new": [
+    "Instantly strike for 100% weapon damage and increase the damage you deal to the target with your next Lightning Bolt, Chain Lightning, or Earth Shock spell by 20% for 12 sec."
+   ]
+  },
+  {
+   "class": "shaman",
+   "kind": "talent",
+   "name": "Maelstrom Weapon",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 4%. Stacks up to 5 times. Lasts 30 sec.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 8%. Stacks up to 5 times. Lasts 30 sec.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 12%. Stacks up to 5 times. Lasts 30 sec.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 16%. Stacks up to 5 times. Lasts 30 sec.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec."
+   ],
+   "new": [
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 6 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 7 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 8 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 9 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 10 times per minute."
+   ]
+  },
+  {
+   "class": "warlock",
+   "kind": "spell",
+   "name": "Firebolt",
+   "what": "changed",
+   "field": "d",
+   "old": "Deals 3 to 5 Fire damage to a target.",
+   "new": "Deals 6 to 8 Fire damage to a target."
+  },
+  {
+   "class": "warlock",
+   "kind": "spell",
+   "name": "Wrack",
+   "what": "changed",
+   "field": "d",
+   "old": "Tears the target apart from within, inflicting 86 Shadow damage every 1 sec and increasing the damage they take from your other Shadow damage over time effects by 10% for 6 sec.",
+   "new": "Tears the target apart from within for 6 sec, inflicting 60 Shadow damage every 1 sec. While channeling, your Siphon Life, Corruption, and Bane of Agony effects on the target deal their periodic damage 100% faster."
+  },
+  {
+   "class": "warlock",
+   "kind": "talent",
+   "name": "Soul Siphon",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 4% per each of your other Affliction effects active on the target, up to a maximum increase of 12%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 8% per each of your other Affliction effects active on the target, up to a maximum increase of 24%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 12% per each of your other Affliction effects active on the target, up to a maximum increase of 36%."
+   ],
+   "new": [
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 4% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 12%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 8% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 24%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 12% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 36%."
+   ]
+  },
+  {
+   "class": "warlock",
+   "kind": "talent",
+   "name": "Wrack",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Tears the target apart from within, inflicting 86 Shadow damage every 1 sec and increasing the damage they take from your other Shadow damage over time effects by 10% for 6 sec."
+   ],
+   "new": [
+    "Tears the target apart from within for 6 sec, inflicting 60 Shadow damage every 1 sec. While channeling, your Siphon Life, Corruption, and Bane of Agony effects on the target deal their periodic damage 100% faster."
+   ]
+  },
+  {
+   "class": "warrior",
+   "kind": "talent",
+   "name": "Gore Drinker",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next 3 melee attacks to restore 0.5% of your maximum Health.",
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, and Bloodthirst abilities cause your next 3 melee attacks to restore 1.0% of your maximum Health."
+   ],
+   "new": [
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, Reckless Swings, and Bloodthirst abilities cause your next 3 melee attacks to restore 0.5% of your maximum Health.",
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, Reckless Swings, and Bloodthirst abilities cause your next 3 melee attacks to restore 1.0% of your maximum Health."
+   ]
+  }
+ ]
+}

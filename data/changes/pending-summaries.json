@@ -1,4 +1,72 @@
 {
- "pending": [],
+ "pending": [
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Swiftmend",
+   "why": "game text changed",
+   "summary": [
+    "instant heal that eats a Rejuvenation or Regrowth"
+   ],
+   "text": [
+    "Instantly heals a target with your active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect."
+   ]
+  },
+  {
+   "class": "shaman",
+   "kind": "talent",
+   "name": "Maelstrom Weapon",
+   "why": "game text changed",
+   "summary": [
+    "Hits make your next Lightning Bolt faster and cheaper, up to {2} stacks"
+   ],
+   "text": [
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 6 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 7 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 8 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 9 times per minute.",
+    "When you deal damage with a melee attack, you have a chance to reduce the cast time and Mana cost of your next Lightning Bolt spell by 20%. Stacks up to 5 times. Lasts 30 sec. Activates about 10 times per minute."
+   ]
+  },
+  {
+   "class": "warlock",
+   "kind": "talent",
+   "name": "Soul Siphon",
+   "why": "game text changed",
+   "summary": [
+    "Drains +{1}% per Affliction effect on the target"
+   ],
+   "text": [
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 4% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 12%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 8% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 24%.",
+    "Increases the damage done or health drained by your Drain Life, Drain Soul, and Wrack spells by 12% per each of your Corruption, Siphon Life, and Bane of Agony effects active on the target, up to a maximum increase of 36%."
+   ]
+  },
+  {
+   "class": "warlock",
+   "kind": "talent",
+   "name": "Wrack",
+   "why": "game text changed",
+   "summary": [
+    "Shadow channel that makes your other damage over time +{3}%"
+   ],
+   "text": [
+    "Tears the target apart from within for 6 sec, inflicting 60 Shadow damage every 1 sec. While channeling, your Siphon Life, Corruption, and Bane of Agony effects on the target deal their periodic damage 100% faster."
+   ]
+  },
+  {
+   "class": "warrior",
+   "kind": "talent",
+   "name": "Gore Drinker",
+   "why": "game text changed",
+   "summary": [
+    "Rage cooldowns make your next {1} hits heal {2}% health"
+   ],
+   "text": [
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, Reckless Swings, and Bloodthirst abilities cause your next 3 melee attacks to restore 0.5% of your maximum Health.",
+    "Your Enrage, Berserker Rage, Bloodrage, Death Wish, Reckless Swings, and Bloodthirst abilities cause your next 3 melee attacks to restore 1.0% of your maximum Health."
+   ]
+  }
+ ],
  "problems": []
 }
