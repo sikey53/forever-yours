@@ -1066,23 +1066,27 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-09',
+  checked: '2026-11-11',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
       [null,'Realms are replaced by rulesets: Normal, PvP, Roleplay and Roleplay PvP.'],
       [null,'On first login you pick Classic or Enhanced experience speed. You can change it later in Options.']]},
-    {name:'Class tuning', date:'2026-11-10', detail:'Hotfixes Blizzard announced for Tuesday. More may follow on later Tuesdays.', source:'https://www.warcrafttavern.com/forever/news/class-tuning-coming-for-shamans-warlocks-hunter-pets-in-wow-forever/', items:[
+    {name:'Class tuning', date:'2026-11-10', detail:'Blizzard\'s first class tuning hotfixes, live on November 10 and 11. More may follow on later Tuesdays.', source:'https://www.warcrafttavern.com/forever/news/class-tuning-coming-for-shamans-warlocks-hunter-pets-in-wow-forever/', items:[
       ['hunter','Pets made tougher as tanks, close to how they were in Classic Era.'],
       ['warlock','Voidwalker made tougher as a tank.'],
       ['warlock','Affliction: damage over time spells made worth casting next to Wrack, without raising total damage.'],
-      ['shaman','Enhancement: Strength and Attack Power made better than Intellect and Spell Power.']]},
+      ['shaman','Enhancement: Strength and Attack Power made better than Intellect and Spell Power.'],
+      [null,'Most quests from level 48 give gold. Auction House deposit down to 1 copper.']]},
     {name:'First raids', date:'2026-12-09', detail:'The first raids open for level 60 characters.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Barrow Deeps'],[null,'Hyjal Summit'],[null,"Onyxia's Lair"]]},
     {name:'Hardcore', date:null, detail:'Blizzard has announced the Hardcore ruleset for after launch, with no date yet.', source:'https://www.zockify.com/forever/', items:[
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 11','Fix','Class tuning live: Enhancement Shaman, Affliction Warlock and Hunter pets, plus quest gold from 48 and a 1 copper Auction House deposit.','https://foreverchanges.pro/patch-notes'],
+    ['Nov 11','Fix','Shamans who lost a totem in the November 9 server crash get it back in their bags. Make room, then log out and back in.','https://foreverchanges.pro/patch-notes'],
+    ['Nov 9','Fix','Dungeon fixes: Drowned City and Deathless enemies hit softer, Blackrock Depths doors reopen after a wipe, Shaper\'s Terrace bosses drop loot.','https://foreverchanges.pro/patch-notes'],
     ['Nov 8','XP','Dungeon enemy kill experience raised by 50%. Dungeon quest experience unchanged.','https://eu.forums.blizzard.com/en/wow/t/dungeon-enemy-xp-increased-8-november/640598'],
     ['Nov 6','Fix','Vorsha the Lasher quest in Ashenvale works again.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-6-2026'],
     ['Nov 5','Issue','PvP vendors unavailable in the capitals. No fix date yet.','https://www.warcrafttavern.com/forever/news/pvp-vendors-unavailable-other-known-issues-in-wow-forever/'],
@@ -1091,6 +1095,9 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 11','Most quests from level 48 give gold. Auction House deposit 1 copper. Mail arrives after 60 minutes as intended.'],
+      ['Nov 11','Coarse Grinding Stone skill-ups to 90, Journeyman Campfire Kit needs Cooking 90, racial vendor mounts Bind on Pickup.'],
+      ['Nov 9','Crowded zones hold fewer players, fewer still on PvP. Waylaid Crates and Craftsman\'s Writs drop in dungeons again.'],
       ['Nov 6','Other players and their targets are easier to see at long distance.'],
       ['Nov 6','Night Elf druids no longer get Ravage and Pounce in Shadowmeld.'],
       ['Nov 5','Plainsrunning no longer stacks in battlegrounds and drops when you carry a flag.'],
@@ -1099,6 +1106,8 @@ const NEWS = {
       ['Nov 2','Racials: Dwarf +1% hit, Human Spirit 10%, Orc Blood Fury every 2 min, Plainsrunning up to 60%, Berserking 15 sec, Touch of the Grave every 15 sec.']
     ],
     druid:[
+      ['Nov 11','Restoration: Nature\'s Swiftness also makes Wild Growth instant. Omen of Clarity works again after a spec swap.'],
+      ['Nov 9','Natural Instinct now boosts Lacerate and Pounce. Feral Charge in cat puts you in combat at once.'],
       ['Nov 6','Bloom now heals its target. Tooltip fixes for Bear Form, Ravage and Swiftmend.'],
       ['Nov 2','Shred 200% weapon damage, Claw 140%, Ravage 435%. Rip, Rake, Ferocious Bite and Pounce about 25% stronger.'],
       ['Nov 2','Bear threat raised to 115%. Lacerate is now a Feral talent.'],
@@ -1106,24 +1115,29 @@ const NEWS = {
       ['Nov 2','Starfire about 40% stronger. Swiftmend needs your own HoT. Berserk removed.']
     ],
     hunter:[
-      ['Nov 10','Pets to be made tougher as tanks.',true],
+      ['Nov 11','Pet health 115% (a bug had made it 150%). Great Stamina adds health directly, 30 to 400 by rank.'],
+      ['Nov 11','Beast Mastery: hawk melee about 80% stronger, Summon Hawk costs 11% of base mana. Marksmanship: Arcane Shot costs 11% of base mana.'],
       ['Nov 2','All traps share a 30 second cooldown. Hunter\'s Mark ranks no longer stack.'],
       ['Nov 2','Aimed Shot about 110% more bonus damage, Arcane Shot about 30% more, Serpent Sting stronger.'],
       ['Nov 2','Aspect of the Hawk, Trueshot Aura, Barrage and Lightning Reflexes buffed.']
     ],
     mage:[
+      ['Nov 9','Flamestrike ground ticks no longer use Clearcasting. Arcane Concentration chance split across the cast and each bolt.'],
       ['Nov 6','Arcane Blast lasts 18 seconds. Study is the only spell from the Research quest.'],
       ['Nov 2','Ice Lance and Fire Blast share an 8 second cooldown. Frozen targets take 300% again.'],
       ['Nov 2','Arcane Blast cost per stack 100%, damage per stack 12%. Missile Barrage used at the start of Arcane Missiles.'],
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 9','Consecration keeps its bonus damage when targets despawn. Seals show correctly in the Cooldown Manager.'],
       ['Nov 2','Righteous Fury at level 10, +33% threat and 90% more threat from Holy damage.'],
       ['Nov 2','Salvation, Mass Salvation, Revoke and Blessing of Light removed.'],
       ['Nov 2','New talents Oath of Light, Boundless Light, Stoicism, Shieldsworn, and Unsealed Wrath at 31 points.'],
       ['Nov 2','Conviction gives 2/4/6% crit to all spells and attacks. Vengeance stacks 5 times.']
     ],
     priest:[
+      ['Nov 10','Fear Ward can be cast in Shadowform without breaking it.'],
+      ['Nov 11','Holy Nova is unlearned with its talent. The Revelation enchant no longer procs from Vampiric Embrace.'],
       ['Nov 2','Binding Heal replaced by Holy Binding: 50% of Flash Heal also heals you.'],
       ['Nov 2','Shadow Word: Death costs 30% of your health if it fails to kill, nothing on a miss.'],
       ['Nov 2','Vampiric Embrace can no longer crit. Cure and Abolish Disease no longer remove Shadowform.']
@@ -1135,18 +1149,22 @@ const NEWS = {
       ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
     ],
     shaman:[
-      ['Nov 10','Enhancement: Strength to become better than Intellect and Spell Power.',true],
+      ['Nov 11','Enhancement: Stormstrike 100% weapon damage (was 150%), 8 sec cooldown (was 6). Mental Dexterity 33/66/100% of Intellect (was 50/100/150%).'],
+      ['Nov 11','Maelstrom Weapon 20% faster and cheaper per stack at every rank, triggers 6 to 10 times a minute. Windfury Weapon and Totem now work together.'],
       ['Nov 2','Windfury Weapon and Totem give an extra swing. Totemic Call every 30 seconds.'],
       ['Nov 2','Stormstrike 150% weapon damage, 6 sec cooldown. Chain Lightning 2.5 sec cast.'],
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
-      ['Nov 10','Voidwalker tougher as a tank. Affliction DoTs made worth casting next to Wrack.',true],
+      ['Nov 11','Affliction: Wrack no longer adds 10% damage taken; while channeling, your Siphon Life, Corruption and Bane of Agony tick 100% faster. Wrack itself 30% weaker.'],
+      ['Nov 11','Demons about 15% more health, Imp Firebolt stronger at ranks 1 to 4. Soul Siphon counts only your Corruption, Siphon Life and Bane. Bane of Havoc triggers the global cooldown.'],
+      ['Nov 9','Incinerate only for Destruction. The Summon Felsteed quest now teaches riding.'],
       ['Nov 6','Voidwalker health about 40 higher at all levels. Soul Siphon no longer boosts Wrack by mistake.'],
       ['Nov 2','Wrack scaling doubled. Pets get 2 health per point of your Stamina.'],
       ['Nov 2','Drain Soul gives shards much less often. Spellstones only boost Shadow. Training cheaper.']
     ],
     warrior:[
+      ['Nov 11','Arms: Sweeping Strikes no longer loses charges when nothing else is hit.'],
       ['Nov 6','Reckless Swings tooltip mentions Gore Drinker.'],
       ['Nov 2','Defensive Stance threat 80%. Slam cooldown 15 seconds. Defiance up to 20% threat.'],
       ['Nov 2','Bloodthirst requires Death Wish. New Fury talents Reckless Swings and Improved Whirlwind.'],
