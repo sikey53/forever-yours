@@ -38,6 +38,7 @@ jobs:
           python3 tools/build_data.py
           python3 tools/diff_data.py /tmp/old-data classes/data
           python3 tools/build_summaries.py
+          node tools/validate.js
       - name: Commit if changed
         run: |
           git config user.name "forever-yours-bot"
