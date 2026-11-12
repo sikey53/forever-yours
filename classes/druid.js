@@ -31,7 +31,7 @@ const PLAN = {
     ['feral','Lacerate',1,'One point that makes you a tank: a stacking bleed with high threat, and the bleed turns on Rend and Tear in bear'],
     ['feral','Leader of the Pack',1,'3% crit for you and your party'],
     ['feral','Natural Instinct',2,'20% bigger melee crits, and stronger heals from your Intellect'],
-    ['feral','Rend and Tear',5,'15% more damage on bleeding targets, so on everything you Rake or Lacerate'],
+    ['feral','Rend and Tear',5,'15% more damage on bleeding targets, so on everything you Rake, Pounce or Lacerate'],
     ['feral','Predatory Discipline',1,'Ferocious Bite keeps your extra energy. Needed for Shifting Power'],
     ['feral','Shifting Power',1,'Turns mana into 40 energy, your damage cooldown in cat'],
     ['feral','Primal Bite',1,'The second tank point: a big threat hit that also does full weapon damage'],
