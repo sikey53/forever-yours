@@ -77,26 +77,50 @@ def presets_for(cls, trees):
         tag = re.search(r'(\d+)\s*</?[^>]*>?\s*(Leveling|PvE|PvP) tags', body) or re.search(r'(\d+)\D{0,40}?(Leveling|PvE|PvP) tags', text(body))
         maxes = re.search(r'(Maxes .*?\.)( Takes .*?\.)?', text(body))
         if blvl < 60 and not re.search(r'Leveling tags', text(body)): continue
-        cards.append({'name': name, 'code': code, 'tag': tag.group(2) if tag else None, 'n': int(tag.group(1)) if tag else 0, 'why': (maxes.group(0) if maxes else '')})
-    pick = {}
+        role = re.search(r'\b(Tank|Healer|DPS) ·', text(body))
+        cards.append({'name': name, 'code': code, 'tag': tag.group(2) if tag else None, 'n': int(tag.group(1)) if tag else 0, 'why': (maxes.group(0) if maxes else ''), 'role': role.group(1) if role else ''})
+    # every tagged build, most tagged first; hybrids are listed like any other build
+    def capped(first, alloc):
+        seq, have = [], {}
+        for k, n, to in first:
+            to = min(to, alloc.get(k, {}).get(n, 0))
+            if to > have.get(n, 0): seq.append([k, n, to]); have[n] = to
+        return seq
+    def split_of(alloc):
+        return '/'.join(str(sum(alloc.get(k, {}).values())) for k in trees)
+    pick, lists = {}, {}
     for c in cards:
         alloc = decode_alloc(c['code'], trees); k = dominant(alloc)
         if not k: continue
-        for tag in ([c['tag']] if c['tag'] else []):
-            key = (tag, k)
-            if c['n'] > pick.get(key, {'n': -1})['n']: pick[key] = {**c, 'alloc': alloc}
-        if ('Top', k) not in pick: pick[('Top', k)] = {**c, 'alloc': alloc}
+        c = {**c, 'alloc': alloc, 'k': k}
+        if c['tag']: lists.setdefault(c['tag'], []).append(c)
+        if ('Top', k) not in pick: pick[('Top', k)] = c
     group = {'Leveling': 'lvl', 'PvE': 'raid', 'PvP': 'pvp'}
-    for (tag, k), c in pick.items():
-        if tag == 'Top': continue
-        tree_label = trees[k]['label']
-        seq = row_order(c['alloc'], trees)
-        if tag == 'Leveling' and k in lvl_seq:
-            first = lvl_seq[k][1]
-            seq = first + [s for s in seq if not any(f[1] == s[1] and f[2] >= s[2] for f in first)]
-        label = {'Leveling': 'Leveling', 'PvE': 'Dungeons and raids', 'PvP': 'PvP'}[tag] + ' · ' + c['name'].replace(' ' + title_of(cls), '')
-        why = f"The most tagged {tag} build for {tree_label} on talentsforever.com ({c['n']} tags). " + c['why']
-        out[f"{group[tag]}-{k}"] = {'label': label, 'why': why.strip(), 'seq': seq}
+    MAX_PER_GOAL = 8
+    for tag, lst in lists.items():
+        lst.sort(key=lambda c: -c['n'])
+        seen, count, shown = set(), {}, 0
+        for c in lst:
+            sig = json.dumps(c['alloc'], sort_keys=True)
+            if sig in seen: continue
+            seen.add(sig)
+            k = c['k']; first_of_tree = k not in count
+            # extra builds must be close to finished, so a plan never stops early
+            if not first_of_tree and (shown >= MAX_PER_GOAL or sum(sum(v.values()) for v in c['alloc'].values()) < 45): continue
+            count[k] = count.get(k, 0) + 1; shown += 1
+            if first_of_tree: pick[(tag, k)] = c
+            tree_label = trees[k]['label']
+            seq = row_order(c['alloc'], trees)
+            if k in lvl_seq:
+                first = capped(lvl_seq[k][1], c['alloc'])
+                seq = first + [s for s in seq if not any(f[1] == s[1] and f[2] >= s[2] for f in first)]
+            name = c['name'].replace(' ' + title_of(cls), '')
+            if not re.search(r'\d+/\d+/\d+', name): name += ' ' + split_of(c['alloc'])
+            label = (c['role'] + ' · ' if c.get('role') else '') + name
+            rank = 'The most tagged' if first_of_tree else 'A popular'
+            why = f"{rank} {tag} build for {tree_label} on talentsforever.com ({c['n']} tags), {split_of(c['alloc'])} in {' / '.join(t['label'] for t in trees.values())}. " + c['why']
+            pid = f"{group[tag]}-{k}" if first_of_tree else f"{group[tag]}-{k}-{count[k]}"
+            out[pid] = {'label': label, 'why': why.strip(), 'seq': seq, 'split': split_of(c['alloc']), 'tags': c['n']}
     # a spec with a leveling order but no tagged level 60 build still gets its order
     for k, (lvl, seq) in lvl_seq.items():
         if f'lvl-{k}' not in out:

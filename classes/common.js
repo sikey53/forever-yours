@@ -60,7 +60,15 @@ window.FY_makeClass = function(cls, H){
   const PRESETS = Object.assign({}, D.presets || {}, H.PRESETS || {});
   const planWhy = n => { const rk = (D.ranks || {})[n] || []; const fx = FX[n] ? FX[n](rk.length) : []; const t = fx.map(x => x[1]).join(', '); return (t || (rk.slice(-1)[0] || '').split('. ')[0]).replace(/\.$/, ''); };
   /* the plan behind "Next point" for each spec: the community leveling order for its tree */
-  const PLAN = H.PLAN ? H.PLAN : Object.fromEntries(Object.entries(H.SPEC_PLAN || {}).map(([spec, id]) => [spec, ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, planWhy(n)])]));
+  const fromPreset = id => ((PRESETS[id] || {}).seq || []).map(([tr, n, to]) => [tr, n, to, planWhy(n)]);
+  /* a spec with a hand-written plan keeps it; every other spec follows the most tagged community build for it */
+  const PLAN = Object.assign({}, H.PLAN || {});
+  Object.entries(H.SPEC_PLAN || {}).forEach(([spec, id]) => { if (!(PLAN[spec] || []).length) PLAN[spec] = fromPreset(id); });
+  /* hand-written plans are also offered as goals, so anyone of the class can follow them */
+  Object.values(PRESETS).forEach(p => { if (!p.seq && p.plan && PLAN[p.plan]) p.seq = PLAN[p.plan].map(([tr, n, to]) => [tr, n, to]); });
+  const PLAN_LABEL = {};
+  Object.entries(H.SPEC_PLAN || {}).forEach(([spec, id]) => { if (PRESETS[id]) PLAN_LABEL[spec] = PRESETS[id].label; });
+  Object.values(PRESETS).forEach(p => { if (p.plan) PLAN_LABEL[p.plan] = p.label; });
   /* the big talent at the bottom of each spec's plan, and when it should land */
   const KEY_TALENT = Object.fromEntries(Object.entries(PLAN).map(([spec, seq]) => {
     const deep = seq.map(([tr, n]) => [tr, n, (D.trees[tr].list.find(x => x[0] === n) || [])[1] || 0]).filter(x => x[2] === 7);
@@ -68,7 +76,7 @@ window.FY_makeClass = function(cls, H){
   }).filter(Boolean));
   const groups = {lvl: 'Leveling', dng: 'Dungeons', raid: 'Dungeons and raids at 60', pvp: 'PvP'};
   const GOALS_HTML = Object.entries(groups).map(([g, label]) => {
-    const opts = Object.entries(PRESETS).filter(([id]) => id.startsWith(g + '-')).map(([id, p]) => `<option value="${id}">${p.label}</option>`).join('');
+    const opts = Object.entries(PRESETS).filter(([id]) => id.startsWith(g + '-')).map(([id, p]) => `<option value="${id}">${p.label}${p.tags ? ` · ${p.tags} tags` : ''}</option>`).join('');
     return opts ? `<optgroup label="${label}">${opts}</optgroup>` : '';
   }).join('');
   const WIZ = Object.assign({
@@ -84,7 +92,7 @@ window.FY_makeClass = function(cls, H){
     WIZ, CLASS_PROFILE: H.CLASS_PROFILE, SPECS: H.SPECS, MACROS: H.MACROS || {},
     TREES: D.trees, TREE_ORDER: D.order, PLAN, TT: {}, RANKS: D.ranks, SPELLS,
     FORM_COLOR, G, GROUP_LABEL, FX, TALENT_USE, TALENT_LATER: H.TALENT_LATER || {}, targetLevel, KEY_TALENT: Object.assign({}, KEY_TALENT, H.KEY_TALENT || {}),
-    PRESETS, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || NOTES_HTML, PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
+    PRESETS, planWhy, PLAN_LABEL, SB_FORMS, sbForm, FIGHT_HTML: H.FIGHT_HTML || '', NOTES_HTML: H.NOTES_HTML || NOTES_HTML, PLAN_NOTE: H.PLAN_NOTE || '', GOALS_HTML,
     CLASS_NOTES: D.notes || [], DATA_SOURCE: D.talentSource || ''
   };
 };

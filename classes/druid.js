@@ -16,33 +16,53 @@ const MACROS = {
 };
 /* talents (Forever data from talentsforever.com): [name,row,col,max,req,desc] */
 
-/* talent plan behind "Next point": a hybrid that levels in cat, then tanks dungeons in bear; resto stays free for the dual spec */
+/* talent plans behind "Next point". feral: the most taken level 60 shape on talentsforever.com (9/32/10), ordered for cat damage
+   with only two tank points. pvp: a battleground hybrid that heals and fights in cat and bear (7/23/21). */
 const PLAN = {
   feral:[
-    ['feral','Ferocity',5,'Cheaper Maul and Swipe now, Claw and Rake later'],
-    ['feral','Thick Hide',3,'Armor in bear now and cat later',true],
-    ['feral','Feral Instinct',2,'Stronger Swipe for bear pulls. Opens row 3 for level 20',true],
-    ['feral','Sharpened Claws',2,'Crit in cat and bear'],
-    ['feral','Savage Fury',2,'More damage on all main attacks'],
-    ['feral','Feral Charge',1,'Bear charge and cat leap'],
-    ['feral','Feral Swiftness',2,'30% faster in cat'],
-    ['feral','Predatory Strikes',3,'Big attack power boost'],
-    ['feral','Leader of the Pack',1,'3% party crit'],
-    ['feral','Predatory Discipline',1,'Needed for Shifting Power'],
-    ['feral','Furor',3,'Keep cat energy when you drop out to heal'],
-    ['feral','Rend and Tear',5,'15% more damage on bleeding targets'],
-    ['feral','Shifting Power',1,'Mana into energy every 8 sec'],
-    ['feral','Furor',5,'Full energy kept between forms, 10 rage entering bear'],
-    ['feral','Blood Frenzy',2,'Extra combo points and rage on crits'],
-    ['feral','Primal Bite',1,'Tank: big threat hit on a short cooldown'],
-    ['feral','Lacerate',1,'Tank: stacking bleed that holds threat'],
-    ['feral','Natural Instinct',2,'More crit damage in both forms'],
-    ['feral','Feral Instinct',3,'Swipe holds packs better'],
-    ['feral','Natural Reaction',5,'Dodge for both forms, rage when you dodge'],
-    ['resto','Heart of the Wild',5,'Strength in cat, Stamina in bear'],
-    ['feral','Shredding Attacks',1,'Cheaper Shred and Lacerate']
+    ['feral','Ferocity',5,'Cheaper Maul and Swipe now, Claw and Rake from 20'],
+    ['feral','Feral Instinct',3,'Stronger Swipe for bear pulls, and it opens row 3. Any three points you already spent in rows 1 and 2 do the same job',true],
+    ['feral','Feral Swiftness',2,'30% faster in cat and 4% dodge'],
+    ['feral','Savage Fury',2,'10% more damage on Claw, Rake, Shred, Maul and Swipe'],
+    ['feral','Sharpened Claws',2,'6% crit in cat and bear'],
+    ['feral','Feral Charge',1,'Bear charge that interrupts, cat leap behind the target'],
+    ['feral','Predatory Strikes',3,'Attack power in cat and bear that grows with your level'],
+    ['feral','Blood Frenzy',2,'An extra combo point on every crit in cat, 5 rage on every crit in bear'],
+    ['feral','Lacerate',1,'One point that makes you a tank: a stacking bleed with high threat, and the bleed turns on Rend and Tear in bear'],
+    ['feral','Leader of the Pack',1,'3% crit for you and your party'],
+    ['feral','Natural Instinct',2,'20% bigger melee crits, and stronger heals from your Intellect'],
+    ['feral','Rend and Tear',5,'15% more damage on bleeding targets, so on everything you Rake or Lacerate'],
+    ['feral','Predatory Discipline',1,'Ferocious Bite keeps your extra energy. Needed for Shifting Power'],
+    ['feral','Shifting Power',1,'Turns mana into 40 energy, your damage cooldown in cat'],
+    ['feral','Primal Bite',1,'The second tank point: a big threat hit that also does full weapon damage'],
+    ['resto','Heart of the Wild',5,'10% Strength in cat, 20% Stamina in bear, 10% Intellect'],
+    ['resto','Naturalist',5,'10% more damage on everything you do'],
+    ['balance','Genesis',5,'10% more damage from your bleeds: Rake, Rip and Lacerate'],
+    ['balance',"Nature's Majesty",2,'4% crit in melee'],
+    ['balance',"Nature's Reach",2,'4% more chance to hit']
   ],
-  resto:[], pvp:[]
+  pvp:[
+    ['feral','Furor',5,'Keep your energy when you leave cat to heal, and 10 rage every time you go bear'],
+    ['feral','Feral Swiftness',2,'30% faster in cat and 4% dodge'],
+    ['feral','Brutal Impact',2,'Longer Bash and Pounce stuns, Bash back 30 sec sooner'],
+    ['feral','Thick Hide',1,'Armor in cat and bear, and it opens row 3'],
+    ['feral','Feral Charge',1,'Roots and interrupts a caster from bear, leaps behind them from cat'],
+    ['feral','Savage Fury',2,'10% more damage on Claw, Rake, Shred, Maul and Swipe'],
+    ['feral','Sharpened Claws',2,'6% crit in cat and bear'],
+    ['feral','Predatory Strikes',3,'Attack power in cat and bear that grows with your level'],
+    ['feral','Blood Frenzy',2,'An extra combo point on every crit in cat, 5 rage on every crit in bear'],
+    ['feral','Natural Instinct',2,'20% bigger melee crits, and your heals grow with your Intellect'],
+    ['feral','Leader of the Pack',1,'3% crit for you and your group'],
+    ['resto','Heart of the Wild',5,'More mana for heals, Strength in cat and 20% Stamina in bear'],
+    ['resto','Naturalist',5,'Faster Healing Touch and 10% more damage in every form'],
+    ['resto','Natural Shapeshifter',3,'30% cheaper shifting, the thing you do most in a battleground'],
+    ['resto','Gift of Nature',5,'10% stronger heals'],
+    ['resto','Bloom',1,'A free extra heal when Rejuvenation or Regrowth ends or is dispelled'],
+    ['resto','Swiftmend',1,'Instant heal from a Rejuvenation or Regrowth already on the target'],
+    ['resto',"Nature's Swiftness",1,'One instant Healing Touch or Entangling Roots, the save button'],
+    ['balance','Genesis',5,'10% stronger heals over time and bleeds'],
+    ['balance',"Nature's Majesty",2,'4% crit on heals and melee']
+  ]
 };
 
 /* the level a talent starts doing something, where it is earlier or later than the spells it names */
@@ -68,7 +88,8 @@ const TALENT_LATER = {
 
 const PRESETS = {
   'lvl-cat':{label:'Leveling damage (cat)', why:'Fast solo leveling in cat. Shifting Power at 40, then sustain and dodge.', seq:[['feral','Ferocity',5],['feral','Thick Hide',3],['feral','Brutal Impact',2],['feral','Sharpened Claws',2],['feral','Savage Fury',2],['feral','Feral Charge',1],['feral','Feral Swiftness',2],['feral','Predatory Strikes',3],['feral','Leader of the Pack',1],['feral','Predatory Discipline',1],['feral','Shredding Attacks',3],['feral','Rend and Tear',5],['feral','Shifting Power',1],['feral','Furor',5],['feral','Blood Frenzy',2],['feral','Natural Instinct',2],['feral','Natural Reaction',3],['resto','Heart of the Wild',5],['resto','Natural Shapeshifter',3]]},
-  'lvl-hybrid':{label:'Leveling damage, can tank dungeons', why:'Your current plan: cat damage to Shifting Power, then Primal Bite and Lacerate for tanking.', seq:null},
+  'lvl-hybrid':{label:'Cat damage that can tank dungeons 9/32/10', why:'The most taken level 60 shape on talentsforever.com, 9/32/10: every cat damage talent, with Lacerate and Primal Bite as the only two tank points. Heart of the Wild, Naturalist, Genesis and the crit and hit talents in the other two trees add more damage than the last Feral points would.', plan:'feral'},
+  'pvp-hybrid':{label:'Battleground hybrid: heal, cat and bear 7/23/21', why:'Heals with Swiftmend and Nature\'s Swiftness, cat damage with Blood Frenzy and Natural Instinct, cheap shifting and Furor to move between them. Built between the two most tagged PvP shapes on talentsforever.com, the 16/11/24 healer and the 11/24/16 feral.', plan:'pvp'},
   'lvl-heal':{label:'Leveling healer', why:'Restoration with Naturalist for damage while questing, and Wrath talents for pulling.', seq:[['resto','Heart of the Wild',5],['resto','Naturalist',5],['resto','Gift of Nature',5],['resto','Improved Rejuvenation',3],['resto','Swiftmend',1],['resto','Reflection',1],["resto","Nature's Swiftness",1],['resto','Living Spirit',3],['resto','Bloom',1],['resto','Improved Regrowth',5],['resto','Wild Growth',1],['resto','Reflection',3],["resto","Nature's Focus",5],['resto','Tranquil Spirit',5],['balance','Improved Wrath',5],['balance','Genesis',3]]},
   'dng-tank':{label:'Dungeon tank (bear)', why:'Threat with Primal Bite and Lacerate, armor, dodge and Stamina.', seq:[['feral','Ferocity',5],['feral','Thick Hide',3],['feral','Feral Instinct',2],['feral','Sharpened Claws',2],['feral','Savage Fury',2],['feral','Feral Charge',1],['feral','Brutal Impact',2],['feral','Predatory Strikes',3],['feral','Lacerate',1],['feral','Blood Frenzy',2],['feral','Leader of the Pack',1],['feral','Natural Instinct',2],['feral','Feral Instinct',3],['feral','Rend and Tear',5],['feral','Primal Bite',1],['feral','Natural Reaction',5],['feral','Furor',5],['feral','Feral Swiftness',2],['resto','Heart of the Wild',5],['resto','Natural Shapeshifter',1]]},
   'raid-heal':{label:'Raid healer', why:'Every healing talent that matters in long fights, plus Genesis for stronger heals over time.', seq:[['resto','Heart of the Wild',5],['resto','Naturalist',5],['resto','Gift of Nature',5],['resto','Subtlety',3],['resto','Improved Rejuvenation',3],['resto','Swiftmend',1],['resto','Reflection',3],["resto","Nature's Swiftness",1],['resto','Living Spirit',3],['resto','Improved Tranquility',2],['resto','Bloom',1],['resto','Improved Regrowth',5],['resto','Wild Growth',1],['resto','Tranquil Spirit',5],['balance','Genesis',5],['balance','Moonglow',3]]},
@@ -149,9 +170,9 @@ return window.FY_makeClass('druid', {
     'Trinket': {form: 'Any form', cd: 'Varies', lvl: 1, d: 'Your on-use trinket.'},
     'Mount': {form: 'Caster', cd: '', lvl: 10, d: 'Your mount.'}
   },
-  MACROS, PLAN, TALENT_USE, TALENT_LATER, PRESETS,
+  MACROS, PLAN, SPEC_PLAN: {resto: 'lvl-resto'}, TALENT_USE, TALENT_LATER, PRESETS,
   KEY_TALENT: {feral: ['feral', 'Shifting Power', 40]},
-  PLAN_NOTE: "Recalculated every time you add or remove a point, starting from what you have actually trained. This is a hybrid: cat damage first up to Shifting Power, then Primal Bite and Lacerate so bear can tank dungeons, then defense for both forms. Restoration stays free for your PvP dual spec at 40.",
+  PLAN_NOTE: "Recalculated every time you add or remove a point, starting from what you have actually trained. Pick another build in Plan to follow whenever you like: the list holds the builds players tag most on talentsforever.com, hybrids included, and it refreshes every day.",
   FIGHT_HTML: "    <p class=\"muted\">Each line is one press, top to bottom. The number after a spell is the level you learn it, so skip a line until you have it.</p>\n    <h3>Rotations</h3>\n    <div class=\"rgrid\">\n      <div class=\"rcard\" style=\"--rc:var(--cat)\">\n        <div class=\"eyebrow\">Cat · questing and dungeons</div>\n        <ol class=\"steps\">\n          <li>Before you pull: <kbd>⇧Q</kbd> Mark of the Wild and <kbd>⇧F</kbd> Thorns on yourself.</li>\n          <li>Open from <kbd>V</kbd> Prowl with <kbd>E</kbd> Ravage from behind (32) or <kbd>Q</kbd> Pounce to stun (36). Before 32, open from Prowl with <kbd>1</kbd> Rake. Without Prowl, pull with <kbd>F</kbd> Faerie Fire.</li>\n          <li>Build combo points with <kbd>E</kbd> Shred when you are behind, <kbd>Q</kbd> Claw otherwise.</li>\n          <li><kbd>1</kbd> Rake once on any mob that will live a while (24). Skip it on mobs about to die.</li>\n          <li>At 4 or 5 combo points: <kbd>2</kbd> Rip for long fights, <kbd>3</kbd> Ferocious Bite when you have 70 energy or more, or the mob is low (24).</li>\n          <li><kbd>R</kbd> Shifting Power whenever energy drops under 50 (40).</li>\n          <li>Two or more mobs: cat has no area attack. Root the extra one with <kbd>R</kbd> Entangling Roots in caster first, or go <kbd>⇧1</kbd> bear and Swipe.</li>\n          <li>After the fight: <kbd>Middle</kbd> heal and drink. Furor keeps your cat energy while you are out.</li>\n        </ol>\n      </div>\n      <div class=\"rcard\" style=\"--rc:var(--bear)\">\n        <div class=\"eyebrow\">Bear · packs and tanking</div>\n        <ol class=\"steps\">\n          <li>Pull with <kbd>F</kbd> Faerie Fire from range, or <kbd>5</kbd> Feral Charge to close in. The charge also interrupts.</li>\n          <li><kbd>R</kbd> Enrage for rage at the start, then <kbd>1</kbd> Demoralizing Roar on the pack.</li>\n          <li><kbd>4</kbd> Primal Bite every time it is ready (44).</li>\n          <li>One big target: <kbd>2</kbd> Lacerate up to 5 stacks and keep them rolling (45), <kbd>Q</kbd> Maul with spare rage.</li>\n          <li>Two or more mobs: <kbd>E</kbd> Swipe, with Primal Bite on whatever is loose.</li>\n          <li><kbd>3</kbd> Growl a mob that leaves you. Click Challenging Roar if the whole pack runs at the healer.</li>\n          <li><kbd>X</kbd> Bash a caster mid cast. It fires Enrage too, so you always have the rage.</li>\n          <li>Getting low: <kbd>Mouse 4</kbd> potion, <kbd>V</kbd> Frenzied Regeneration (36), <kbd>C</kbd> Barkskin (44).</li>\n        </ol>\n      </div>\n      <div class=\"rcard\" style=\"--rc:var(--caster)\">\n        <div class=\"eyebrow\">Caster · saving the group</div>\n        <ol class=\"steps\">\n          <li><kbd>Middle</kbd> drops your form and starts a heal in one press.</li>\n          <li><kbd>E</kbd> Rejuvenation on the tank early. It is cheap and keeps working while you do other things.</li>\n          <li><kbd>3</kbd> Regrowth when someone drops fast, <kbd>Q</kbd> Healing Touch when they are low and you are safe to cast.</li>\n          <li>Hover a party frame and press <kbd>4</kbd> for poison or <kbd>5</kbd> for a curse.</li>\n          <li><kbd>⇧E</kbd> Tranquility when the whole group is low, and do not move (30).</li>\n          <li><kbd>V</kbd> Innervate on yourself when mana runs out (40). <kbd>⇧R</kbd> Rebirth if someone dies mid fight.</li>\n        </ol>\n      </div>\n    </div>\n\n    <h3>When a player attacks you</h3>\n    <p class=\"muted\">Find the card that matches and follow it. If you panic, use the first card: it works against everyone.</p>\n    <div class=\"rgrid\">\n      <details class=\"pcard\" open>\n        <summary>Any fight going badly</summary>\n        <ol class=\"steps\">\n          <li><kbd>Mouse 4</kbd> potion. It works in any form, so it costs you nothing.</li>\n          <li><kbd>⇧3</kbd> Nature's Grasp, so the next melee hit roots them.</li>\n          <li><kbd>⇧X</kbd> War Stomp to stun everyone around you for a moment.</li>\n          <li>Use that moment: <kbd>⇧Middle</kbd> instant Rejuvenation, then <kbd>⇧1</kbd> bear for armor, or <kbd>Mouse 5</kbd> to run in cat.</li>\n          <li>From 44, press <kbd>C</kbd> Barkskin before a cast heal so hits cannot push it back.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>A rogue opens on you</summary>\n        <ol class=\"steps\">\n          <li>You cannot act while stunned or sapped. Wait for it to end and do not mash keys.</li>\n          <li><kbd>F</kbd> Faerie Fire on the rogue first: it cannot go back into stealth while it lasts.</li>\n          <li><kbd>⇧3</kbd> Nature's Grasp, then <kbd>⇧X</kbd> War Stomp when it is next to you.</li>\n          <li>Healthy: fight it in cat with bleeds. Low: <kbd>⇧1</kbd> bear, <kbd>Mouse 4</kbd> potion, <kbd>V</kbd> Frenzied Regeneration.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>A warrior or melee keeps slowing you</summary>\n        <ol class=\"steps\">\n          <li>Shifting removes roots and slows. Press <kbd>⇧2</kbd> twice in cat, or <kbd>⇧1</kbd> twice in bear. It costs mana each time.</li>\n          <li><kbd>⇧3</kbd> Nature's Grasp so their next hit roots them, then walk out of range.</li>\n          <li><kbd>Mouse 5</kbd> Dash away, or <kbd>Z</kbd> Travel Form outdoors (30).</li>\n          <li>Never stand still to cast Regrowth next to a warrior. Use <kbd>⇧Middle</kbd> instant Rejuvenation while you run.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>A mage</summary>\n        <ol class=\"steps\">\n          <li>Stay in cat or bear. An animal form cannot be turned into a sheep.</li>\n          <li>Frost Nova roots you: shift out of it with <kbd>⇧2</kbd> twice.</li>\n          <li>Close in with <kbd>5</kbd> Feral Charge, the cat leap or the bear charge, which also interrupts.</li>\n          <li>Stop big casts with <kbd>⇧X</kbd> War Stomp, or <kbd>X</kbd> Bash in bear.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>A warlock or priest, fears and casters</summary>\n        <ol class=\"steps\">\n          <li>Druids have no way to break a fear, and War Stomp does not work while you are feared. So stop the fear before it lands.</li>\n          <li>Get into melee fast with <kbd>5</kbd> Feral Charge, then interrupt casts with <kbd>⇧X</kbd> War Stomp or <kbd>X</kbd> Bash.</li>\n          <li>When a fear ends, <kbd>⇧Middle</kbd> instant Rejuvenation first, then go back on them.</li>\n          <li>A PvP trinket that breaks fear, if Forever gives you one, goes on <kbd>⇧C</kbd>.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>A hunter or an enemy druid</summary>\n        <ol class=\"steps\">\n          <li>Put the hunter's pet to sleep with <kbd>⇧V</kbd> Hibernate from caster form, then fight the hunter up close where it is weakest.</li>\n          <li>Hibernate also works on an enemy druid in cat or bear form.</li>\n          <li>Shift out of Wing Clip and other slows with <kbd>⇧2</kbd> twice, then <kbd>5</kbd> Feral Charge back in.</li>\n        </ol>\n      </details>\n      <details class=\"pcard\">\n        <summary>Two or more players</summary>\n        <ol class=\"steps\">\n          <li>Do not fight. <kbd>⇧3</kbd> Nature's Grasp and <kbd>⇧X</kbd> War Stomp to buy a few seconds.</li>\n          <li><kbd>Mouse 5</kbd> Dash away in cat, and shift out of every slow.</li>\n          <li><kbd>Mouse 4</kbd> potion and <kbd>⇧Middle</kbd> instant Rejuvenation while running. Never stop to cast.</li>\n          <li>Run toward guards, friends or a doorway that breaks their line of sight.</li>\n        </ol>\n      </details>\n    </div>\n    <p class=\"muted\" style=\"font-size:13px\">Built from the Forever druid guides where they cover it and Classic rules where they do not. If a line works differently in game, tell us and the card gets fixed.</p>\n",
   NOTES_HTML: "<details>\n      <summary>Play notes</summary>\n      <div class=\"dbody notes\">\n        <p>Forever is built to keep you in one form. Going into bear wipes the energy you saved, so in cat interrupt with War Stomp on <kbd>Shift</kbd> <kbd>X</kbd> first and keep the X route into bear as the backup.</p>\n        <p>Every shapeshift starts a global cooldown, about a second. /cancelform never does, which is why the middle mouse heal starts instantly.</p>\n        <p>Fire Shifting Power when your energy drops under 50 so none of the 40 is wasted. Your mana bar is hidden in forms, so turn on Options, Combat, Personal Resource Display.</p>\n        <p>Enrage gives 10 rage instantly in Forever, which is exactly what Bash costs. Furor also gives 10 rage when you enter bear.</p>\n        <p>Barkskin works in any form from level 44, so C becomes the same defensive everywhere. Faerie Fire is free in cat and bear with a 6 second cooldown.</p>\n        <p>Potions, bandages and most objects work without leaving form. Tranquility, Rebirth, Innervate and the buffs still need caster form: tap middle mouse first.</p>\n      </div>\n    </details>",
   WIZ: WIZ_RAW

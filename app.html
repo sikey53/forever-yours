@@ -511,6 +511,9 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
       </div>
       <span class="pts" id="ptsInfo"></span>
       <div class="tal-actions" id="actMine">
+        <label class="goal" for="planGoal"><span>Plan to follow</span>
+          <select id="planGoal" style="max-width:min(340px,70vw)"><option value="">Recommended</option></select>
+        </label>
         <button class="btn" id="fillPlan" type="button">Fill plan to my level</button>
         <button class="btn" id="resetTree" type="button">Reset</button>
       </div>
@@ -668,12 +671,31 @@ function hyd(x){
 const hydList = list => (list || []).map(x => ({...x, s: hyd(x.s)}));
 const UNBOUND = B.unbound || [];
 
+/* the plan behind "Next point": the build picked in "Plan to follow", else the recommended one for this spec */
+function planId(){ const id = ((build.plan || {})[spec]) || ''; return id && PRESETS[id] && (PRESETS[id].seq || []).length ? id : ''; }
+function activePlan(){ const id = planId(); return id ? PRESETS[id].seq.map(([tr,n,to]) => [tr,n,to,CD.planWhy(n)]) : (PLAN[spec] || []); }
+/* the deep talent a plan is heading for: the class's own pick when the plan has it, else the plan's first last-row talent */
+function keyT(){
+  const plan = activePlan(), own = (CD.KEY_TALENT || {})[spec];
+  if (own && plan.some(([tr,n]) => tr === own[0] && n === own[1])) return own;
+  const deep = plan.find(([tr,n]) => (T[tr+'|'+n] || {}).row === 7);
+  return deep ? [deep[0], deep[1], 40] : null;
+}
+/* points already spent outside the plan stand in for the plan's row-opening fillers in the same tree */
+function standIns(){
+  const plan = activePlan(), target = {}, out = {};
+  plan.forEach(([tr,n,to]) => target[tr+'|'+n] = Math.max(target[tr+'|'+n] || 0, to));
+  TREE_ORDER.forEach(tr => Object.entries(picks()[tr] || {}).forEach(([n,v]) => { const x = v - (target[tr+'|'+n] || 0); if (x > 0) out[tr] = (out[tr] || 0) + x; }));
+  return out;
+}
 function expandPlan(spec){
   const seq = []; const run = {}; let lvl = 10 - talentedR();
-  (PLAN[spec]||[]).forEach(([tree,name,to,why,filler],stepIdx)=>{
-    const k = tree+'|'+name; const from = run[k]||0;
+  const spare = standIns(), cut = {};
+  activePlan().forEach(([tree,name,to,why,filler]) => { if (!filler) return; const have = (picks()[tree] || {})[name] || 0; const drop = Math.min(spare[tree] || 0, Math.max(0, to - have)); if (drop){ cut[tree+'|'+name] = to - drop; spare[tree] -= drop; } });
+  activePlan().forEach(([tree,name,to,why,filler],stepIdx)=>{
+    const k = tree+'|'+name; const from = run[k]||0; if (k in cut) to = Math.min(to, cut[k]);
     for (let r = from+1; r <= to; r++) seq.push({tree,name,rank:r,level:lvl++,why,step:stepIdx,filler:!!filler});
-    run[k] = to;
+    run[k] = Math.max(from, to);
   });
   return seq;
 }
@@ -859,12 +881,14 @@ function project(){
     const ok = x => get(x.tree,x.name) < x.rank && legal(T[x.tree+'|'+x.name]);
     const useful = x => useAt(x.name) <= level;
     // the key talent's prerequisite waits until its points would complete the key talent's row; useful talents go first
-    const waits = x => seq.some(d => d.name === ((CD.KEY_TALENT || {})[spec] || [])[1] && d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name && get(d.tree,d.name) < d.rank
-      && tt(x.tree) + (T[x.tree+'|'+x.name].max - get(x.tree,x.name)) < 5*(T[d.tree+'|'+d.name].row-1));
+    const waits = x => seq.some(d => d.name === (keyT() || [])[1] && d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name && get(d.tree,d.name) < d.rank
+      && tt(x.tree) + (T[x.tree+'|'+x.name].max - get(x.tree,x.name)) < 5*(T[d.tree+'|'+d.name].row-1))
+      /* but never when it is the only planned point left that can open the next row of its tree */
+      && seq.some(y => y.tree === x.tree && y.name !== x.name && ok(y));
     seq.forEach(x => { if (ok(x) && waits(x)) held.add(x.tree+'|'+x.name); });
     // a held talent goes first the moment it can open its row, and the talent it opens right after
-    const deep = x => Math.max(0, ...seq.filter(d => d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name).map(d => T[d.tree+'|'+d.name].row + (d.name === ((CD.KEY_TALENT || {})[spec] || [])[1] ? 0.5 : 0)));
-    const keyN = ((CD.KEY_TALENT || {})[spec] || [])[1];
+    const deep = x => Math.max(0, ...seq.filter(d => d.tree === x.tree && T[d.tree+'|'+d.name]?.req === x.name).map(d => T[d.tree+'|'+d.name].row + (d.name === (keyT() || [])[1] ? 0.5 : 0)));
+    const keyN = (keyT() || [])[1];
     const byRow = list => list.sort((a, b) => (T[b.tree+'|'+b.name].row + (b.name === keyN ? 0.5 : 0)) - (T[a.tree+'|'+a.name].row + (a.name === keyN ? 0.5 : 0)))[0];
     const byDeep = list => list.sort((a, b) => deep(b) - deep(a))[0];
     const c = byRow(seq.filter(x => ok(x) && useful(x) && held.has(x.tree+'|'+T[x.tree+'|'+x.name]?.req))) || byDeep(seq.filter(x => ok(x) && useful(x) && held.has(x.tree+'|'+x.name) && !waits(x)))
@@ -889,13 +913,15 @@ function offPlan(){
 }
 function renderTalents(){
   document.getElementById('lvl').value = build.level;
+  document.getElementById('planGoal').options[0].textContent = 'Recommended' + ((CD.PLAN_LABEL || {})[spec] ? ' · ' + CD.PLAN_LABEL[spec] : '');
+  document.getElementById('planGoal').value = planId();
   const left = avail() - spent();
   document.getElementById('ptsInfo').innerHTML = `<b>${spent()}</b> of ${avail()} points ${simMode?'in the simulator':'spent'} · ${TREE_ORDER.map(tr=>`${TREES[tr].label} ${treeTotal(tr)}`).join(' · ')}`;
   const seq = expandPlan(spec);
   const nx = nextStep();
   const nextKey = !simMode && nx && nx !== 'done' ? nx.tree+'|'+nx.name : null;
   // plan badges: step number of first appearance
-  const planNum = {}; (PLAN[spec]||[]).forEach(([tr,n],i)=>{ const k=tr+'|'+n; if(!(k in planNum)) planNum[k]=i+1; });
+  const planNum = {}; activePlan().forEach(([tr,n],i)=>{ const k=tr+'|'+n; if(!(k in planNum)) planNum[k]=i+1; });
   // next card
   let nc;
   const off = simMode ? [] : offPlan();
@@ -908,14 +934,14 @@ function renderTalents(){
   else if (nx === 'done') nc = `<div class="eyebrow">Next point</div><strong>Plan complete</strong><p class="muted">Every planned talent is trained.</p>`;
   else {
     const pr = project();
-    const kt = (CD.KEY_TALENT || {})[spec];
+    const kt = keyT();
     const sp = kt && pr.find(x => x.name === kt[1]);
     const ideal = kt ? kt[2] - talentedR() : 0;
     const spLine = kt && pts(kt[0], kt[1]) === 0 ? (sp ? ` ${kt[1]} lands at level ${sp.level}${sp.level > ideal ? `, later than the ideal ${ideal} because of points spent elsewhere` : ''}.` : '') : '';
     if (left <= 0) nc = `<div class="eyebrow">Next point · level ${nx.level}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}. No point to spend until level ${nx.level}.${spLine}</p>`;
     else nc = `<div class="eyebrow">Next point · spend it now · ${esc(TREES[nx.tree].label)}</div><strong>${esc(nx.name)} ${nx.rank}/${T[nextKey].max}</strong><p class="muted">${esc(nx.why)}.${left>1?` You have ${left} points to spend, follow the order below.`:''}${spLine}</p>`;
   }
-  if (off.length) nc += `<p class="muted" style="font-size:13px">Off plan: ${esc(off.join(', '))}. Ask your AI coach whether to keep them.</p>`;
+  if (off.length){ const fill = activePlan().filter(x => x[4] && seq.filter(d => d.name === x[1]).length < x[2]).map(x => x[1]); nc += `<p class="muted" style="font-size:13px">Not in this plan: ${esc(off.join(', '))}. ${fill.length ? `They stand in for ${esc(fill.join(' and '))}, so the plan skips ${fill.length > 1 ? 'those' : 'it'}.` : 'The plan works around them, so its last points drop off the end.'}</p>`; }
   document.getElementById('nextCard').innerHTML = nc;
   // trees
   document.getElementById('trees').innerHTML = TREE_ORDER.map(tr => {
@@ -932,7 +958,7 @@ function renderTalents(){
   }).join('');
   renderDetail();
   // plan table: remaining points, recalculated from the current build
-  const steps = PLAN[spec]||[];
+  const steps = activePlan();
   const pr = project() || [];
   const groups = [];
   pr.forEach(x => { const g = groups[groups.length-1]; if (g && g.name===x.name && g.tree===x.tree) { g.to = x.level; g.rank = x.rank; } else groups.push({...x, from:x.level, to:x.level}); });
@@ -945,8 +971,9 @@ function renderTalents(){
 }
 document.getElementById('lvl').addEventListener('change', e => { let v = Math.round(+e.target.value||1); v = Math.min(60, Math.max(1, v)); build.level = v; changed(); });
 document.getElementById('fillPlan').addEventListener('click', () => {
-  const seq = expandPlan(spec); if (!seq.length) return;
+  if (!activePlan().length) return;
   build.specs[spec] = {};
+  const seq = expandPlan(spec);
   seq.filter(p => p.level <= build.level).forEach(p => setPts(p.tree,p.name,p.rank));
   changed();
 });
@@ -1006,7 +1033,7 @@ function contextTurn(){
     levelingZones: ZONES, dungeons: DUNGEONS,
     characterLevel: build.level, pointsAvailable: avail(), pointsSpent: spent(),
     trainedTalents: build.specs, nextPlannedPoint: nx==='done'?'plan complete':nx, remainingOrderFromCurrentBuild: project(),
-    feralLevelingPlanInOrder: PLAN.feral.map(([tr,n,to,why])=>({tree:tr,talent:n,rankTo:to,why})),
+    planFollowed: planId() ? PRESETS[planId()].label : 'Recommended for ' + SPECS[spec].label, planInOrder: activePlan().map(([tr,n,to,why])=>({tree:tr,talent:n,rankTo:to,why})), popularBuilds: Object.values(PRESETS).map(x => x.label),
     talentTrees: Object.fromEntries(TREE_ORDER.map(tr=>[tr, TREES[tr].list.map(([n,r,c,m,q,d])=>({n,row:r,col:c,max:m,req:q,d}))])),
     keybinds: bars, macros: MACROS, unboundSpells: UNBOUND,
     spellbook: SPELLS, legacyPerkTable: LEGACY, legacyRules: {pointsSpendablePerCharacter: LEG_CAP, suggestedOrder: LEGACY_PLAN},
@@ -1477,23 +1504,25 @@ const useAt = n => TALENT_USE[n] ?? 10;
 const viewLevel = () => simMode && !sims().lock ? 60 : (build.level || 1);
 
 
-function presetSeq(id){ const p = PRESETS[id]; if (!p) return []; if (!p.seq) return (PLAN.feral||[]).map(([tr,n,to]) => [tr,n,to]); return p.seq; }
+function presetSeq(id){ const p = PRESETS[id]; if (!p) return []; return p.seq || []; }
 /* fill a tree point by point in order, respecting rows and requirements, up to a budget */
 function fillOrdered(seq, budget){
   const out = {}; let total = 0; const get = (tr,n) => (out[tr]||{})[n] || 0; const tt = tr => Object.values(out[tr]||{}).reduce((a,b)=>a+b,0);
   const legal = t => tt(t.tree) >= 5*(t.row-1) && (!t.req || get(t.tree,t.req) >= T[t.tree+'|'+t.req].max);
   const start = 10 - talentedR(); const held = new Set();
+  const own = (CD.KEY_TALENT || {})[spec]; const kN = own && seq.some(x => x[1] === own[1]) ? own[1] : (seq.find(([tr,n]) => (T[tr+'|'+n] || {}).row === 7) || [])[1];
   while (total < budget){
     const level = start + total; // the level this point is trained at
     const open = seq.filter(([tr,n,to]) => { const t = T[tr+'|'+n]; return t && get(tr,n) < to && legal(t); });
     if (!open.length) break;
     // take the first planned talent that already does something at this level; only if none does, take the next one to open a row
     // the key talent's prerequisite waits until its points would complete the key talent's row
-    const waits = ([tr,n]) => seq.some(([dtr,dn,dto]) => dn === ((CD.KEY_TALENT || {})[spec] || [])[1] && dtr === tr && T[dtr+'|'+dn]?.req === n && get(dtr,dn) < dto
-      && tt(tr) + (T[tr+'|'+n].max - get(tr,n)) < 5*(T[dtr+'|'+dn].row-1));
+    const waits = ([tr,n]) => seq.some(([dtr,dn,dto]) => dn === kN && dtr === tr && T[dtr+'|'+dn]?.req === n && get(dtr,dn) < dto
+      && tt(tr) + (T[tr+'|'+n].max - get(tr,n)) < 5*(T[dtr+'|'+dn].row-1))
+      && open.some(y => y[0] === tr && y[1] !== n);
     open.forEach(x => { if (waits(x)) held.add(x[0]+'|'+x[1]); });
     const use = x => useAt(x[1]) <= level;
-    const deep = ([tr,n]) => Math.max(0, ...seq.filter(([dtr,dn]) => dtr === tr && T[dtr+'|'+dn]?.req === n).map(([dtr,dn]) => T[dtr+'|'+dn].row + (dn === ((CD.KEY_TALENT || {})[spec] || [])[1] ? 0.5 : 0)));
+    const deep = ([tr,n]) => Math.max(0, ...seq.filter(([dtr,dn]) => dtr === tr && T[dtr+'|'+dn]?.req === n).map(([dtr,dn]) => T[dtr+'|'+dn].row + (dn === kN ? 0.5 : 0)));
     const [tr,n] = open.filter(x => use(x) && held.has(x[0]+'|'+T[x[0]+'|'+x[1]]?.req)).sort((a, b) => T[b[0]+'|'+b[1]].row - T[a[0]+'|'+a[1]].row)[0]
       || open.filter(x => use(x) && held.has(x[0]+'|'+x[1]) && !waits(x)).sort((a, b) => deep(b) - deep(a))[0]
       || open.find(x => use(x) && !waits(x)) || open.find(use) || open[0];
@@ -1666,6 +1695,8 @@ document.getElementById('fightBody').innerHTML = FIGHT_HTML || '';
 document.getElementById('classNotes').innerHTML = NOTES_HTML || '';
 document.getElementById('planNote').textContent = PLAN_NOTE || '';
 document.getElementById('simGoal').insertAdjacentHTML('beforeend', GOALS_HTML || '');
+document.getElementById('planGoal').insertAdjacentHTML('beforeend', GOALS_HTML || '');
+document.getElementById('planGoal').addEventListener('change', e => { build.plan ||= {}; build.plan[spec] = e.target.value; changed(); });
 if (!PROFILE.personal){
   document.querySelectorAll('.personal-only').forEach(el => el.hidden = true);
   if (MY_CLASS === 'druid') document.getElementById('classNotes').hidden = true;
