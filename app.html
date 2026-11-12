@@ -12,7 +12,11 @@
     if (m){
       var bytes = Uint8Array.from(atob(m[1].replace(/-/g,'+').replace(/_/g,'/')), function(c){ return c.charCodeAt(0); });
       var p = JSON.parse(new TextDecoder().decode(bytes));
-      if (p && p.profile && p.profile.binds){ localStorage.setItem('fc-profile', JSON.stringify(p.profile)); if (p.build) localStorage.setItem('fdk-build', JSON.stringify(p.build)); }
+      if (p && p.profile && p.profile.binds){
+        /* a setup link never destroys the setup already here: the old one is kept as a backup */
+        var was = localStorage.getItem('fc-profile'), wasB = localStorage.getItem('fdk-build');
+        if (was && was !== JSON.stringify(p.profile)){ localStorage.setItem('fc-profile-prev', was); if (wasB) localStorage.setItem('fdk-build-prev', wasB); }
+        localStorage.setItem('fc-profile', JSON.stringify(p.profile)); if (p.build) localStorage.setItem('fdk-build', JSON.stringify(p.build)); }
       history.replaceState(null, '', location.pathname + '#binds');
     }
   } catch(e){}
@@ -604,7 +608,8 @@ body.sim .tc.miss{border-color:var(--long);background:color-mix(in srgb, var(--l
     <div class="setupbar">
       <button class="btn" type="button" id="copyLink">Copy my setup link</button>
       <a class="btn" href="index.html?redo=1">Redo my setup</a>
-      <span class="muted" id="linkNote" style="font-size:13px">Your setup lives only in this browser. The link moves it to another device.</span>
+      <button class="btn" type="button" id="restorePrev" hidden>Bring back my previous setup</button>
+      <span class="muted" id="linkNote" style="font-size:13px">Everything you do here saves by itself in this browser. The setup link is your backup: it restores it on another device or browser.</span>
     </div>
   </section>
   <section data-mod="binds" aria-label="Reference">
@@ -1721,6 +1726,23 @@ document.getElementById('copyLink').addEventListener('click', e => {
   const note = document.getElementById('linkNote');
   try { navigator.clipboard.writeText(url).then(() => { note.textContent = 'Copied. Open it on your other device. Keep it private, it holds your setup.'; }, () => { note.textContent = url; }); } catch(_){ note.textContent = url; }
 });
+/* ask the browser to keep this site's data even when it is short on space */
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {}); } catch(e){}
+/* the setup replaced by a redo or by a setup link can be swapped back in, and swapped out again */
+(() => {
+  const b = document.getElementById('restorePrev'); let prev = null;
+  try { prev = localStorage.getItem('fc-profile-prev'); } catch(e){}
+  if (!prev) return; b.hidden = false; let armed = false;
+  b.addEventListener('click', () => {
+    if (!armed){ armed = true; b.textContent = 'Tap again to swap setups'; setTimeout(() => { armed = false; b.textContent = 'Bring back my previous setup'; }, 3000); return; }
+    try {
+      const curP = localStorage.getItem('fc-profile'), curB = localStorage.getItem('fdk-build'), prevB = localStorage.getItem('fdk-build-prev');
+      localStorage.setItem('fc-profile', prev); if (prevB) localStorage.setItem('fdk-build', prevB);
+      localStorage.setItem('fc-profile-prev', curP); if (curB) localStorage.setItem('fdk-build-prev', curB);
+      location.reload();
+    } catch(e){}
+  });
+})();
 renderAll();
 refreshAll();
 renderNews();

@@ -3,6 +3,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Forever Yours · Setup</title>
+<script>
+/* someone who already has a setup in this browser goes straight to their page; only "Redo my setup" opens the wizard again */
+try { if (localStorage.getItem('fc-profile') && !/redo=1/.test(location.search)) location.replace('app.html'); } catch(e){}
+</script>
 <style>body{margin:0}</style>
 <script src="classes/common.js"></script>
 <script src="classes/data/druid.js"></script><script src="classes/summaries/druid.js"></script><script src="classes/druid.js"></script>
@@ -122,7 +126,7 @@ button,input,select{font:inherit;color:inherit}
     <div class="eyebrow">Forever Yours · Your WoW Forever sidekick</div>
     <h1>Set up your character</h1>
     <p class="muted">Seven short steps. Your answers decide every key, so the layout fits your hands and how you play.</p>
-    <div class="testnote" id="haveSetup" hidden>You already have a setup in this browser. <a href="app.html#binds" style="color:inherit;font-weight:600">Open my page</a></div>
+    <div class="testnote" id="haveSetup" hidden>You already have a setup in this browser. Finishing these steps builds new keybinds and replaces the ones you have. Your talents, Legacy perks and plan are kept. <a href="app.html#binds" style="color:inherit;font-weight:600">Keep what I have and go back</a></div>
   </header>
   <nav class="rail" id="rail" aria-label="Steps"></nav>
   <main id="stage"></main>
@@ -417,12 +421,26 @@ function finishSetup(){
   const legacyPicks = t ? {'Well Rested':5, 'Talented':t} : {};
   const build = {level: Math.min(60, Math.max(1, +A.level || 1)), name: A.name || '', legacy:{earned: Math.max(+A.legacy || 0, t ? 5 + t : 0), picks: legacyPicks}, specs:{}};
   try {
+    /* redoing the setup never wipes earlier work: talents, Legacy perks and the chosen plan carry over for the same class,
+       and the previous setup is kept as a backup that the page can bring back */
+    const oldP = localStorage.getItem('fc-profile'), oldB = localStorage.getItem('fdk-build');
+    if (oldP){
+      localStorage.setItem('fc-profile-prev', oldP); if (oldB) localStorage.setItem('fdk-build-prev', oldB);
+      try {
+        const op = JSON.parse(oldP), ob = JSON.parse(oldB || 'null');
+        if (ob && ob.specs && op.cls === A.cls){
+          build.specs = ob.specs; if (ob.plan) build.plan = ob.plan; if (ob.sims) build.sims = ob.sims;
+          if (ob.legacy && Object.keys(ob.legacy.picks || {}).length) build.legacy = {earned: Math.max(ob.legacy.earned || 0, build.legacy.earned), picks: ob.legacy.picks};
+          build.level = Math.max(build.level, Math.min(60, +ob.level || 1));
+        }
+      } catch(e){}
+    }
     localStorage.setItem('fc-profile', JSON.stringify(profile));
     localStorage.setItem('fdk-build', JSON.stringify(build));
     location.href = 'app.html#binds';
   } catch(e){ alertBox('Your browser blocked saving. Allow site data for this page and try again.'); }
 }
 function alertBox(msg){ const st = document.getElementById('stage'); st.insertAdjacentHTML('beforeend', `<div class="finish">${esc(msg)}</div>`); }
-try { if (localStorage.getItem('fc-profile') && !/redo=1/.test(location.search)) document.getElementById('haveSetup').hidden = false; } catch(e){}
+try { if (localStorage.getItem('fc-profile')) document.getElementById('haveSetup').hidden = false; } catch(e){}
 renderStep();
 </script>
