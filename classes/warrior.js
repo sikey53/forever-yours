@@ -113,7 +113,7 @@
     <h3>PvP</h3>
     <div class="rgrid">
       <details class="pcard" open><summary>Any fight going badly</summary><div class="dbody"><p>Intimidating Shout to scatter them, then Victory Rush or a Healing Potion. Retaliation in Battle Stance punishes melee, Shield Wall in Defensive cuts damage by 60% for 12 sec.</p></div></details>
-      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Wait out the stun, then Hamstring right away so the rogue cannot dance around you. Intimidating Shout when they use Evasion.</p></div></details>
+      <details class="pcard"><summary>A rogue opens on you</summary><div class="dbody"><p>Berserker Rage breaks a Sap. Wait out the stun, then Hamstring right away so the rogue cannot dance around you. Intimidating Shout when they use Evasion.</p></div></details>
       <details class="pcard"><summary>A warrior or melee keeps slowing you</summary><div class="dbody"><p>Berserker Rage and Intercept to stay on them. Keep Hamstring up and Mortal Strike on cooldown so their heals do half.</p></div></details>
       <details class="pcard"><summary>A mage</summary><div class="dbody"><p>Charge or Intercept the moment they Blink. Pummel or Shield Bash the Polymorph or Frostbolt. Frost Nova roots you, so save Intercept for when it ends.</p></div></details>
       <details class="pcard"><summary>A warlock or priest, fears and casters</summary><div class="dbody"><p>Berserker Rage before the fear lands. Pummel their big cast, and Mortal Strike to cut Drain Life and heals.</p></div></details>

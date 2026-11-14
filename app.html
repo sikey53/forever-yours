@@ -1098,7 +1098,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-13',
+  checked: '2026-11-14',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1116,12 +1116,15 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 13','Fix','New hotfixes: stuns now have diminishing returns against creatures and from creatures, Restoration Wild Growth heals twice as much, Berserker Rage removes Sap, Blessed Band of Light can be swapped for a Channeler\'s Ring until raids open.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040'],
+    ['Nov 13','XP','In dungeons, an enemy that is trivial for any party member now gives no experience to the whole party.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040'],
     ['Nov 12','Fix','Enhancement Shaman tuning finally live in all regions at 18:45 UTC after a deployment delay, including weapon imbues and Windfury Totem working together.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040'],
     ['Nov 12','News','The 1 copper Auction House deposit was pulled from the hotfix. It goes live with weekly maintenance on November 17 (Americas) and 18 (Europe).','https://www.bluetracker.gg/wow/topic/eu-en/639885-wow-forever-hotfixes-november-11-2026/'],
     ['Nov 11','Issue','Item Restoration service disabled while Blizzard fixes a critical bug.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040'],
     ['Nov 11','Fix','Class tuning live: Affliction Warlock and Hunter pets, plus quest gold from 48.','https://foreverchanges.pro/patch-notes'],
     ['Nov 11','Fix','Shamans who lost a totem in the November 9 server crash get it back in their bags. Make room, then log out and back in.','https://foreverchanges.pro/patch-notes'],
     ['Nov 10','News','PvP rulesets: character creation now weighs each region\'s faction balance over time. The bigger faction is harder to start on: Horde on North American PvP, Alliance on European Roleplay PvP. This may flip later.','https://us.forums.blizzard.com/en/wow/t/2408781'],
+    ['Nov 9','Event','Darkmoon Faire open in Elwynn Forest until November 15. It returns December 7 in Mulgore.','https://www.warcrafttavern.com/forever/news/the-darkmoon-faire-is-now-open-in-wow-forever/'],
     ['Nov 9','Fix','Dungeon fixes: Drowned City and Deathless enemies hit softer, Blackrock Depths doors reopen after a wipe, Shaper\'s Terrace bosses drop loot.','https://foreverchanges.pro/patch-notes'],
     ['Nov 8','XP','Dungeon enemy kill experience raised by 50%. Dungeon quest experience unchanged.','https://eu.forums.blizzard.com/en/wow/t/dungeon-enemy-xp-increased-8-november/640598'],
     ['Nov 6','Fix','Vorsha the Lasher quest in Ashenvale works again.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-6-2026'],
@@ -1132,6 +1135,9 @@ const NEWS = {
   changes: {
     general:[
       ['Nov 17','Auction House deposit down to 1 copper (was 1 silver) with weekly maintenance, November 18 in Europe.',true],
+      ['Nov 13','Stuns now get diminishing returns between players and creatures. In dungeons, enemies trivial to any party member give no experience. Drowned City trash respawns after 2 hours (was 1).'],
+      ['Nov 13','Taran Icebreaker is now a two-handed mace. Channeler\'s Ring gives spell power instead of Spirit, Blessed Band of Light loses its hit and can be exchanged at Pix Xizzix until raids open. Fishing Extravaganza has many more winners.'],
+      ['Nov 13','More spawns for Stranglethorn cats and raptors and Badlands Lesser Rock Elementals, fewer in the Mulgore start area. Action bars no longer reset with a second talent setup. Many quest loot fixes.'],
       ['Nov 11','Riverglades: Twilight Enforcer Smash, Executioner Morg and Twilight Forgemaster\'s Mark of Flames hit much softer. Item Restoration disabled for now.'],
       ['Nov 11','Tailoring bags fixed: Red Mageweave Bag 14 slots, Green and Black Silk Pack 12, Green and Red Woolen Bag 10. Earthen Silk Slippers spell damage lowered.'],
       ['Nov 11','Most quests from level 48 give gold. Mail arrives after 60 minutes as intended.'],
@@ -1145,6 +1151,7 @@ const NEWS = {
       ['Nov 2','Racials: Dwarf +1% hit, Human Spirit 10%, Orc Blood Fury every 2 min, Plainsrunning up to 60%, Berserking 15 sec, Touch of the Grave every 15 sec.']
     ],
     druid:[
+      ['Nov 13','Restoration: Wild Growth healing coefficient up from 3.3% to 6.6%, but it can no longer be cast while moving.'],
       ['Nov 11','Feral: Rend and Tear now also boosts damage on targets bleeding from Pounce.'],
       ['Nov 11','Ravage bonus damage up from 147 to 183 in the game data, still 435% weapon damage.'],
       ['Nov 11','Restoration: Nature\'s Swiftness also makes Wild Growth instant. Omen of Clarity works again after a spec swap.'],
@@ -1164,6 +1171,7 @@ const NEWS = {
       ['Nov 2','Aspect of the Hawk, Trueshot Aura, Barrage and Lightning Reflexes buffed.']
     ],
     mage:[
+      ['Nov 13','Frost Nova roots now break from proc damage and from Blizzard.'],
       ['Nov 9','Flamestrike ground ticks no longer use Clearcasting. Arcane Concentration chance split across the cast and each bolt.'],
       ['Nov 6','Arcane Blast lasts 18 seconds. Study is the only spell from the Research quest.'],
       ['Nov 2','Ice Lance and Fire Blast share an 8 second cooldown. Frozen targets take 300% again.'],
@@ -1171,6 +1179,7 @@ const NEWS = {
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 13','Judgement of Command counts as a melee attack again and triggers on-hit effects. Other Judgements stay ranged.'],
       ['Nov 11','Judgement now counts as a ranged attack: it uses ranged hit chance and no longer triggers melee procs. Retribution: Unsealed Fury no longer echoes Windfury Totem attacks.'],
       ['Nov 9','Consecration keeps its bonus damage when targets despawn. Seals show correctly in the Cooldown Manager.'],
       ['Nov 2','Righteous Fury at level 10, +33% threat and 90% more threat from Holy damage.'],
@@ -1179,6 +1188,7 @@ const NEWS = {
       ['Nov 2','Conviction gives 2/4/6% crit to all spells and attacks. Vengeance stacks 5 times.']
     ],
     priest:[
+      ['Nov 13','The Quick and the Dead Legacy perk now also makes Divine Spirit free.'],
       ['Nov 11','Confounding Flash (Gnome) and the Twilight Focus talent now work in Shadowform.'],
       ['Nov 11','Holy Nova is unlearned with its talent. The Revelation enchant no longer procs from Vampiric Embrace.'],
       ['Nov 10','Fear Ward can be cast in Shadowform without breaking it.'],
@@ -1193,6 +1203,7 @@ const NEWS = {
       ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
     ],
     shaman:[
+      ['Nov 13','Windfury Totem procs from melee abilities that do not use the main-hand weapon. Off-hand strikes from Whirlwind and Mutilate still cannot.'],
       ['Nov 12','Enhancement: Stormstrike 100% weapon damage (was 150%), 8 sec cooldown (was 6). Mental Dexterity 33/66/100% of Intellect (was 50/100/150%).'],
       ['Nov 12','Maelstrom Weapon 20% faster and cheaper per stack at every rank, triggers 6 to 10 times a minute. Windfury Weapon and Totem now work together.'],
       ['Nov 2','Windfury Weapon and Totem give an extra swing. Totemic Call every 30 seconds.'],
@@ -1200,6 +1211,7 @@ const NEWS = {
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
+      ['Nov 13','Siphon Life rank 1 can no longer be cast while silenced.'],
       ['Nov 11','Affliction: Wrack no longer adds 10% damage taken; while channeling, your Siphon Life, Corruption and Bane of Agony tick 100% faster. Wrack itself 30% weaker.'],
       ['Nov 11','Demons about 15% more health, Imp Firebolt stronger at ranks 1 to 4. Soul Siphon counts only your Corruption, Siphon Life and Bane. Bane of Havoc triggers the global cooldown.'],
       ['Nov 9','Incinerate only for Destruction. The Summon Felsteed quest now teaches riding.'],
@@ -1208,6 +1220,7 @@ const NEWS = {
       ['Nov 2','Drain Soul gives shards much less often. Spellstones only boost Shadow. Training cheaper.']
     ],
     warrior:[
+      ['Nov 13','Berserker Rage now removes Sap.'],
       ['Nov 11','Arms: Sweeping Strikes no longer loses charges when nothing else is hit.'],
       ['Nov 6','Reckless Swings tooltip mentions Gore Drinker.'],
       ['Nov 2','Defensive Stance threat 80%. Slam cooldown 15 seconds. Defiance up to 20% threat.'],
