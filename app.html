@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-15',
+  checked: '2026-11-16',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,9 +1122,11 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 14','XP','Dungeon experience rule eased: enemies now give no experience only when a party member is more than 12 levels above them (it was any party member finding them trivial). Live about 01:15 UTC on November 15; runs already in progress kept the old rule.','https://www.bluetracker.gg/wow/topic/us-en/2416343-player-level-dungeon-xp-adjustment-november-14/'],
     ['Nov 13','Fix','New hotfixes: stuns now have diminishing returns against creatures and from creatures, Restoration Wild Growth heals twice as much, Berserker Rage removes Sap, Blessed Band of Light can be swapped for a Channeler\'s Ring until raids open.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040'],
     ['Nov 13','XP','In dungeons, an enemy that is trivial for any party member now gives no experience to the whole party.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040'],
     ['Nov 12','Fix','Enhancement Shaman tuning finally live in all regions at 18:45 UTC after a deployment delay, including weapon imbues and Windfury Totem working together.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040'],
+    ['Nov 12','News','World buffs no longer work in raids. Heralds and criers now also hand out Warchief\'s Blessing and Might of Stormwind in Razor Hill, Goldshire, Lakeshire and Sentinel Hill.','https://www.warcrafttavern.com/forever/news/forever-world-buffs-now-provided-in-razor-hill-goldshire-lakeshire-sentinel-hill/'],
     ['Nov 12','News','The 1 copper Auction House deposit was pulled from the hotfix. It goes live with weekly maintenance on November 17 (Americas) and 18 (Europe).','https://www.bluetracker.gg/wow/topic/eu-en/639885-wow-forever-hotfixes-november-11-2026/'],
     ['Nov 11','Issue','Item Restoration service disabled while Blizzard fixes a critical bug.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040'],
     ['Nov 11','Fix','Class tuning live: Affliction Warlock and Hunter pets, plus quest gold from 48.','https://foreverchanges.pro/patch-notes'],
@@ -1141,6 +1143,7 @@ const NEWS = {
   changes: {
     general:[
       ['Nov 17','Auction House deposit down to 1 copper (was 1 silver) with weekly maintenance, November 18 in Europe.',true],
+      ['Nov 14','Dungeon enemies give no experience only when a party member is more than 12 levels above them (was: trivial to any party member).'],
       ['Nov 13','Stuns now get diminishing returns between players and creatures. In dungeons, enemies trivial to any party member give no experience. Drowned City trash respawns after 2 hours (was 1).'],
       ['Nov 13','Taran Icebreaker is now a two-handed mace. Channeler\'s Ring gives spell power instead of Spirit, Blessed Band of Light loses its hit and can be exchanged at Pix Xizzix until raids open. Fishing Extravaganza has many more winners.'],
       ['Nov 13','More spawns for Stranglethorn cats and raptors and Badlands Lesser Rock Elementals, fewer in the Mulgore start area. Action bars no longer reset with a second talent setup. Many quest loot fixes.'],
