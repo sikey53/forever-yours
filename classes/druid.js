@@ -37,7 +37,7 @@ const PLAN = {
     ['feral','Primal Bite',1,'The second tank point: a big threat hit that also does full weapon damage'],
     ['resto','Heart of the Wild',5,'10% Strength in cat, 20% Stamina in bear, 10% Intellect'],
     ['resto','Naturalist',5,'10% more damage on everything you do'],
-    ['balance','Genesis',5,'10% more damage from your bleeds: Rake, Rip and Lacerate'],
+    ['balance','Genesis',5,'10% more damage from your bleeds: Rake, Rip, Lacerate and Pounce'],
     ['balance',"Nature's Majesty",2,'4% crit in melee'],
     ['balance',"Nature's Reach",2,'4% more chance to hit']
   ],
