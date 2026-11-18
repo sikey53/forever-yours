@@ -1,0 +1,23 @@
+{
+ "date": "2026-11-18",
+ "changes": [
+  {
+   "class": "shaman",
+   "kind": "spell",
+   "name": "Windfury Weapon",
+   "what": "changed",
+   "field": "d",
+   "old": "Imbue the Shaman's weapon with wind. Each hit has a 20% chance of granting you 2 extra attacks with 103 extra melee attack power. When applied to main hand, disables any benefit you personally receive from Windfury Totem. Lasts for 60 minutes.",
+   "new": "Imbue the Shaman's weapon with wind. Each hit has a 20% chance of granting you 2 extra attacks with 103 extra melee attack power. Lasts for 60 minutes."
+  },
+  {
+   "class": "shaman",
+   "kind": "spell",
+   "name": "Flametongue Weapon",
+   "what": "changed",
+   "field": "d",
+   "old": "Imbue the Shaman's weapon with fire. Each hit causes 5 to 18 additional Fire damage, based on the speed of the weapon. Slower weapons cause more fire damage per swing. When applied to main hand, disables any benefit you personally receive from Flametongue Totem. Lasts for 60 minutes.",
+   "new": "Imbue the Shaman's weapon with fire. Each hit causes 5 to 18 additional Fire damage, based on the speed of the weapon. Slower weapons cause more fire damage per swing. Lasts for 60 minutes."
+  }
+ ]
+}
