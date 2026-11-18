@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-17',
+  checked: '2026-11-18',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,7 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 17','Fix','New hotfixes: Upper Blackrock Spire enemies hit harder and have more health again (built for a full group), Flurry keeps its stacks through Windfury Totem attacks, world buffs end on death, Alterac Valley quests need level 58, Paladin Soulforge Armor gives spell power instead of Strength.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-17-2026'],
     ['Nov 16','Fix','New hotfixes: Shadow Priest Vampiric Embrace heals the party for 10% of Shadow damage (was 20%), Windfury Totem attacks now respect armor and have an internal cooldown, Balance Genesis boosts Pounce, Fishing Racks give lures to everyone.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-16-2026/'],
     ['Nov 14','XP','Dungeon experience rule eased: enemies now give no experience only when a party member is more than 12 levels above them (it was any party member finding them trivial). Live about 01:15 UTC on November 15; runs already in progress kept the old rule.','https://www.bluetracker.gg/wow/topic/us-en/2416343-player-level-dungeon-xp-adjustment-november-14/'],
     ['Nov 13','Fix','New hotfixes: stuns now have diminishing returns against creatures and from creatures, Restoration Wild Growth heals twice as much, Berserker Rage removes Sap, Blessed Band of Light can be swapped for a Channeler\'s Ring until raids open.','https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040'],
@@ -1143,6 +1144,8 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 17','Upper Blackrock Spire enemy health and damage raised back to full-group difficulty. Might of Stormwind and Warchief\'s Blessing end on death. No mounting in the Warsong Gulch start rooms, Alterac Valley quests need level 58. Legacy Reagent Economy no longer stops working.'],
+      ['Nov 17','Cozy Sleeping Bag gives a Resting aura and fits in more places. Ignore lists persist after logout. Shen\'dralas quest and spawn fixes, "Agamaggan\'s Blood" is no longer a dungeon quest. Several Blacksmithing, Herbalism and Skinning fixes.'],
       ['Nov 16','Fishing Racks give lures to everyone and Bloated Fish drop more often. Drowned City: Captain Dreadrise can be stunned, Abyssal Bubbles no longer block, dodge or parry. Enchant Boots - Speed formula is Bind on Pickup, Violet Tragan no longer breaks crowd control, Arathi Basin Gold Mine deaths no longer send you to Riverglades. Water Pouch Bounty gives no experience; several quest fixes.'],
       ['Nov 17','Auction House deposit down to 1 copper (was 1 silver) with weekly maintenance, November 18 in Europe.',true],
       ['Nov 14','Dungeon enemies give no experience only when a party member is more than 12 levels above them (was: trivial to any party member).'],
@@ -1191,6 +1194,7 @@ const NEWS = {
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 17','Soulforge Armor (tank set) gives spell power instead of Strength.'],
       ['Nov 13','Judgement of Command counts as a melee attack again and triggers on-hit effects. Other Judgements stay ranged.'],
       ['Nov 11','Judgement now counts as a ranged attack: it uses ranged hit chance and no longer triggers melee procs. Retribution: Unsealed Fury no longer echoes Windfury Totem attacks.'],
       ['Nov 9','Consecration keeps its bonus damage when targets despawn. Seals show correctly in the Cooldown Manager.'],
@@ -1200,6 +1204,7 @@ const NEWS = {
       ['Nov 2','Conviction gives 2/4/6% crit to all spells and attacks. Vengeance stacks 5 times.']
     ],
     priest:[
+      ['Nov 17','Shadow priests can equip the Night Watchman\'s Torch.'],
       ['Nov 16','Shadow: Vampiric Embrace heals the party for 10% of your Shadow damage (was 20%), but heals you twice as much, so solo play is unchanged. Dark Inspiration no longer stacks from several Shadow Priests.'],
       ['Nov 13','The Quick and the Dead Legacy perk now also makes Divine Spirit free.'],
       ['Nov 11','Confounding Flash (Gnome) and the Twilight Focus talent now work in Shadowform.'],
@@ -1217,6 +1222,8 @@ const NEWS = {
       ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
     ],
     shaman:[
+      ['Nov 18','Game data: Windfury and Flametongue Weapon on the main hand no longer switch off your own Windfury or Flametongue Totem bonus.'],
+      ['Nov 17','Flurry no longer loses stacks when Windfury Totem attacks land.'],
       ['Nov 16','Windfury Totem attacks now respect armor, have an internal cooldown and generate Rage; Mutilate, Execute, Shield Slam, Shield Bash and empowered Holy Strikes no longer get extra procs. Enhancement: Maelstrom Weapon can no longer benefit two casts, Thundering Strikes crit no longer needs a weapon.'],
       ['Nov 13','Windfury Totem procs from melee abilities that do not use the main-hand weapon. Off-hand strikes from Whirlwind and Mutilate still cannot.'],
       ['Nov 12','Enhancement: Stormstrike 100% weapon damage (was 150%), 8 sec cooldown (was 6). Mental Dexterity 33/66/100% of Intellect (was 50/100/150%).'],
