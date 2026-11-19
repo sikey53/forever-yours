@@ -180,8 +180,8 @@
   "sig": "Your Mind Blast and fully channeled Mind Flay causes Dark Inspiration, increasing yours and your party's Spirit by #% for # sec."
  },
  "Vampiric Embrace": {
-  "t": "Your party heals for {1}% of your Shadow damage",
-  "sig": "Afflicts your target with Shadow energy that causes all party members to be healed for #% of any Shadow spell damage you deal for # sec."
+  "t": "Your party heals for {1}% of your Shadow damage, you for double",
+  "sig": "Afflicts your target with Shadow energy that causes all party members to be healed for #% of any Shadow spell damage you deal for # sec. You receive #% increased healing on yourself from this effect."
  },
  "Shadow Weaving": {
   "t": "Stacking +{2}% Shadow damage taken, up to {4} times",
