@@ -1,0 +1,66 @@
+{
+ "date": "2026-11-19",
+ "changes": [
+  {
+   "class": "hunter",
+   "kind": "spell",
+   "name": "Enchanted Flare",
+   "what": "removed",
+   "old": {
+    "form": "Any",
+    "cd": "30 sec",
+    "cost": "50 Mana",
+    "lvl": 32,
+    "ranks": 1,
+    "levels": [
+     32
+    ],
+    "d": "Exposes all hidden and invisible enemies within 10 yards of the targeted area, and staves off magical darkness for 30 sec.",
+    "tab": "Marksmanship"
+   }
+  },
+  {
+   "class": "hunter",
+   "kind": "spell",
+   "name": "Lacerate",
+   "what": "removed",
+   "old": {
+    "form": "Any",
+    "cd": "",
+    "cost": "40 Mana",
+    "lvl": 30,
+    "ranks": 4,
+    "levels": [
+     30,
+     40,
+     50,
+     60
+    ],
+    "d": "Wounds the target causing them to bleed for 147 damage over 21 sec.",
+    "tab": "Survival"
+   }
+  },
+  {
+   "class": "priest",
+   "kind": "spell",
+   "name": "Vampiric Embrace",
+   "what": "changed",
+   "field": "d",
+   "old": "Afflicts your target with Shadow energy that causes all party members to be healed for 20% of any Shadow spell damage you deal for 30 sec.",
+   "new": "Afflicts your target with Shadow energy that causes all party members to be healed for 10% of any Shadow spell damage you deal for 30 sec. You receive 100% increased healing on yourself from this effect."
+  },
+  {
+   "class": "priest",
+   "kind": "talent",
+   "name": "Vampiric Embrace",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Afflicts your target with Shadow energy that causes all party members to be healed for 20% of any Shadow spell damage you deal for 30 sec."
+   ],
+   "new": [
+    "Afflicts your target with Shadow energy that causes all party members to be healed for 10% of any Shadow spell damage you deal for 30 sec. You receive 100% increased healing on yourself from this effect."
+   ]
+  }
+ ]
+}

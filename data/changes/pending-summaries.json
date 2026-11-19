@@ -1,4 +1,20 @@
 {
- "pending": [],
- "problems": []
+ "pending": [
+  {
+   "class": "priest",
+   "kind": "talent",
+   "name": "Vampiric Embrace",
+   "why": "game text changed",
+   "summary": [
+    "Your party heals for {1}% of your Shadow damage"
+   ],
+   "text": [
+    "Afflicts your target with Shadow energy that causes all party members to be healed for 10% of any Shadow spell damage you deal for 30 sec. You receive 100% increased healing on yourself from this effect."
+   ]
+  }
+ ],
+ "problems": [
+  "hunter spell Lacerate: no longer in the spellbook",
+  "hunter spell Enchanted Flare: no longer in the spellbook"
+ ]
 }
