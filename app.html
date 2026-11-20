@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-19',
+  checked: '2026-11-20',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,7 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 19','Fix','New hotfixes: Seed Hybridizer back on with a chance to fail, Retribution Two-Handed Weapon Specialization now boosts all Holy damage, Tauren Cultivation works more reliably, Shade of the Archmage in Dalaran no longer despawns.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-19-2026'],
     ['Nov 17','Fix','New hotfixes: Upper Blackrock Spire enemies hit harder and have more health again (built for a full group), Flurry keeps its stacks through Windfury Totem attacks, world buffs end on death, Alterac Valley quests need level 58, Paladin Soulforge Armor gives spell power instead of Strength.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-17-2026'],
     ['Nov 16','Fix','New hotfixes: Shadow Priest Vampiric Embrace heals the party for 10% of Shadow damage (was 20%), Windfury Totem attacks now respect armor and have an internal cooldown, Balance Genesis boosts Pounce, Fishing Racks give lures to everyone.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-16-2026/'],
     ['Nov 14','XP','Dungeon experience rule eased: enemies now give no experience only when a party member is more than 12 levels above them (it was any party member finding them trivial). Live about 01:15 UTC on November 15; runs already in progress kept the old rule.','https://www.bluetracker.gg/wow/topic/us-en/2416343-player-level-dungeon-xp-adjustment-november-14/'],
@@ -1144,6 +1145,7 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 19','Seed Hybridizer re-enabled with new values and a chance to fail, Scarce Herb Seeds no longer usable in it. Tauren Cultivation succeeds more reliably and works with Purple Lotus. Skyborne get their Honored riding discount. Dalaran Shade of the Archmage no longer despawns, Shaper\'s Terrace Vitrix\'s Poison Shock hits softer. Motes of Unstable Magic are soulbound.'],
       ['Nov 17','Upper Blackrock Spire enemy health and damage raised back to full-group difficulty. Might of Stormwind and Warchief\'s Blessing end on death. No mounting in the Warsong Gulch start rooms, Alterac Valley quests need level 58. Legacy Reagent Economy no longer stops working.'],
       ['Nov 17','Cozy Sleeping Bag gives a Resting aura and fits in more places. Ignore lists persist after logout. Shen\'dralas quest and spawn fixes, "Agamaggan\'s Blood" is no longer a dungeon quest. Several Blacksmithing, Herbalism and Skinning fixes.'],
       ['Nov 16','Fishing Racks give lures to everyone and Bloated Fish drop more often. Drowned City: Captain Dreadrise can be stunned, Abyssal Bubbles no longer block, dodge or parry. Enchant Boots - Speed formula is Bind on Pickup, Violet Tragan no longer breaks crowd control, Arathi Basin Gold Mine deaths no longer send you to Riverglades. Water Pouch Bounty gives no experience; several quest fixes.'],
@@ -1195,6 +1197,7 @@ const NEWS = {
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 19','Retribution: Two-Handed Weapon Specialization now boosts all Holy damage while a two-handed weapon is equipped.'],
       ['Nov 17','Soulforge Armor (tank set) gives spell power instead of Strength.'],
       ['Nov 13','Judgement of Command counts as a melee attack again and triggers on-hit effects. Other Judgements stay ranged.'],
       ['Nov 11','Judgement now counts as a ranged attack: it uses ranged hit chance and no longer triggers melee procs. Retribution: Unsealed Fury no longer echoes Windfury Totem attacks.'],
