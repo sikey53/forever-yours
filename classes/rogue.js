@@ -71,7 +71,7 @@
           <li>Slice and Dice at 1 or 2 combo points.</li>
           <li>Sinister Strike to 5 combo points, then Eviscerate.</li>
           <li>Shank from 24 is a cheap off-hand hit on a 10 sec cooldown: use it whenever it is ready.</li>
-          <li>Kick every cast. Evasion when two mobs hit you, Blade Flurry with two targets.</li>
+          <li>Kick every cast. Evasion when two mobs hit you, Blade Flurry with two targets (Shank hits the second target too).</li>
         </ol>
       </div>
       <div class="rcard" style="--rc:var(--caster)">

@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-20',
+  checked: '2026-11-21',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,7 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 20','Fix','New hotfixes: dungeon resets limited to 5 per hour (was 10), Combat Blade Flurry now makes Shank hit a second target, Demonic Aegis no longer sticks to Demon Armor after untalenting, Stormshroud Armor 3-piece bonus weaker, Looking for Group shows all groups again.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-20-2026'],
     ['Nov 19','Fix','New hotfixes: Seed Hybridizer back on with a chance to fail, Retribution Two-Handed Weapon Specialization now boosts all Holy damage, Tauren Cultivation works more reliably, Shade of the Archmage in Dalaran no longer despawns.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-19-2026'],
     ['Nov 17','Fix','New hotfixes: Upper Blackrock Spire enemies hit harder and have more health again (built for a full group), Flurry keeps its stacks through Windfury Totem attacks, world buffs end on death, Alterac Valley quests need level 58, Paladin Soulforge Armor gives spell power instead of Strength.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-17-2026'],
     ['Nov 16','Fix','New hotfixes: Shadow Priest Vampiric Embrace heals the party for 10% of Shadow damage (was 20%), Windfury Totem attacks now respect armor and have an internal cooldown, Balance Genesis boosts Pounce, Fishing Racks give lures to everyone.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-16-2026/'],
@@ -1145,6 +1146,7 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 20','Each dungeon can be reset and entered at most 5 times per hour (was 10). Stormshroud Armor 3-piece: 3% chance (was 4%) on melee hit to restore 18 energy (was 30). Toron Rockhoof\'s forge and anvil in Summit of Eternity usable again. Looking for Group no longer hides some groups. Blackrock Spire pillar no longer traps players, quest fixes in Hinterlands, Feralas, Tanaris and Riverglades.'],
       ['Nov 19','Seed Hybridizer re-enabled with new values and a chance to fail, Scarce Herb Seeds no longer usable in it. Tauren Cultivation succeeds more reliably and works with Purple Lotus. Skyborne get their Honored riding discount. Dalaran Shade of the Archmage no longer despawns, Shaper\'s Terrace Vitrix\'s Poison Shock hits softer. Motes of Unstable Magic are soulbound.'],
       ['Nov 17','Upper Blackrock Spire enemy health and damage raised back to full-group difficulty. Might of Stormwind and Warchief\'s Blessing end on death. No mounting in the Warsong Gulch start rooms, Alterac Valley quests need level 58. Legacy Reagent Economy no longer stops working.'],
       ['Nov 17','Cozy Sleeping Bag gives a Resting aura and fits in more places. Ignore lists persist after logout. Shen\'dralas quest and spawn fixes, "Agamaggan\'s Blood" is no longer a dungeon quest. Several Blacksmithing, Herbalism and Skinning fixes.'],
@@ -1219,6 +1221,7 @@ const NEWS = {
       ['Nov 2','Vampiric Embrace can no longer crit. Cure and Abolish Disease no longer remove Shadowform.']
     ],
     rogue:[
+      ['Nov 20','Combat: Blade Flurry now makes Shank hit an additional target.'],
       ['Nov 16','Poison ranks can no longer go above the maximum rank. Shank no longer removes combo points from other targets without Boot Knife.'],
       ['Nov 6','Shank tooltips show both ranks and the Boot Knife combo points.'],
       ['Nov 2','New Shank at 24: 5 energy, 10 sec cooldown, gives 15 energy, cannot miss. Rank 2 at 44.'],
@@ -1237,6 +1240,7 @@ const NEWS = {
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
+      ['Nov 20','Demonology: Demonic Aegis and Demon Skin are removed when the talents are unlearned, so their bonus can no longer be kept in Demon Armor or Demon Skin.'],
       ['Nov 13','Siphon Life rank 1 can no longer be cast while silenced.'],
       ['Nov 11','Affliction: Wrack no longer adds 10% damage taken; while channeling, your Siphon Life, Corruption and Bane of Agony tick 100% faster. Wrack itself 30% weaker.'],
       ['Nov 11','Demons about 15% more health, Imp Firebolt stronger at ranks 1 to 4. Soul Siphon counts only your Corruption, Siphon Life and Bane. Bane of Havoc triggers the global cooldown.'],
