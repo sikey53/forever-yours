@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-22',
+  checked: '2026-11-23',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,9 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 23','News','Coming in the 1.60.1 hotfix (no date yet): layer IDs are hidden from addons, so Layer Swap style addons can no longer find or target a specific layer. Players can still move between layers.','https://mmohuts.com/news/blizzard-moves-to-stop-targeted-layer-swapping-in-world-of-warcraft-forever'],
+    ['Nov 23','Fix','Peeking into and partly looting lockboxes is turned off for now (since November 22) to stop an exploit. Blizzard says it is temporary and will bring it back with a proper fix.','https://us.forums.blizzard.com/en/wow/t/lockbox-exploit-and-economy-hold-heuristic/2426335/4'],
+    ['Nov 22','Issue','World buffs (Warchief\'s Blessing, Might of Stormwind, Dire Maul tributes) drop on any loading screen, so they no longer last into dungeons or the other continent. Blizzard\'s Aidan Moon called it a bug, with a fix expected on November 23.','https://endgametools.com/en/wow-forever/news/wow-forever-world-buffs-bug'],
     ['Nov 20','Fix','New hotfixes: dungeon resets limited to 5 per hour (was 10), Combat Blade Flurry now makes Shank hit a second target, Demonic Aegis no longer sticks to Demon Armor after untalenting, Stormshroud Armor 3-piece bonus weaker, Looking for Group shows all groups again.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-20-2026'],
     ['Nov 19','Fix','New hotfixes: Seed Hybridizer back on with a chance to fail, Retribution Two-Handed Weapon Specialization now boosts all Holy damage, Tauren Cultivation works more reliably, Shade of the Archmage in Dalaran no longer despawns.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-19-2026'],
     ['Nov 17','Fix','New hotfixes: Upper Blackrock Spire enemies hit harder and have more health again (built for a full group), Flurry keeps its stacks through Windfury Totem attacks, world buffs end on death, Alterac Valley quests need level 58, Paladin Soulforge Armor gives spell power instead of Strength.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-17-2026'],
@@ -1146,6 +1149,7 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 22','Undocumented hotfixes: lockboxes, junkboxes, Darkmoon prizes, gem sacks and similar containers now put their contents straight into your bags, and peeking or partly looting lockboxes is off for now. Gustberry Juice costs 1 silver 25 copper from vendors (was 25 copper).'],
       ['Nov 20','Each dungeon can be reset and entered at most 5 times per hour (was 10). Stormshroud Armor 3-piece: 3% chance (was 4%) on melee hit to restore 18 energy (was 30). Toron Rockhoof\'s forge and anvil in Summit of Eternity usable again. Looking for Group no longer hides some groups. Blackrock Spire pillar no longer traps players, quest fixes in Hinterlands, Feralas, Tanaris and Riverglades.'],
       ['Nov 19','Seed Hybridizer re-enabled with new values and a chance to fail, Scarce Herb Seeds no longer usable in it. Tauren Cultivation succeeds more reliably and works with Purple Lotus. Skyborne get their Honored riding discount. Dalaran Shade of the Archmage no longer despawns, Shaper\'s Terrace Vitrix\'s Poison Shock hits softer. Motes of Unstable Magic are soulbound.'],
       ['Nov 17','Upper Blackrock Spire enemy health and damage raised back to full-group difficulty. Might of Stormwind and Warchief\'s Blessing end on death. No mounting in the Warsong Gulch start rooms, Alterac Valley quests need level 58. Legacy Reagent Economy no longer stops working.'],
