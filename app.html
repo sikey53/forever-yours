@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-23',
+  checked: '2026-11-24',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,7 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 23','Fix','New hotfixes: world buffs no longer drop when changing zones (they still end on entering a raid), Darkmoon Faire buffs and Fengus\' Ferocity no longer give double power, Feralheart 4-piece energy fixed, Mortal Strike needs the talent, Uldaman Obsidian Sentinel drops loot.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-23-2026/'],
     ['Nov 23','News','Coming in the 1.60.1 hotfix (no date yet): layer IDs are hidden from addons, so Layer Swap style addons can no longer find or target a specific layer. Players can still move between layers.','https://mmohuts.com/news/blizzard-moves-to-stop-targeted-layer-swapping-in-world-of-warcraft-forever'],
     ['Nov 23','Fix','Peeking into and partly looting lockboxes is turned off for now (since November 22) to stop an exploit. Blizzard says it is temporary and will bring it back with a proper fix.','https://us.forums.blizzard.com/en/wow/t/lockbox-exploit-and-economy-hold-heuristic/2426335/4'],
     ['Nov 22','Issue','World buffs (Warchief\'s Blessing, Might of Stormwind, Dire Maul tributes) drop on any loading screen, so they no longer last into dungeons or the other continent. Blizzard\'s Aidan Moon called it a bug, with a fix expected on November 23.','https://endgametools.com/en/wow-forever/news/wow-forever-world-buffs-bug'],
@@ -1149,6 +1150,8 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 23','World buffs no longer fall off when changing zones, only when entering a raid. Darkmoon Faire buffs and Fengus\' Ferocity were giving double power and now give the intended amount. Some spells and abilities no longer trigger extra weapon procs. Wisp Form can no longer be put on living players.'],
+      ['Nov 23','Uldaman Obsidian Sentinel drops loot. Filcher\'s Cowl has no level requirement. Clam dishes give the right Well Fed bonus and Murloc Fin Soup moves up a food tier. Engineering Renewal Gift icons and The Mortar: Reloaded fixed, Pattern: Centaur Hoofwarmers learnable. Quest fixes in Riverglades and Wetlands.'],
       ['Nov 22','Undocumented hotfixes: lockboxes, junkboxes, Darkmoon prizes, gem sacks and similar containers now put their contents straight into your bags, and peeking or partly looting lockboxes is off for now. Gustberry Juice costs 1 silver 25 copper from vendors (was 25 copper).'],
       ['Nov 20','Each dungeon can be reset and entered at most 5 times per hour (was 10). Stormshroud Armor 3-piece: 3% chance (was 4%) on melee hit to restore 18 energy (was 30). Toron Rockhoof\'s forge and anvil in Summit of Eternity usable again. Looking for Group no longer hides some groups. Blackrock Spire pillar no longer traps players, quest fixes in Hinterlands, Feralas, Tanaris and Riverglades.'],
       ['Nov 19','Seed Hybridizer re-enabled with new values and a chance to fail, Scarce Herb Seeds no longer usable in it. Tauren Cultivation succeeds more reliably and works with Purple Lotus. Skyborne get their Honored riding discount. Dalaran Shade of the Archmage no longer despawns, Shaper\'s Terrace Vitrix\'s Poison Shock hits softer. Motes of Unstable Magic are soulbound.'],
@@ -1173,6 +1176,7 @@ const NEWS = {
       ['Nov 2','Racials: Dwarf +1% hit, Human Spirit 10%, Orc Blood Fury every 2 min, Plainsrunning up to 60%, Berserking 15 sec, Touch of the Grave every 15 sec.']
     ],
     druid:[
+      ['Nov 23','Feralheart 4-piece bonus now correctly restores 4 Energy every second for 5 seconds.'],
       ['Nov 16','Balance: Genesis now also boosts Pounce bleed damage. Wild Growth ranks go on cooldown correctly.'],
       ['Nov 13','Restoration: Wild Growth healing coefficient up from 3.3% to 6.6%, but it can no longer be cast while moving.'],
       ['Nov 11','Feral: Rend and Tear now also boosts damage on targets bleeding from Pounce.'],
@@ -1214,6 +1218,7 @@ const NEWS = {
       ['Nov 2','Conviction gives 2/4/6% crit to all spells and attacks. Vengeance stacks 5 times.']
     ],
     priest:[
+      ['Nov 23','Mind Vision no longer triggers procs. Shadow: Dark Inspiration from Mind Flay now gives the correct Spirit increase, and Chastise can be used in Shadowform.'],
       ['Nov 17','Shadow priests can equip the Night Watchman\'s Torch.'],
       ['Nov 16','Shadow: Vampiric Embrace heals the party for 10% of your Shadow damage (was 20%), but heals you twice as much, so solo play is unchanged. Dark Inspiration no longer stacks from several Shadow Priests.'],
       ['Nov 13','The Quick and the Dead Legacy perk now also makes Divine Spirit free.'],
@@ -1244,6 +1249,7 @@ const NEWS = {
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
+      ['Nov 23','Destruction: Intensity now works on Incinerate.'],
       ['Nov 20','Demonology: Demonic Aegis and Demon Skin are removed when the talents are unlearned, so their bonus can no longer be kept in Demon Armor or Demon Skin.'],
       ['Nov 13','Siphon Life rank 1 can no longer be cast while silenced.'],
       ['Nov 11','Affliction: Wrack no longer adds 10% damage taken; while channeling, your Siphon Life, Corruption and Bane of Agony tick 100% faster. Wrack itself 30% weaker.'],
@@ -1254,6 +1260,7 @@ const NEWS = {
       ['Nov 2','Drain Soul gives shards much less often. Spellstones only boost Shadow. Training cheaper.']
     ],
     warrior:[
+      ['Nov 23','Mortal Strike stays in the spellbook but can no longer be used without the talent.'],
       ['Nov 16','Revered Champion offers Legacy of Valor again. Fury: Unbridled Wrath, Flurry and Reckless Swings now work with Cleave and Heroic Strike.'],
       ['Nov 13','Berserker Rage now removes Sap.'],
       ['Nov 11','Arms: Sweeping Strikes no longer loses charges when nothing else is hit.'],
