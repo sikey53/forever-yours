@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-24',
+  checked: '2026-11-25',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,8 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 24','Fix','Unannounced hotfixes found in the game: Paladin and Warlock epic mount summons now also teach Journeyman Riding, Rogue poisons and Blinding Powder bind on pickup with no vendor value, Fist of Shahram speeds up your own attacks. Blizzard has posted no notes yet.','https://foreverchanges.pro/patch-notes'],
+    ['Nov 24','News','Blizzard released "Al\'Aketh Rising", a WoW Forever motion comic about a Skyborne constable on Zephras Isle.','https://us.forums.blizzard.com/en/wow/t/don%E2%80%99t-miss-the-world-of-warcraft-forever-comic-%E2%80%9Calaketh-rising%E2%80%9D/2427978/1'],
     ['Nov 23','Fix','New hotfixes: world buffs no longer drop when changing zones (they still end on entering a raid), Darkmoon Faire buffs and Fengus\' Ferocity no longer give double power, Feralheart 4-piece energy fixed, Mortal Strike needs the talent, Uldaman Obsidian Sentinel drops loot.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-23-2026/'],
     ['Nov 23','News','Coming in the 1.60.1 hotfix (no date yet): layer IDs are hidden from addons, so Layer Swap style addons can no longer find or target a specific layer. Players can still move between layers.','https://mmohuts.com/news/blizzard-moves-to-stop-targeted-layer-swapping-in-world-of-warcraft-forever'],
     ['Nov 23','Fix','Peeking into and partly looting lockboxes is turned off for now (since November 22) to stop an exploit. Blizzard says it is temporary and will bring it back with a proper fix.','https://us.forums.blizzard.com/en/wow/t/lockbox-exploit-and-economy-hold-heuristic/2426335/4'],
@@ -1150,6 +1152,8 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 24','Fist of Shahram from the Blackblade of Shahram now raises your attack speed by 30% (it used to speed up the spirit). Lord Valthalak Laid to Rest counts every version of "Saving the Best for Last", Hardcore included. Stealthblade tooltip now says 20 sec.'],
+      ['Nov 23','Found in the game: Fengus\' Ferocity spell damage and healing up to 115 (was 230), attack power unchanged. Uldaman Obsidian Sentinel blue items sell for half (White Obsidian Wand 68s, was 1g 36s). Explosive Runeshard slows attack speed by 1% (was 100%).'],
       ['Nov 23','World buffs no longer fall off when changing zones, only when entering a raid. Darkmoon Faire buffs and Fengus\' Ferocity were giving double power and now give the intended amount. Some spells and abilities no longer trigger extra weapon procs. Wisp Form can no longer be put on living players.'],
       ['Nov 23','Uldaman Obsidian Sentinel drops loot. Filcher\'s Cowl has no level requirement. Clam dishes give the right Well Fed bonus and Murloc Fin Soup moves up a food tier. Engineering Renewal Gift icons and The Mortar: Reloaded fixed, Pattern: Centaur Hoofwarmers learnable. Quest fixes in Riverglades and Wetlands.'],
       ['Nov 22','Undocumented hotfixes: lockboxes, junkboxes, Darkmoon prizes, gem sacks and similar containers now put their contents straight into your bags, and peeking or partly looting lockboxes is off for now. Gustberry Juice costs 1 silver 25 copper from vendors (was 25 copper).'],
@@ -1207,6 +1211,7 @@ const NEWS = {
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 24','Summon Charger and Summon Forsaken Charger now also teach Journeyman Riding.'],
       ['Nov 19','Retribution: Two-Handed Weapon Specialization now boosts all Holy damage while a two-handed weapon is equipped.'],
       ['Nov 17','Soulforge Armor (tank set) gives spell power instead of Strength.'],
       ['Nov 13','Judgement of Command counts as a melee attack again and triggers on-hit effects. Other Judgements stay ranged.'],
@@ -1230,6 +1235,7 @@ const NEWS = {
       ['Nov 2','Vampiric Embrace can no longer crit. Cure and Abolish Disease no longer remove Shadowform.']
     ],
     rogue:[
+      ['Nov 24','Poisons and Blinding Powder now bind on pickup and sell to vendors for nothing.'],
       ['Nov 20','Combat: Blade Flurry now makes Shank hit an additional target.'],
       ['Nov 16','Poison ranks can no longer go above the maximum rank. Shank no longer removes combo points from other targets without Boot Knife.'],
       ['Nov 6','Shank tooltips show both ranks and the Boot Knife combo points.'],
@@ -1238,6 +1244,7 @@ const NEWS = {
       ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
     ],
     shaman:[
+      ['Nov 23','Totem of the Storm, the level 60 relic that lets Lightning Bolt trigger Maelstrom Weapon, is renamed Totem of the Maelstrom.'],
       ['Nov 18','Game data: Windfury and Flametongue Weapon on the main hand no longer switch off your own Windfury or Flametongue Totem bonus.'],
       ['Nov 17','Flurry no longer loses stacks when Windfury Totem attacks land.'],
       ['Nov 16','Windfury Totem attacks now respect armor, have an internal cooldown and generate Rage; Mutilate, Execute, Shield Slam, Shield Bash and empowered Holy Strikes no longer get extra procs. Enhancement: Maelstrom Weapon can no longer benefit two casts, Thundering Strikes crit no longer needs a weapon.'],
@@ -1249,6 +1256,7 @@ const NEWS = {
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
+      ['Nov 24','Summon Dreadsteed now also teaches Journeyman Riding.'],
       ['Nov 23','Destruction: Intensity now works on Incinerate.'],
       ['Nov 20','Demonology: Demonic Aegis and Demon Skin are removed when the talents are unlearned, so their bonus can no longer be kept in Demon Armor or Demon Skin.'],
       ['Nov 13','Siphon Life rank 1 can no longer be cast while silenced.'],
