@@ -45,7 +45,7 @@
  },
  "Oath of Light": {
   "t": "Your heals on one sworn ally get much stronger",
-  "sig": "Swear an Oath to protect target ally for # min, increasing the healing of your Holy Light on them by up to #, your Flash of Light by up to #, and your Holy Shock by up to #. Only one Oath of Light may be sworn by the Paladin at any one time."
+  "sig": "Swear an Oath to protect target ally for # hour, increasing the healing of your Holy Light on them by up to #, your Flash of Light by up to #, and your Holy Shock by up to #. Only one Oath of Light may be sworn by the Paladin at any one time."
  },
  "Consecrated Ground": {
   "t": "+{1}% Holy damage to the first {2} enemies in Consecration",

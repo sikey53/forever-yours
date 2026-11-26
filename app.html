@@ -1104,7 +1104,7 @@ const MY_CLASS = window.FY_CLASS || 'druid';
 const CLASS_COLORS = {general:'#c9bfa8', druid:'#FF7C0A', hunter:'#AAD372', mage:'#3FC7EB', paladin:'#F48CBA', priest:'#F2F2F2', rogue:'#FFF468', shaman:'#2E8BFF', warlock:'#8788EE', warrior:'#C69B6D'};
 const TYPE_COLORS = {XP:'var(--spam)', Fix:'var(--caster)', Issue:'var(--long)', Launch:'var(--gold)', News:'var(--muted)', Event:'var(--cat)'};
 const NEWS = {
-  checked: '2026-11-25',
+  checked: '2026-11-26',
   milestones: [
     {name:'Launch', date:'2026-11-04', detail:'Forever went live in all regions.', source:'https://www.warcrafttavern.com/forever/news/world-of-warcraft-forever-is-now-live/', items:[
       [null,'Everyone starts at level 1. Beta characters were wiped.'],
@@ -1122,6 +1122,7 @@ const NEWS = {
       [null,'The launch roadmap placed it in winter 2026.']]}
   ],
   announced: [
+    ['Nov 25','Fix','New hotfixes: Balance Druid talent rework (Starlight Wrath, Moon and Stars, Dreamstate, Moonkin Form +10% damage; Improved Starfire now 2 points and refunds talents if you had 3 or more), Alterac Valley reworked so objectives give more reputation than the General, Oath of Light lasts an hour, hunter and warlock pet crit fixed.','https://news.blizzard.com/en-us/article/24315281/wow-forever-hotfixes-november-25-2026'],
     ['Nov 24','Fix','Unannounced hotfixes found in the game: Paladin and Warlock epic mount summons now also teach Journeyman Riding, Rogue poisons and Blinding Powder bind on pickup with no vendor value, Fist of Shahram speeds up your own attacks. Blizzard has posted no notes yet.','https://foreverchanges.pro/patch-notes'],
     ['Nov 24','News','Blizzard released "Al\'Aketh Rising", a WoW Forever motion comic about a Skyborne constable on Zephras Isle.','https://us.forums.blizzard.com/en/wow/t/don%E2%80%99t-miss-the-world-of-warcraft-forever-comic-%E2%80%9Calaketh-rising%E2%80%9D/2427978/1'],
     ['Nov 23','Fix','New hotfixes: world buffs no longer drop when changing zones (they still end on entering a raid), Darkmoon Faire buffs and Fengus\' Ferocity no longer give double power, Feralheart 4-piece energy fixed, Mortal Strike needs the talent, Uldaman Obsidian Sentinel drops loot.','https://www.bluetracker.gg/wow/topic/us-en/24315281-wow-forever-hotfixes-november-23-2026/'],
@@ -1152,6 +1153,8 @@ const NEWS = {
   /* rows: [date, text, planned?] newest first */
   changes: {
     general:[
+      ['Nov 25','Alterac Valley: killing the enemy General gives much less reputation and honor, towers, graveyards, mines, Lieutenants and enemy NPCs give more. Long match bonus after 20 min (was 60). Enemy NPCs hit harder with more health, Generals and Warmasters are stronger while objectives stand.'],
+      ['Nov 25','Legacy: Reinforce reduces durability loss by 8/16/24/32/40%, The Quick and the Dead now makes Shadowform, Moonkin Form, Travel Form and Trueshot Aura free, PvP Legacy achievements credit at Exalted. Revelation enchant rolls once per wave. Avatar of Hakkar spawns, Blackfathom altar fixed, Scarlet Illusion lasts 1 hour (was 30 min).'],
       ['Nov 24','Fist of Shahram from the Blackblade of Shahram now raises your attack speed by 30% (it used to speed up the spirit). Lord Valthalak Laid to Rest counts every version of "Saving the Best for Last", Hardcore included. Stealthblade tooltip now says 20 sec.'],
       ['Nov 23','Found in the game: Fengus\' Ferocity spell damage and healing up to 115 (was 230), attack power unchanged. Uldaman Obsidian Sentinel blue items sell for half (White Obsidian Wand 68s, was 1g 36s). Explosive Runeshard slows attack speed by 1% (was 100%).'],
       ['Nov 23','World buffs no longer fall off when changing zones, only when entering a raid. Darkmoon Faire buffs and Fengus\' Ferocity were giving double power and now give the intended amount. Some spells and abilities no longer trigger extra weapon procs. Wisp Form can no longer be put on living players.'],
@@ -1180,6 +1183,9 @@ const NEWS = {
       ['Nov 2','Racials: Dwarf +1% hit, Human Spirit 10%, Orc Blood Fury every 2 min, Plainsrunning up to 60%, Berserking 15 sec, Touch of the Grave every 15 sec.']
     ],
     druid:[
+      ['Nov 25','Balance: Improved Wrath is now Starlight Wrath and also cuts Starfire cast time by up to 0.5 sec. Improved Moonfire is now Moon and Stars and also keeps Starfire from being slowed by hits (up to 100%).'],
+      ['Nov 25','Balance: Improved Starfire down from 5 to 2 points, only the stun (8/15%), no cast time cut. Druids with 3 or more points in it get all talents reset. Eclipse also gives Wrath up to 20% crit. Moonfury replaced by Dreamstate (you get up to 100% of an Innervate you cast on others). Moonkin Form now adds 10% Arcane and Nature damage.'],
+      ['Nov 25','Hurricane lands its final hit. Genesis now boosts Hurricane damage and Tranquility healing.'],
       ['Nov 23','Feralheart 4-piece bonus now correctly restores 4 Energy every second for 5 seconds.'],
       ['Nov 16','Balance: Genesis now also boosts Pounce bleed damage. Wild Growth ranks go on cooldown correctly.'],
       ['Nov 13','Restoration: Wild Growth healing coefficient up from 3.3% to 6.6%, but it can no longer be cast while moving.'],
@@ -1194,6 +1200,7 @@ const NEWS = {
       ['Nov 2','Starfire about 40% stronger. Swiftmend needs your own HoT. Berserk removed.']
     ],
     hunter:[
+      ['Nov 25','Pet melee attacks can crit again (were at 0%). Beast Mastery: Summoned Hawks crit about 5% more, attack their target even with a Passive pet, and leave with Dismiss Pet or a right-click on their icon.'],
       ['Nov 19','Survival Lacerate (bleed, from 30) and Marksmanship Enchanted Flare (from 32) are no longer in the Hunter spellbook in the game data. Use Flare to reveal stealth.'],
       ['Nov 11','Volley no longer triggers procs and stops channeling when you move.'],
       ['Nov 11','Pet health 115% (a bug had made it 150%). Great Stamina adds health directly, 30 to 400 by rank.'],
@@ -1211,6 +1218,7 @@ const NEWS = {
       ['Nov 2','Frost Blast, Piercing Ice and Arcane Focus removed. Critical Mass 3 points for 6% crit.']
     ],
     paladin:[
+      ['Nov 25','Holy: Oath of Light lasts 1 hour (was 5 min). Exorcism can crit, Judgements refresh from attacks below 20 sec, Libram of Law works with Judgement of Command. The epic mount quests grant Journeyman Riding, and those who already did them can claim it from Danitha Morr or Lord Grayson Shadowbreaker.'],
       ['Nov 24','Summon Charger and Summon Forsaken Charger now also teach Journeyman Riding.'],
       ['Nov 19','Retribution: Two-Handed Weapon Specialization now boosts all Holy damage while a two-handed weapon is equipped.'],
       ['Nov 17','Soulforge Armor (tank set) gives spell power instead of Strength.'],
@@ -1235,6 +1243,7 @@ const NEWS = {
       ['Nov 2','Vampiric Embrace can no longer crit. Cure and Abolish Disease no longer remove Shadowform.']
     ],
     rogue:[
+      ['Nov 25','Poised now drops when you cast Sap or Distract in Stealth. Poisons and Blinding Powder stay bind on pickup for now while Blizzard fixes a bug.'],
       ['Nov 24','Poisons and Blinding Powder now bind on pickup and sell to vendors for nothing.'],
       ['Nov 20','Combat: Blade Flurry now makes Shank hit an additional target.'],
       ['Nov 16','Poison ranks can no longer go above the maximum rank. Shank no longer removes combo points from other targets without Boot Knife.'],
@@ -1244,6 +1253,7 @@ const NEWS = {
       ['Nov 2','Talent reworks: Death Mark and Boot Knife added, Murder, Quietus, Cutthroat and Thousand Cuts removed.']
     ],
     shaman:[
+      ['Nov 25','Chain Lightning now uses Clearcasting when you also have 5 Maelstrom Weapon stacks.'],
       ['Nov 23','Totem of the Storm, the level 60 relic that lets Lightning Bolt trigger Maelstrom Weapon, is renamed Totem of the Maelstrom.'],
       ['Nov 18','Game data: Windfury and Flametongue Weapon on the main hand no longer switch off your own Windfury or Flametongue Totem bonus.'],
       ['Nov 17','Flurry no longer loses stacks when Windfury Totem attacks land.'],
@@ -1256,6 +1266,7 @@ const NEWS = {
       ['Nov 2','Riptide 40% cheaper, 12 sec cooldown, no instant heal. Lava Burst replaced by Call of Thunder.']
     ],
     warlock:[
+      ['Nov 25','Pet melee attacks can crit again (were at 0%). Succubus and Incubus crit 5% less (was too high). Dreadsteed of Xoroth grants Journeyman Riding, past completers can claim it from Zevrost or Ursula Deline.'],
       ['Nov 24','Summon Dreadsteed now also teaches Journeyman Riding.'],
       ['Nov 23','Destruction: Intensity now works on Incinerate.'],
       ['Nov 20','Demonology: Demonic Aegis and Demon Skin are removed when the talents are unlearned, so their bonus can no longer be kept in Demon Armor or Demon Skin.'],
@@ -1268,6 +1279,7 @@ const NEWS = {
       ['Nov 2','Drain Soul gives shards much less often. Spellstones only boost Shadow. Training cheaper.']
     ],
     warrior:[
+      ['Nov 25','Arms: Weaponmaster reapplies after dying in Battlegrounds.'],
       ['Nov 23','Mortal Strike stays in the spellbook but can no longer be used without the talent.'],
       ['Nov 16','Revered Champion offers Legacy of Valor again. Fury: Unbridled Wrath, Flurry and Reckless Swings now work with Cleave and Heroic Strike.'],
       ['Nov 13','Berserker Rage now removes Sap.'],

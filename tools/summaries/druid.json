@@ -1,15 +1,4 @@
 {
- "Improved Wrath": {
-  "lines": [
-   {
-    "t": "{1} sec faster, {2}% cheaper",
-    "on": [
-     "Wrath"
-    ]
-   }
-  ],
-  "sig": "Reduces the cast time of your Wrath spell by # sec and its Mana cost by #%."
- },
  "Genesis": {
   "lines": [
    {
@@ -33,17 +22,6 @@
    }
   ],
   "sig": "Reduces the Mana cost of your damaging spells by #%."
- },
- "Improved Moonfire": {
-  "lines": [
-   {
-    "t": "+{1}% damage and crit",
-    "on": [
-     "Moonfire"
-    ]
-   }
-  ],
-  "sig": "Increases the damage and critical strike chance of your Moonfire spell by #%."
  },
  "Nature's Majesty": {
   "lines": [
@@ -117,13 +95,13 @@
  "Improved Starfire": {
   "lines": [
    {
-    "t": "{1} sec faster, {2}% stun chance",
+    "t": "{1}% chance to stun for {2} sec",
     "on": [
      "Starfire"
     ]
    }
   ],
-  "sig": "Reduces the cast time of Starfire by # sec and Starfire has a #% chance to stun its target for # sec."
+  "sig": "Your Starfire spell has a #% chance to stun its target for # sec."
  },
  "Overgrowth": {
   "lines": [
@@ -150,35 +128,30 @@
  "Eclipse": {
   "lines": [
    {
-    "t": "{2} sec faster after each Wrath",
+    "t": "+{1}% crit",
+    "on": [
+     "Wrath"
+    ]
+   },
+   {
+    "t": "{3} sec faster after each Wrath",
     "on": [
      "Starfire"
     ]
    }
   ],
-  "sig": "Your Wrath spell reduces the cast time of your next # Starfire spells by # sec. Stores up to # charges. Lasts # sec."
- },
- "Moonfury": {
-  "lines": [
-   {
-    "t": "+{1}% Arcane and Nature damage",
-    "on": [
-     "@caster"
-    ]
-   }
-  ],
-  "sig": "Increases the damage done by your Arcane and Nature spells by #%."
+  "sig": "Increases the critical strike chance of your Wrath spell by #%, and your Wrath spell reduces the cast time of your next # Starfire spells by # sec. Stores up to # charges. Lasts # sec."
  },
  "Moonkin Form": {
   "lines": [
    {
-    "t": "armor and +{4}% crit for your group",
+    "t": "+{1}% Arcane and Nature damage, armor and +{5}% crit for your group",
     "on": [
      "@new"
     ]
    }
   ],
-  "sig": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by #%, Armor contribution from items by #%, and all party or raid members within # yards have their Critical Strike chance increased by #%. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+  "sig": "Shapeshift into Moonkin Form, increasing Arcane and Nature damage done by #%, Omen of Clarity's chance to trigger by #%, Armor contribution from items by #%, and all party or raid members within # yards have their Critical Strike chance increased by #%. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
  },
  "Ferocity": {
   "lines": [
@@ -723,5 +696,50 @@
   "Swiftmend": "Instant heal that eats a Rejuvenation or Regrowth",
   "Wild Growth": "Heal over time on the target's whole party"
  },
- "_skip": []
+ "_skip": [],
+ "Starlight Wrath": {
+  "lines": [
+   {
+    "t": "{1} sec faster, {2}% cheaper",
+    "on": [
+     "Wrath"
+    ]
+   },
+   {
+    "t": "{1} sec faster",
+    "on": [
+     "Starfire"
+    ]
+   }
+  ],
+  "sig": "Reduces the cast time of your Wrath and Starfire spells by # sec and the Mana cost of your Wrath spell by #%."
+ },
+ "Moon and Stars": {
+  "lines": [
+   {
+    "t": "+{1}% damage and crit",
+    "on": [
+     "Moonfire"
+    ]
+   },
+   {
+    "t": "{2}% chance hits do not slow the cast",
+    "on": [
+     "Starfire"
+    ]
+   }
+  ],
+  "sig": "Increases the damage and critical strike chance of your Moonfire spell by #% and gives your Starfire spell a #% chance not to lose casting time from taking damage."
+ },
+ "Dreamstate": {
+  "lines": [
+   {
+    "t": "you also get {1}% when you cast it on someone else",
+    "on": [
+     "Innervate"
+    ]
+   }
+  ],
+  "sig": "When you cast Innervate on a target other than yourself, you gain #% of the effect as well."
+ }
 }
