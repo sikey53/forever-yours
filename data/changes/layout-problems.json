@@ -1,3 +1,34 @@
 {
- "problems": []
+ "problems": [
+  {
+   "class": "druid",
+   "where": "PRESETS.lvl-heal",
+   "name": "Improved Wrath",
+   "problem": "talent not in the game data"
+  },
+  {
+   "class": "druid",
+   "where": "PRESETS.dng-heal",
+   "name": "Improved Wrath",
+   "problem": "talent not in the game data"
+  },
+  {
+   "class": "druid",
+   "where": "TALENT_USE",
+   "name": "Improved Wrath",
+   "problem": "talent not in the game data"
+  },
+  {
+   "class": "druid",
+   "where": "TALENT_USE",
+   "name": "Improved Moonfire",
+   "problem": "talent not in the game data"
+  },
+  {
+   "class": "druid",
+   "where": "TALENT_USE",
+   "name": "Moonfury",
+   "problem": "talent not in the game data"
+  }
+ ]
 }

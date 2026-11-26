@@ -1,0 +1,177 @@
+{
+ "date": "2026-11-26",
+ "changes": [
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Moon and Stars",
+   "what": "added",
+   "new": {
+    "ranks": [
+     "Increases the damage and critical strike chance of your Moonfire spell by 5% and gives your Starfire spell a 50% chance not to lose casting time from taking damage.",
+     "Increases the damage and critical strike chance of your Moonfire spell by 10% and gives your Starfire spell a 100% chance not to lose casting time from taking damage."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Dreamstate",
+   "what": "added",
+   "new": {
+    "ranks": [
+     "When you cast Innervate on a target other than yourself, you gain 20% of the effect as well.",
+     "When you cast Innervate on a target other than yourself, you gain 40% of the effect as well.",
+     "When you cast Innervate on a target other than yourself, you gain 60% of the effect as well.",
+     "When you cast Innervate on a target other than yourself, you gain 80% of the effect as well.",
+     "When you cast Innervate on a target other than yourself, you gain 100% of the effect as well."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Starlight Wrath",
+   "what": "added",
+   "new": {
+    "ranks": [
+     "Reduces the cast time of your Wrath and Starfire spells by 0.1 sec and the Mana cost of your Wrath spell by 10%.",
+     "Reduces the cast time of your Wrath and Starfire spells by 0.2 sec and the Mana cost of your Wrath spell by 20%.",
+     "Reduces the cast time of your Wrath and Starfire spells by 0.3 sec and the Mana cost of your Wrath spell by 30%.",
+     "Reduces the cast time of your Wrath and Starfire spells by 0.4 sec and the Mana cost of your Wrath spell by 40%.",
+     "Reduces the cast time of your Wrath and Starfire spells by 0.5 sec and the Mana cost of your Wrath spell by 50%."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Improved Moonfire",
+   "what": "removed",
+   "old": {
+    "ranks": [
+     "Increases the damage and critical strike chance of your Moonfire spell by 5%.",
+     "Increases the damage and critical strike chance of your Moonfire spell by 10%."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Moonfury",
+   "what": "removed",
+   "old": {
+    "ranks": [
+     "Increases the damage done by your Arcane and Nature spells by 2%.",
+     "Increases the damage done by your Arcane and Nature spells by 4%.",
+     "Increases the damage done by your Arcane and Nature spells by 6%.",
+     "Increases the damage done by your Arcane and Nature spells by 8%.",
+     "Increases the damage done by your Arcane and Nature spells by 10%."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Improved Wrath",
+   "what": "removed",
+   "old": {
+    "ranks": [
+     "Reduces the cast time of your Wrath spell by 0.1 sec and its Mana cost by 10%.",
+     "Reduces the cast time of your Wrath spell by 0.2 sec and its Mana cost by 20%.",
+     "Reduces the cast time of your Wrath spell by 0.3 sec and its Mana cost by 30%.",
+     "Reduces the cast time of your Wrath spell by 0.4 sec and its Mana cost by 40%.",
+     "Reduces the cast time of your Wrath spell by 0.5 sec and its Mana cost by 50%."
+    ]
+   }
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Vengeance",
+   "what": "changed",
+   "field": "req",
+   "old": "Improved Moonfire",
+   "new": "Moon and Stars"
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Moonkin Form",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party or raid members within 45 yards have their Critical Strike chance increased by 3%. Also protects the caster from Polymorph effects and prevents the use of healing spells.\n\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   ],
+   "new": [
+    "Shapeshift into Moonkin Form, increasing Arcane and Nature damage done by 10%, Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party or raid members within 45 yards have their Critical Strike chance increased by 3%. Also protects the caster from Polymorph effects and prevents the use of healing spells.\n\nThe act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   ]
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Improved Starfire",
+   "what": "changed",
+   "field": "max",
+   "old": 5,
+   "new": 2
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Improved Starfire",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Reduces the cast time of Starfire by 0.1 sec and Starfire has a 3% chance to stun its target for 3 sec.",
+    "Reduces the cast time of Starfire by 0.2 sec and Starfire has a 6% chance to stun its target for 3 sec.",
+    "Reduces the cast time of Starfire by 0.3 sec and Starfire has a 9% chance to stun its target for 3 sec.",
+    "Reduces the cast time of Starfire by 0.4 sec and Starfire has a 12% chance to stun its target for 3 sec.",
+    "Reduces the cast time of Starfire by 0.5 sec and Starfire has a 15% chance to stun its target for 3 sec."
+   ],
+   "new": [
+    "Your Starfire spell has a 8% chance to stun its target for 3 sec.",
+    "Your Starfire spell has a 15% chance to stun its target for 3 sec."
+   ]
+  },
+  {
+   "class": "druid",
+   "kind": "talent",
+   "name": "Eclipse",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.17 sec. Stores up to 4 charges. Lasts 15 sec.",
+    "Your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.33 sec. Stores up to 4 charges. Lasts 15 sec.",
+    "Your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.50 sec. Stores up to 4 charges. Lasts 15 sec."
+   ],
+   "new": [
+    "Increases the critical strike chance of your Wrath spell by 7%, and your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.17 sec. Stores up to 4 charges. Lasts 15 sec.",
+    "Increases the critical strike chance of your Wrath spell by 13%, and your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.33 sec. Stores up to 4 charges. Lasts 15 sec.",
+    "Increases the critical strike chance of your Wrath spell by 20%, and your Wrath spell reduces the cast time of your next 2 Starfire spells by 0.50 sec. Stores up to 4 charges. Lasts 15 sec."
+   ]
+  },
+  {
+   "class": "paladin",
+   "kind": "spell",
+   "name": "Oath of Light",
+   "what": "changed",
+   "field": "d",
+   "old": "Swear an Oath to protect target ally for 5 min, increasing the healing of your Holy Light on them by up to 400, your Flash of Light by up to 115, and your Holy Shock by up to 230. Only one Oath of Light may be sworn by the Paladin at any one time.",
+   "new": "Swear an Oath to protect target ally for 1 hour, increasing the healing of your Holy Light on them by up to 400, your Flash of Light by up to 115, and your Holy Shock by up to 230. Only one Oath of Light may be sworn by the Paladin at any one time."
+  },
+  {
+   "class": "paladin",
+   "kind": "talent",
+   "name": "Oath of Light",
+   "what": "changed",
+   "field": "ranks",
+   "old": [
+    "Swear an Oath to protect target ally for 5 min, increasing the healing of your Holy Light on them by up to 400, your Flash of Light by up to 115, and your Holy Shock by up to 230. Only one Oath of Light may be sworn by the Paladin at any one time."
+   ],
+   "new": [
+    "Swear an Oath to protect target ally for 1 hour, increasing the healing of your Holy Light on them by up to 400, your Flash of Light by up to 115, and your Holy Shock by up to 230. Only one Oath of Light may be sworn by the Paladin at any one time."
+   ]
+  }
+ ]
+}
